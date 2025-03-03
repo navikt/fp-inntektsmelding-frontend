@@ -1,10 +1,10 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: k9-inntektsmelding-frontend
-  namespace: k9saksbehandling
+  name: fpinntektsmelding-frontend
+  namespace: teamforeldrepenger
   labels:
-    team: k9saksbehandling
+    team: teamforeldrepenger
 spec:
   image: {{image}}
   port: 8080
@@ -49,7 +49,7 @@ spec:
   accessPolicy:
     outbound:
       rules:
-        - application: k9-inntektsmelding
+        - application: fpinntektsmelding
         - application: nav-dekoratoren
           namespace: personbruker
   env:
@@ -64,6 +64,6 @@ spec:
     - name: API_SCOPE
       value: {{API_SCOPE}}
     - name: API_URL
-      value: "http://k9-inntektsmelding/k9/inntektsmelding"
+      value: "http://fpinntektsmelding/fpinntektsmelding"
     - name: NESTED_PATH
-      value: "/k9-im-dialog"
+      value: "/fp-im-dialog"

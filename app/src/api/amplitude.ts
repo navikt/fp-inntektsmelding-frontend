@@ -18,7 +18,7 @@ export const loggAmplitudeEvent = async ({
     try {
       // eslint-disable-next-line unicorn/prefer-global-this -- klarer ikke få TS til å bli riktig for globalThis
       window.dekoratorenAmplitude?.({
-        origin: "ft-inntektsmelding-frontend",
+        origin: "fp-inntektsmelding-frontend",
         eventName,
         eventData,
       });

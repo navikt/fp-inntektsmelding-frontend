@@ -1,4 +1,4 @@
-# Brukergrensesnitt for ft-inntektsmelding-frontend
+# Brukergrensesnitt for fp-inntektsmelding-frontend
 
 For å bruke npm trenger du ha `node` installert.
 Vi anbefaler at du bruker [asdf](https://asdf-vm.com/) slik at du automatisk kjører nødvendige pakker på støttet versjon.
@@ -8,7 +8,7 @@ Etter at Node er installert kjører du følgende kommandoer for å starte:
 
 ```bash
 npm install
-npm run dev:fp # eller npm run dev:k9
+npm run dev
 ```
 
 ## Logge inn med idporten i dev

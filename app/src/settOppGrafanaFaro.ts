@@ -6,20 +6,7 @@ if (import.meta.env.PROD) {
       ? "https://telemetry.ekstern.dev.nav.no/collect"
       : "https://telemetry.nav.no/collect",
     app: {
-      name: lagGrafanaAppName(),
+      name: "fpinntektsmelding-frontend",
     },
   });
-}
-
-function lagGrafanaAppName() {
-  if (import.meta.env.BASE_URL === "/fp-im-dialog") {
-    return "fpinntektsmelding-frontend";
-  }
-  if (import.meta.env.BASE_URL === "/k9-im-dialog") {
-    return "k9-inntektsmelding-frontend";
-  }
-
-  throw new Error(
-    `Vite BASE_URL(${import.meta.env.BASE_URL}) er ikke satt, eller har ugyldig verdi`,
-  );
 }

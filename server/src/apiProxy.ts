@@ -50,7 +50,7 @@ export function addProxyHandler(
             proxyRequest.setHeader("Authorization", `Bearer ${obo}`);
             proxyRequest.setHeader(
               "Nav-Consumer-Id",
-              "ftinntektsmelding-frontend",
+              "fpinntektsmelding-frontend",
             );
           } else {
             console.log(
