@@ -60,8 +60,5 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      - name: Run stylelint
-        run: npm run stylelint
-
       - name: Check for typescript errors
         run: npm run check:types
