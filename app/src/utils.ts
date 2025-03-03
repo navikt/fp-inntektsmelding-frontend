@@ -154,10 +154,6 @@ export function formatStønadsnavn({
 const STØNADSNAVN = {
   FORELDREPENGER: "foreldrepenger",
   SVANGERSKAPSPENGER: "svangerskapspenger",
-  PLEIEPENGER_SYKT_BARN: "pleiepenger",
-  PLEIEPENGER_I_LIVETS_SLUTTFASE: "pleiepenger",
-  OPPLÆRINGSPENGER: "opplæringspenger",
-  OMSORGSPENGER: "omsorgspenger",
 };
 
 export const beløpSchema = z.union([z.string(), z.number()]);

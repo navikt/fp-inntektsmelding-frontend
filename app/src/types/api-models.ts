@@ -5,10 +5,6 @@ import { formatNavn } from "~/utils.ts";
 export const YtelsetypeSchema = z.enum([
   "FORELDREPENGER",
   "SVANGERSKAPSPENGER",
-  "PLEIEPENGER_SYKT_BARN",
-  "PLEIEPENGER_I_LIVETS_SLUTTFASE",
-  "OPPLÆRINGSPENGER",
-  "OMSORGSPENGER",
 ]);
 
 export type Ytelsetype = z.infer<typeof YtelsetypeSchema>;
@@ -168,14 +164,7 @@ export const opplysningerSchema = z.object({
   forespørselStatus: z.enum(["UNDER_BEHANDLING", "FERDIG", "UTGÅTT"]),
   skjæringstidspunkt: z.string(),
   førsteUttaksdato: z.string(),
-  ytelse: z.enum([
-    "FORELDREPENGER",
-    "SVANGERSKAPSPENGER",
-    "PLEIEPENGER_SYKT_BARN",
-    "PLEIEPENGER_I_LIVETS_SLUTTFASE",
-    "OPPLÆRINGSPENGER",
-    "OMSORGSPENGER",
-  ]),
+  ytelse: z.enum(["FORELDREPENGER", "SVANGERSKAPSPENGER"]),
 });
 
 export type OpplysningerDto = z.infer<typeof opplysningerSchema>;
