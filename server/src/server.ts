@@ -2,7 +2,6 @@ import express from "express";
 
 import { setupActuators } from "./actuators.js";
 import { setupApiProxy } from "./apiProxy.js";
-import config from "./config.js";
 import { errorHandling } from "./errorHandler.js";
 import { setupStaticRoutes } from "./frontendRoute.js";
 import { verifyToken } from "./tokenValidation.js";
@@ -23,7 +22,7 @@ setupApiProxy(protectedRouter);
 // Catch all route, må være sist
 setupStaticRoutes(protectedRouter);
 
-app.use(config.app.nestedPath, protectedRouter);
+app.use(protectedRouter);
 
 app.use(errorHandling);
 
