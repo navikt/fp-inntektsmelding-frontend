@@ -4,8 +4,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite --base=/fp-im-dialog",
+    "build": "tsc && vite build --base=/fp-im-dialog",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "check:types": "tsc --noemit",

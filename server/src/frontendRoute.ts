@@ -52,6 +52,7 @@ export function setupStaticRoutes(router: Router) {
   // Only add vite-mode to dev environment
   if (config.app.env === "dev") {
     addViteModeHtmlToResponse(router, {
+      subpath: config.app.nestedPath,
       port: "5173",
       useNonce: false,
     });
