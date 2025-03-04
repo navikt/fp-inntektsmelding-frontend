@@ -221,13 +221,13 @@ function HentPersonError({ error }: { error: Error | null }) {
   const { ytelseType } = route.useSearch();
   if (error?.message === "INGEN_SAK_FUNNET") {
     return (
-        <Alert variant="warning">
-          <Heading level="3" size="small">
-            Kan ikke opprette inntektsmelding
-          </Heading>
-          Du kan ikke sende inn inntektsmelding på {formatYtelsesnavn(ytelseType)}{" "}
-          på denne personen
-        </Alert>
+      <Alert variant="warning">
+        <Heading level="3" size="small">
+          Kan ikke opprette inntektsmelding
+        </Heading>
+        Du kan ikke sende inn inntektsmelding på {formatYtelsesnavn(ytelseType)}{" "}
+        på denne personen
+      </Alert>
     );
   }
 
