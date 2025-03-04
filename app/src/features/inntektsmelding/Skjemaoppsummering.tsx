@@ -1,7 +1,7 @@
 import { FormSummary, List, VStack } from "@navikt/ds-react";
 import { Link } from "@tanstack/react-router";
 
-import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
+import { InntektsmeldingSkjemaStateValid } from "~/features/InntektsmeldingSkjemaState";
 import { endringsårsak } from "~/features/skjema-moduler/Inntekt.tsx";
 import { REFUSJON_RADIO_VALG } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
