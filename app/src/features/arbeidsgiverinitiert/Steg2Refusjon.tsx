@@ -1,44 +1,30 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@navikt/aksel-icons";
 import { Button, Heading } from "@navikt/ds-react";
-import { Link, useLoaderData, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { InntektOgRefusjonForm } from "~/features/inntektsmelding/Steg2InntektOgRefusjon.tsx";
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger.tsx";
 import {
   InntektsmeldingSkjemaState,
   useInntektsmeldingSkjema,
 } from "~/features/InntektsmeldingSkjemaState.tsx";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
-import {
-  ENDRINGSÅRSAK_TEMPLATE,
-  Inntekt,
-} from "~/features/skjema-moduler/Inntekt.tsx";
-import {
-  NATURALYTELSE_SOM_MISTES_TEMPLATE,
-  Naturalytelser,
-} from "~/features/skjema-moduler/Naturalytelser.tsx";
 import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import { formatYtelsesnavn } from "~/utils.ts";
 
 export type RefusjonForm = {
   skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON";
 } & Pick<InntektsmeldingSkjemaState, "refusjon">;
 
-export function Steg2InntektOgRefusjon() {
+export function Steg2Refusjon() {
   const opplysninger = useOpplysninger();
   useDocumentTitle(
-    `Inntekt og refusjon – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
+    `Refusjon – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
 
   const { inntektsmeldingSkjemaState, setInntektsmeldingSkjemaState } =
     useInntektsmeldingSkjema();
-
-  const { eksisterendeInntektsmeldinger } = useLoaderData({ from: "/$id" });
-  const harEksisterendeInntektsmeldinger =
-    eksisterendeInntektsmeldinger.length > 0;
 
   const defaultInntekt =
     inntektsmeldingSkjemaState.inntekt ||
@@ -46,7 +32,10 @@ export function Steg2InntektOgRefusjon() {
 
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
-      skalRefunderes: inntektsmeldingSkjemaState.skalRefunderes,
+      skalRefunderes:
+        inntektsmeldingSkjemaState.skalRefunderes === "NEI"
+          ? undefined
+          : inntektsmeldingSkjemaState.skalRefunderes,
       refusjon:
         inntektsmeldingSkjemaState.refusjon.length === 0
           ? [
@@ -62,32 +51,20 @@ export function Steg2InntektOgRefusjon() {
     },
   });
 
-  const { handleSubmit, watch } = formMethods;
+  const { handleSubmit } = formMethods;
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
-    const { refusjon, skalRefunderes, inntekt, korrigertInntekt } = skjemadata;
-
-    const misterNaturalytelser = skjemadata.misterNaturalytelser === "ja";
-    const bortfaltNaturalytelsePerioder = misterNaturalytelser
-      ? skjemadata.bortfaltNaturalytelsePerioder.map((naturalYtelse) => ({
-          ...naturalYtelse,
-          inkluderTom: naturalYtelse.inkluderTom === "ja",
-        }))
-      : [];
-    const endringAvInntektÅrsaker = korrigertInntekt
-      ? skjemadata.endringAvInntektÅrsaker
-      : [];
+    const { refusjon, skalRefunderes } = skjemadata;
 
     setInntektsmeldingSkjemaState((prev) => ({
       ...prev,
-      inntekt,
-      korrigertInntekt,
-      endringAvInntektÅrsaker,
+      inntekt: refusjon[0].beløp,
+      endringAvInntektÅrsaker: [],
+      misterNaturalytelser: false,
       refusjon,
       skalRefunderes,
-      misterNaturalytelser,
-      bortfaltNaturalytelsePerioder,
+      bortfaltNaturalytelsePerioder: [],
     }));
     navigate({
       from: "/$id/inntekt-og-refusjon",
@@ -106,13 +83,7 @@ export function Steg2InntektOgRefusjon() {
             Inntekt og refusjon
           </Heading>
           <Fremgangsindikator aktivtSteg={2} />
-          <Ytelsesperiode />
-          <Inntekt
-            harEksisterendeInntektsmeldinger={harEksisterendeInntektsmeldinger}
-            opplysninger={opplysninger}
-          />
           <UtbetalingOgRefusjon />
-          <Naturalytelser opplysninger={opplysninger} />
           <div className="flex gap-4 justify-center">
             <Button
               as={Link}
@@ -123,10 +94,6 @@ export function Steg2InntektOgRefusjon() {
               Forrige steg
             </Button>
             <Button
-              disabled={
-                watch("skalRefunderes") === "NEI" &&
-                opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
-              }
               icon={<ArrowRightIcon />}
               iconPosition="right"
               type="submit"

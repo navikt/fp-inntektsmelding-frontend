@@ -39,6 +39,14 @@ test("Ny ansatt", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Dine opplysninger" }),
   ).toBeVisible();
+
+  await page.getByLabel("Telefon").fill("13371337");
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+
+  await page
+    .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
+    .click();
+  await page.getByRole("button", { name: "Neste steg" }).click();
 });
 
 test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
