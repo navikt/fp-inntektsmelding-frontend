@@ -173,6 +173,15 @@ export async function hentPersonFraFnr(
     throw new Error("Fant ikke person");
   }
   if (!response.ok) {
+    const json = await response.json();
+    const parsedFeil = feilmeldingSchema.safeParse(json);
+    if (!parsedFeil.success) {
+      logDev("error", parsedFeil.error);
+      throw new Error("Kunne ikke hente opplysninger");
+    }
+    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
+      throw new Error(parsedFeil.data?.type);
+    }
     throw new Error("Kunne ikke hente personopplysninger.");
   }
 
@@ -202,15 +211,6 @@ export async function hentOpplysninger(
     },
   );
   if (!response.ok) {
-    const json = await response.json();
-    const parsedFeil = feilmeldingSchema.safeParse(json);
-    if (!parsedFeil.success) {
-      logDev("error", parsedFeil.error);
-      throw new Error("Kunne ikke hente opplysninger");
-    }
-    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
-      throw new Error(parsedFeil.data?.type);
-    }
     throw new Error("Kunne ikke hente opplysninger");
   }
 
