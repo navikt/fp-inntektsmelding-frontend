@@ -17,7 +17,7 @@ import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
 import {
   type InntektsmeldingSkjemaState,
   useInntektsmeldingSkjema,
-} from "~/features/InntektsmeldingSkjemaState";
+} from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import {
   capitalizeSetning,

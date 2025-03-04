@@ -9,7 +9,7 @@ import {
 } from "~/types/api-models.ts";
 import { beløpSchema, logDev } from "~/utils.ts";
 
-import { useSessionStorageState } from "./usePersistedState";
+import { useSessionStorageState } from "../usePersistedState.tsx";
 
 /**
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.

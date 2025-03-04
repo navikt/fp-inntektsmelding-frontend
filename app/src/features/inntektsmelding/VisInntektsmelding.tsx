@@ -12,7 +12,7 @@ import { getRouteApi, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import { hentInntektsmeldingPdfUrl } from "~/api/queries";
-import { useInntektsmeldingSkjema } from "~/features/InntektsmeldingSkjemaState.tsx";
+import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { finnSenesteInntektsmelding, formatDatoTidKort } from "~/utils.ts";
 
 import { Skjemaoppsummering } from "./Skjemaoppsummering";

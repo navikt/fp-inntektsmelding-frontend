@@ -21,7 +21,7 @@ import { getRouteApi } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 import { hentInntektsmeldingPdfUrl } from "~/api/queries";
-import { useInntektsmeldingSkjema } from "~/features/InntektsmeldingSkjemaState";
+import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import { formatYtelsesnavn, lagFulltNavn, slugify } from "~/utils";
 

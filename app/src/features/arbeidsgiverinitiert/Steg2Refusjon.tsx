@@ -8,7 +8,7 @@ import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger.tsx"
 import {
   InntektsmeldingSkjemaState,
   useInntektsmeldingSkjema,
-} from "~/features/InntektsmeldingSkjemaState.tsx";
+} from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import {
   ENDRINGSÅRSAK_TEMPLATE,
