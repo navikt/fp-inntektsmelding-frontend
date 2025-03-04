@@ -2,7 +2,6 @@ import { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
   Outlet,
-  ScrollRestoration,
 } from "@tanstack/react-router";
 import React from "react";
 
@@ -37,7 +36,6 @@ export const Route = createRootRouteWithContext<{
         <VisHjelpeteksterStateProvider>
           <Outlet />
         </VisHjelpeteksterStateProvider>
-        <ScrollRestoration />
       </>
     );
   },

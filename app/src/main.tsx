@@ -23,6 +23,7 @@ const router = createRouter({
   defaultNotFoundComponent: NotFoundComponent,
   routeTree,
   basepath: import.meta.env.BASE_URL,
+  scrollRestoration: true,
   context: {
     queryClient,
   },
