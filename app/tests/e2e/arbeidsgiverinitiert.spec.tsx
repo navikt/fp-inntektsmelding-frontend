@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { expectError, mockHentPersonOgArbeidsforhold } from "tests/mocks/utils";
 
 import { enkeltOpplysningerResponse } from "../mocks/opplysninger.ts";
+import { enkelSendInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
 
@@ -47,6 +48,14 @@ test("Ny ansatt", async ({ page }) => {
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
   await page.getByRole("button", { name: "Neste steg" }).click();
+
+  // TODO: test at oppsummeringsside ser rett ut
+  await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
+    await route.fulfill({ json: enkelSendInntektsmeldingResponse });
+  });
+
+  await page.getByRole("button", { name: "Send inn" }).click();
+  await expect(page.getByText("asd", { exact: true })).toBeVisible();
 });
 
 test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
