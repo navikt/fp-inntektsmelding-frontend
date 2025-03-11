@@ -7,17 +7,17 @@ import { ARBEIDSGIVER_INITERT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/
 import { useSessionStorageState } from "~/features/usePersistedState.tsx";
 import { beløpSchema, logDev } from "~/utils.ts";
 
+export const AgiÅrsakSchema = z.enum([
+  "NY_ANSATT",
+  "UNNTATT_AAREGISTER",
+  "ANNEN_ÅRSAK",
+]);
+
 /**
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
  */
 export const AgiSkjemaStateSchema = z.object({
-  agiÅrsak: z
-    .union([
-      z.literal("NY_ANSATT"),
-      z.literal("UNNTATT_AAREGISTER"),
-      z.literal("ANNEN_ÅRSAK"),
-    ])
-    .optional(),
+  agiÅrsak: AgiÅrsakSchema.optional(),
   kontaktperson: z
     .object({
       navn: z.string(),
@@ -43,11 +43,7 @@ export const AgiSkjemaStateSchema = z.object({
  * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
  */
 export const AgiSkjemaStateSchemaValidated = z.object({
-  agiÅrsak: z.union([
-    z.literal("NY_ANSATT"),
-    z.literal("UNNTATT_AAREGISTER"),
-    z.literal("ANNEN_ÅRSAK"),
-  ]),
+  agiÅrsak: AgiÅrsakSchema,
   kontaktperson: z.object({
     navn: z.string(),
     telefonnummer: z.string(),

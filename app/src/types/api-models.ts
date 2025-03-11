@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { AgiÅrsakSchema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { formatNavn } from "~/utils.ts";
 
 export const YtelsetypeSchema = z.enum([
@@ -70,6 +71,45 @@ export type SlåOppArbeidstakerResponseDto = z.infer<
 
 export const SendInntektsmeldingRequestDtoSchema = z.object({
   foresporselUuid: z.string().optional(),
+  agiÅrsak: AgiÅrsakSchema.optional(),
+  aktorId: z.string(),
+  ytelse: YtelsetypeSchema,
+  arbeidsgiverIdent: z.string(),
+  kontaktperson: z.object({
+    telefonnummer: z.string(),
+    navn: z.string(),
+  }),
+  startdato: z.string(),
+  inntekt: z.number().optional(),
+  refusjon: z
+    .array(
+      z.object({
+        fom: z.string().optional(),
+        beløp: z.number(),
+      }),
+    )
+    .optional(),
+  endringAvInntektÅrsaker: z.array(
+    z.object({
+      årsak: EndringAvInntektÅrsakerSchema,
+      fom: z.string().optional(),
+      tom: z.string().optional(),
+      bleKjentFom: z.string().optional(),
+    }),
+  ),
+  bortfaltNaturalytelsePerioder: z.array(
+    z.object({
+      fom: z.string(),
+      tom: z.string().optional(),
+      beløp: z.number(),
+      naturalytelsetype: NaturalytelseTypeSchema,
+    }),
+  ),
+});
+
+export const InntektsmeldingResponseDtoSchema = z.object({
+  foresporselUuid: z.string().optional(),
+  agiÅrsak: AgiÅrsakSchema.optional(),
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),
@@ -87,33 +127,25 @@ export const SendInntektsmeldingRequestDtoSchema = z.object({
       }),
     )
     .optional(),
-  endringAvInntektÅrsaker: z
-    .array(
-      z.object({
-        årsak: EndringAvInntektÅrsakerSchema,
-        fom: z.string().optional(),
-        tom: z.string().optional(),
-        bleKjentFom: z.string().optional(),
-      }),
-    )
-    .optional(), //TODO: midlertidig optional
-  bortfaltNaturalytelsePerioder: z
-    .array(
-      z.object({
-        fom: z.string(),
-        tom: z.string().optional(),
-        beløp: z.number(),
-        naturalytelsetype: NaturalytelseTypeSchema,
-      }),
-    )
-    .optional(), // TODO: Når databasen er wipet, kan vi fjerne optional her.
+  endringAvInntektÅrsaker: z.array(
+    z.object({
+      årsak: EndringAvInntektÅrsakerSchema,
+      fom: z.string().optional(),
+      tom: z.string().optional(),
+      bleKjentFom: z.string().optional(),
+    }),
+  ),
+  bortfaltNaturalytelsePerioder: z.array(
+    z.object({
+      fom: z.string(),
+      tom: z.string().optional(),
+      beløp: z.number(),
+      naturalytelsetype: NaturalytelseTypeSchema,
+    }),
+  ),
+  opprettetTidspunkt: z.string(),
+  id: z.number(),
 });
-
-export const InntektsmeldingResponseDtoSchema =
-  SendInntektsmeldingRequestDtoSchema.extend({
-    opprettetTidspunkt: z.string(),
-    id: z.number(),
-  });
 
 export type SendInntektsmeldingResponseDto = z.infer<
   typeof InntektsmeldingResponseDtoSchema

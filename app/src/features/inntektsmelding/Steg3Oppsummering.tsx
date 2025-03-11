@@ -189,7 +189,9 @@ function lagSendInntektsmeldingRequest(
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,
     kontaktperson: skjemaState.kontaktperson,
     startdato: opplysninger.førsteUttaksdato,
-    inntekt: formatStrengTilTall(gjeldendeInntekt),
+    inntekt: gjeldendeInntekt
+      ? formatStrengTilTall(gjeldendeInntekt)
+      : undefined,
     refusjon: refusjon.map((r) => ({
       ...r,
       beløp: formatStrengTilTall(r.beløp),
