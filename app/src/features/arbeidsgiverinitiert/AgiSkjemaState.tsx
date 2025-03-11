@@ -8,7 +8,7 @@ import { useSessionStorageState } from "~/features/usePersistedState.tsx";
 import { beløpSchema, logDev } from "~/utils.ts";
 
 export const AgiÅrsakSchema = z.enum([
-  "NY_ANSATT",
+  "NYANSATT",
   "UNNTATT_AAREGISTER",
   "ANNEN_ÅRSAK",
 ]);

@@ -156,7 +156,7 @@ export const Steg1HentOpplysninger = () => {
                 Annen agiÅrsak
               </Radio>
             </RadioGroup>
-            {formMethods.watch("agiÅrsak") === "NY_ANSATT" && (
+            {formMethods.watch("agiÅrsak") === "NYANSATT" && (
               <>
                 <NyAnsattForm data={hentPersonMutation.data} />
                 <Button
