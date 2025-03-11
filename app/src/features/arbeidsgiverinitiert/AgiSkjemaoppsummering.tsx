@@ -1,7 +1,7 @@
 import { FormSummary, VStack } from "@navikt/ds-react";
 
 import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { InntektsmeldingSkjemaStateValid } from "~/features/InntektsmeldingSkjemaState.tsx";
+import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { REFUSJON_RADIO_VALG } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import {

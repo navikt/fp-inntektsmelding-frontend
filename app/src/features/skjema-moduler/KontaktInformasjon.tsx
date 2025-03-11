@@ -13,7 +13,7 @@ import { useFormContext } from "react-hook-form";
 
 import { useHjelpetekst } from "~/features/Hjelpetekst.tsx";
 import { Informasjonsseksjon } from "~/features/Informasjonsseksjon.tsx";
-import type { InntektsmeldingSkjemaState } from "~/features/InntektsmeldingSkjemaState.tsx";
+import type { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import {
   capitalizeSetning,

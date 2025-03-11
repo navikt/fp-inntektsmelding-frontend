@@ -19,7 +19,7 @@ import { Informasjonsseksjon } from "../Informasjonsseksjon";
 import {
   InntektsmeldingSkjemaState,
   useInntektsmeldingSkjema,
-} from "../InntektsmeldingSkjemaState";
+} from "./InntektsmeldingSkjemaState.tsx";
 import { ENDRINGSÅRSAK_TEMPLATE, Inntekt } from "../skjema-moduler/Inntekt";
 import {
   NATURALYTELSE_SOM_MISTES_TEMPLATE,

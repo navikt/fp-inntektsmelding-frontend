@@ -1,6 +1,6 @@
 import { getRouteApi } from "@tanstack/react-router";
 
-import { useInntektsmeldingSkjema } from "~/features/InntektsmeldingSkjemaState";
+import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { Kvittering } from "~/features/Kvittering.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import { formatYtelsesnavn } from "~/utils";

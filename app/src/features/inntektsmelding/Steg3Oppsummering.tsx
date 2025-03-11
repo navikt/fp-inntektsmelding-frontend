@@ -8,7 +8,7 @@ import { sendInntektsmelding } from "~/api/mutations.ts";
 import {
   InntektsmeldingSkjemaStateValid,
   useInntektsmeldingSkjema,
-} from "~/features/InntektsmeldingSkjemaState";
+} from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import type { OpplysningerDto } from "~/types/api-models.ts";
