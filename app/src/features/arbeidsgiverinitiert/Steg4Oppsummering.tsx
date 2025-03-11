@@ -5,6 +5,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 
 import { sendInntektsmelding } from "~/api/mutations.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
+import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import {
   AgiSkjemaStateValid,
   useAgiSkjema,
@@ -58,10 +59,10 @@ export const Steg4Oppsummering = () => {
           Oppsummering
         </Heading>
         <AgiFremgangsindikator aktivtSteg={4} />
-        {/*<Skjemaoppsummering*/}
-        {/*  opplysninger={opplysninger}*/}
-        {/*  skjemaState={gyldigInntektsmeldingSkjemaState}*/}
-        {/*/>*/}
+        <AgiSkjemaoppsummering
+          opplysninger={opplysninger}
+          skjemaState={gyldigAgiSkjemaState}
+        />
         <SendInnInntektsmelding />
       </div>
     </section>
