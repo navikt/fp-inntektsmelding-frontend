@@ -22,7 +22,7 @@ import {
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRoot.tsx";
+import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import {

@@ -7,7 +7,7 @@ import { useOpplysninger } from "./useOpplysninger";
 
 const route = getRouteApi("/$id");
 
-export const InntektsmeldingRootLayout = () => {
+export const InntektsmeldingRot = () => {
   const { id } = route.useParams();
   const opplysninger = useOpplysninger();
 
