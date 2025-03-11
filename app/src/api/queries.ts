@@ -4,7 +4,6 @@ import { z } from "zod";
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/InntektsmeldingSkjemaState";
 import { PÅKREVDE_ENDRINGSÅRSAK_FELTER } from "~/features/skjema-moduler/Inntekt.tsx";
-import { parseStorageItem } from "~/features/usePersistedState.tsx";
 import {
   feilmeldingSchema,
   grunnbeløpSchema,
@@ -117,19 +116,6 @@ export function mapInntektsmeldingResponseTilValidState(
 }
 
 export async function hentOpplysningerData(uuid: string) {
-  if (uuid === ARBEIDSGIVER_INITERT_ID) {
-    // Da har vi en fakeId. Hent fra sessionstorage
-    const opplysninger = parseStorageItem(
-      sessionStorage,
-      ARBEIDSGIVER_INITERT_ID,
-      opplysningerSchema,
-    );
-    if (!opplysninger) {
-      throw new Error("Finner ikke arbeidsgiverinitierte opplysninger");
-    }
-    return opplysninger;
-  }
-
   const response = await fetch(
     `${SERVER_URL}/imdialog/opplysninger?foresporselUuid=${uuid}`,
   );
