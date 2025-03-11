@@ -40,7 +40,7 @@ type FormType = {
   førsteFraværsdag: string;
 };
 
-export const HentOpplysninger = () => {
+export const Steg1HentOpplysninger = () => {
   const { ytelseType } = route.useSearch();
   const navigate = useNavigate();
   useDocumentTitle(

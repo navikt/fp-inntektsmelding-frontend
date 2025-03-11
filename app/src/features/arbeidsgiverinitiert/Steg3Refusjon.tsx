@@ -17,7 +17,7 @@ export type RefusjonForm = {
   skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON";
 } & Pick<InntektsmeldingSkjemaState, "refusjon">;
 
-export function Steg2Refusjon() {
+export function Steg3Refusjon() {
   const opplysninger = useOpplysninger();
   useDocumentTitle(
     `Refusjon – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
