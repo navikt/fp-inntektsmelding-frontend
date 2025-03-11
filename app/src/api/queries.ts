@@ -1,10 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 
+import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRoot.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/InntektsmeldingSkjemaState";
 import { PÅKREVDE_ENDRINGSÅRSAK_FELTER } from "~/features/skjema-moduler/Inntekt.tsx";
 import { parseStorageItem } from "~/features/usePersistedState.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import {
   feilmeldingSchema,
   grunnbeløpSchema,

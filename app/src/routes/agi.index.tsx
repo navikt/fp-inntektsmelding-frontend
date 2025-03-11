@@ -9,5 +9,5 @@ export const Route = createFileRoute("/agi/")({
  * Istedenfor å lande direkte på "/agi/opprett" så lander vi her slik at vi selv er fleksible til å endre stier som vi måtte ønske.
  */
 function RouteComponent() {
-  return <Navigate search={(s) => s} to="/agi/opprett" />;
+  return <Navigate from="/agi" search={true} to="/agi/opprett" />;
 }

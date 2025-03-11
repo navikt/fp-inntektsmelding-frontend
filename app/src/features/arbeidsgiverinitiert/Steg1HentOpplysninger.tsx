@@ -22,16 +22,16 @@ import {
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
+import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRoot.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import {
   OpplysningerRequest,
   SlåOppArbeidstakerResponseDto,
 } from "~/types/api-models.ts";
 import { formatYtelsesnavn } from "~/utils.ts";
 
-const route = getRouteApi("/opprett");
+const route = getRouteApi("/agi/opprett");
 
 type FormType = {
   fødselsnummer: string;
@@ -77,11 +77,13 @@ export const Steg1HentOpplysninger = () => {
         sessionStorage.setItem(fakeId, JSON.stringify(opplysningerMedId));
 
         return navigate({
-          to: "/$id",
-          params: { id: fakeId },
+          from: "/agi/opprett",
+          to: "/agi/dine-opplysninger",
+          search: true,
         });
       }
 
+      // Hvis forespørsel finnes navigerer vi deg ut av AGI-flyten
       return navigate({
         to: "/$id",
         params: { id: opplysninger.forespørselUuid },
