@@ -1,5 +1,3 @@
-import { getRouteApi } from "@tanstack/react-router";
-
 import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { Kvittering } from "~/features/Kvittering.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
@@ -7,10 +5,7 @@ import { formatYtelsesnavn } from "~/utils";
 
 import { useOpplysninger } from "./useOpplysninger";
 
-const route = getRouteApi("/$id");
-
 export const Steg4Kvittering = () => {
-  const { id } = route.useParams();
   const opplysninger = useOpplysninger();
   const { gyldigInntektsmeldingSkjemaState } = useInntektsmeldingSkjema();
   useDocumentTitle(

@@ -1,8 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import {
-  createRootRouteWithContext,
-  Outlet,
-} from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import React from "react";
 
 import { hentGrunnbeløpOptions } from "~/api/queries.ts";

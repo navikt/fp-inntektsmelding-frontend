@@ -16,10 +16,6 @@ import {
 
 import { HjelpetekstReadMore } from "../Hjelpetekst";
 import { Informasjonsseksjon } from "../Informasjonsseksjon";
-import {
-  InntektsmeldingSkjemaState,
-  useInntektsmeldingSkjema,
-} from "./InntektsmeldingSkjemaState.tsx";
 import { ENDRINGSÅRSAK_TEMPLATE, Inntekt } from "../skjema-moduler/Inntekt";
 import {
   NATURALYTELSE_SOM_MISTES_TEMPLATE,
@@ -27,6 +23,10 @@ import {
 } from "../skjema-moduler/Naturalytelser";
 import { UtbetalingOgRefusjon } from "../skjema-moduler/UtbetalingOgRefusjon";
 import { useDocumentTitle } from "../useDocumentTitle";
+import {
+  InntektsmeldingSkjemaState,
+  useInntektsmeldingSkjema,
+} from "./InntektsmeldingSkjemaState.tsx";
 
 type JaNei = "ja" | "nei";
 

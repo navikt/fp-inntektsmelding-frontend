@@ -3,7 +3,9 @@ import { FormProgress } from "@navikt/ds-react";
 type AgiFremgangsindikatorProps = {
   aktivtSteg: 1 | 2 | 3 | 4;
 };
-export const AgiFremgangsindikator = ({ aktivtSteg }: AgiFremgangsindikatorProps) => {
+export const AgiFremgangsindikator = ({
+  aktivtSteg,
+}: AgiFremgangsindikatorProps) => {
   return (
     <FormProgress
       activeStep={aktivtSteg}

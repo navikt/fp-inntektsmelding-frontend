@@ -8,7 +8,6 @@ export const useAgiOpplysninger = () => {
     ARBEIDSGIVER_INITERT_ID,
     opplysningerSchema,
   );
-  console.log("opplysninger", opplysninger);
   if (!opplysninger) {
     throw new Error("Finner ikke arbeidsgiverinitierte opplysninger");
   }
