@@ -1,13 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { Steg2DineOpplysninger } from "~/features/arbeidsgiverinitiert/Steg2DineOpplysninger.tsx";
 
 export const Route = createFileRoute("/agi/dine-opplysninger")({
-  component: RouteComponent,
+  component: Steg2DineOpplysninger,
 });
-
-function RouteComponent() {
-  const a = useAgiOpplysninger();
-  console.log(a);
-  return <div>Dine opplysninger</div>;
-}
