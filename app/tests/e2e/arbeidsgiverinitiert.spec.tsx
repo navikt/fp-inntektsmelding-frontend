@@ -55,7 +55,9 @@ test("Ny ansatt", async ({ page }) => {
   });
 
   await page.getByRole("button", { name: "Send inn" }).click();
-  await expect(page.getByText("asd", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Inntektsmelding for Underfundig Dyreflokk er sendt"),
+  ).toBeVisible();
 });
 
 test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
