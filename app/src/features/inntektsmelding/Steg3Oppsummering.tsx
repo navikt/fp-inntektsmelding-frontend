@@ -31,8 +31,11 @@ export const Steg3Oppsummering = () => {
   );
   const { id } = route.useParams();
 
-  const { gyldigInntektsmeldingSkjemaState, inntektsmeldingSkjemaStateError } =
-    useInntektsmeldingSkjema();
+  const {
+    gyldigInntektsmeldingSkjemaState,
+    inntektsmeldingSkjemaState,
+    inntektsmeldingSkjemaStateError,
+  } = useInntektsmeldingSkjema();
 
   if (!gyldigInntektsmeldingSkjemaState) {
     // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg error til Grafana for innsikt.
@@ -40,6 +43,7 @@ export const Steg3Oppsummering = () => {
     console.error(
       "Ugyldig skjemaState på oppsummeringssiden",
       inntektsmeldingSkjemaStateError,
+      inntektsmeldingSkjemaState,
     );
     return (
       <Alert className="mt-4 mx-4 md:mx-0" variant="error">
