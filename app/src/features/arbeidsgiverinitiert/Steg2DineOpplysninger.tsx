@@ -1,8 +1,10 @@
+import { Heading } from "@navikt/ds-react";
 import { useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import {
   KontaktInformasjon,
   PersonOgSelskapsInformasjonForm,
@@ -43,7 +45,13 @@ export const Steg2DineOpplysninger = () => {
     <section className="mt-2">
       <FormProvider {...methods}>
         <form onSubmit={onSubmit}>
-          <KontaktInformasjon opplysninger={opplysninger} />
+          <div className="bg-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
+            <Heading level="3" size="large">
+              Dine opplysninger
+            </Heading>
+            <Fremgangsindikator aktivtSteg={2} />
+            <KontaktInformasjon />
+          </div>
         </form>
       </FormProvider>
     </section>

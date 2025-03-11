@@ -3,11 +3,9 @@ import { Button, Heading } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger.tsx";
-import {
-  InntektsmeldingSkjemaState,
-  useInntektsmeldingSkjema,
-} from "~/features/InntektsmeldingSkjemaState.tsx";
+import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { InntektsmeldingSkjemaState } from "~/features/InntektsmeldingSkjemaState.tsx";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
@@ -18,36 +16,30 @@ export type RefusjonForm = {
 } & Pick<InntektsmeldingSkjemaState, "refusjon">;
 
 export function Steg3Refusjon() {
-  const opplysninger = useOpplysninger();
+  const opplysninger = useAgiOpplysninger();
   useDocumentTitle(
     `Refusjon – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
 
-  const { inntektsmeldingSkjemaState, setInntektsmeldingSkjemaState } =
-    useInntektsmeldingSkjema();
+  const { agiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
 
-  const defaultInntekt =
-    inntektsmeldingSkjemaState.inntekt ||
-    opplysninger.inntektsopplysninger.gjennomsnittLønn;
+  const defaultInntekt = opplysninger.inntektsopplysninger.gjennomsnittLønn;
 
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
       skalRefunderes:
-        inntektsmeldingSkjemaState.skalRefunderes === "NEI"
+        agiSkjemaState.skalRefunderes === "NEI"
           ? undefined
-          : inntektsmeldingSkjemaState.skalRefunderes,
+          : agiSkjemaState.skalRefunderes,
       refusjon:
-        inntektsmeldingSkjemaState.refusjon.length === 0
+        agiSkjemaState.refusjon.length === 0
           ? [
               { fom: opplysninger.førsteUttaksdato, beløp: defaultInntekt },
               { fom: undefined, beløp: 0 },
             ]
-          : inntektsmeldingSkjemaState.refusjon.length === 1
-            ? [
-                ...inntektsmeldingSkjemaState.refusjon,
-                { fom: undefined, beløp: 0 },
-              ]
-            : inntektsmeldingSkjemaState.refusjon,
+          : agiSkjemaState.refusjon.length === 1
+            ? [...agiSkjemaState.refusjon, { fom: undefined, beløp: 0 }]
+            : agiSkjemaState.refusjon,
     },
   });
 
@@ -57,18 +49,16 @@ export function Steg3Refusjon() {
   const onSubmit = handleSubmit((skjemadata) => {
     const { refusjon, skalRefunderes } = skjemadata;
 
-    setInntektsmeldingSkjemaState((prev) => ({
+    setAgiSkjemaState((prev) => ({
       ...prev,
       inntekt: refusjon[0].beløp,
-      endringAvInntektÅrsaker: [],
-      misterNaturalytelser: false,
       refusjon,
       skalRefunderes,
-      bortfaltNaturalytelsePerioder: [],
     }));
     navigate({
-      from: "/$id/inntekt-og-refusjon",
+      from: "/agi/refusjon",
       to: "../oppsummering",
+      search: true,
     });
   });
 
@@ -82,8 +72,8 @@ export function Steg3Refusjon() {
           <Heading level="3" size="large">
             Inntekt og refusjon
           </Heading>
-          <Fremgangsindikator aktivtSteg={2} />
-          <UtbetalingOgRefusjon />
+          <Fremgangsindikator aktivtSteg={3} />
+          <UtbetalingOgRefusjon opplysninger={opplysninger} />
           <div className="flex gap-4 justify-center">
             <Button
               as={Link}

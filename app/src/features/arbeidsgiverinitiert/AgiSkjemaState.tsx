@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext } from "react";
 import { z, ZodError } from "zod";
 
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import { ARBEIDSGIVER_INITERT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { useSessionStorageState } from "~/features/usePersistedState.tsx";
 import { beløpSchema, logDev } from "~/utils.ts";
 
@@ -79,7 +79,7 @@ export const AgiSkjemaStateProvider = ({
   children,
 }: AgiSkjemaStateProviderProps) => {
   const [state, setState] = useSessionStorageState<AgiSkjemaState>(
-    ARBEIDSGIVER_INITERT_ID,
+    ARBEIDSGIVER_INITERT_SKJEMA_ID,
     defaultSkjemaState,
     AgiSkjemaStateSchema,
   );

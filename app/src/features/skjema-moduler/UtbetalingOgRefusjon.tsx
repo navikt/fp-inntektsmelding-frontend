@@ -25,8 +25,8 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { hentGrunnbeløpOptions } from "~/api/queries.ts";
 import { HjelpetekstReadMore } from "~/features/Hjelpetekst.tsx";
 import type { InntektOgRefusjonForm } from "~/features/inntektsmelding/Steg2InntektOgRefusjon";
-import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
+import { OpplysningerDto } from "~/types/api-models.ts";
 import { formatKroner, formatStønadsnavn } from "~/utils.ts";
 
 import { FormattertTallTextField } from "../react-hook-form-wrappers/FormattertTallTextField";
@@ -38,8 +38,13 @@ export const REFUSJON_RADIO_VALG = {
   NEI: "Nei",
 } satisfies Record<InntektOgRefusjonForm["skalRefunderes"], string>;
 
-export function UtbetalingOgRefusjon() {
-  const opplysninger = useOpplysninger();
+type UtbetalingOgRefusjonProps = {
+  opplysninger: OpplysningerDto;
+};
+
+export function UtbetalingOgRefusjon({
+  opplysninger,
+}: UtbetalingOgRefusjonProps) {
   const { register, formState, watch, setValue } =
     useFormContext<InntektOgRefusjonForm>();
   const { name, ...radioGroupProps } = register("skalRefunderes", {
@@ -110,9 +115,11 @@ export function UtbetalingOgRefusjon() {
           {REFUSJON_RADIO_VALG["NEI"]}
         </Radio>
       </RadioGroup>
-      {skalRefunderes === "JA_LIK_REFUSJON" ? <LikRefusjon /> : undefined}
+      {skalRefunderes === "JA_LIK_REFUSJON" ? (
+        <LikRefusjon opplysninger={opplysninger} />
+      ) : undefined}
       {skalRefunderes === "JA_VARIERENDE_REFUSJON" ? (
-        <VarierendeRefusjon />
+        <VarierendeRefusjon opplysninger={opplysninger} />
       ) : undefined}
     </VStack>
   );
@@ -139,7 +146,7 @@ function Over6GAlert() {
   return null;
 }
 
-function LikRefusjon() {
+function LikRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
   const { watch, resetField, setValue } =
     useFormContext<InntektOgRefusjonForm>();
   const [skalEndreBeløp, setSkalEndreBeløp] = useState(false);
@@ -200,12 +207,12 @@ function LikRefusjon() {
           </>
         )}
       </div>
-      <DelvisFraværHjelpetekst />
+      <DelvisFraværHjelpetekst opplysninger={opplysninger} />
     </>
   );
 }
 
-function VarierendeRefusjon() {
+function VarierendeRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
   return (
     <>
       <VStack data-testid="varierende-refusjon">
@@ -220,7 +227,7 @@ function VarierendeRefusjon() {
         <Over6GAlert />
       </VStack>
       <VStack gap="2">
-        <DelvisFraværHjelpetekst />
+        <DelvisFraværHjelpetekst opplysninger={opplysninger} />
         <HjelpetekstReadMore header="Hvilke endringer må du informere Nav om?">
           <Stack gap="2">
             <BodyLong>
@@ -328,16 +335,18 @@ function Refusjonsperioder() {
   );
 }
 
-function DelvisFraværHjelpetekst() {
-  const { ytelse } = useOpplysninger();
+function DelvisFraværHjelpetekst({ opplysninger }: UtbetalingOgRefusjonProps) {
   return (
     <HjelpetekstReadMore header="Har den ansatte delvis fravær i perioden?">
       <BodyLong>
         Hvis den ansatte skal kombinere{" "}
-        {formatStønadsnavn({ ytelsesnavn: ytelse, form: "ubestemt" })} fra Nav
-        med arbeid, vil Nav redusere utbetalingen ut fra opplysningene fra den
-        ansatte. Du oppgir derfor den månedslønnen dere utbetaler til den
-        ansatte, uavhengig av hvor mye den ansatte skal jobbe.
+        {formatStønadsnavn({
+          ytelsesnavn: opplysninger.ytelse,
+          form: "ubestemt",
+        })}{" "}
+        fra Nav med arbeid, vil Nav redusere utbetalingen ut fra opplysningene
+        fra den ansatte. Du oppgir derfor den månedslønnen dere utbetaler til
+        den ansatte, uavhengig av hvor mye den ansatte skal jobbe.
       </BodyLong>
     </HjelpetekstReadMore>
   );

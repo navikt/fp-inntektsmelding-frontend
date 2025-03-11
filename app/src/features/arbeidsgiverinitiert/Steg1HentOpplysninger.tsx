@@ -64,17 +64,22 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysninger(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      if (opplysninger.forespørselUuid === undefined) {
+      if (
+        opplysninger.forespørselUuid === undefined ||
+        opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+      ) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
         // 3. redirecter til samme sti som før
         // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
-        const fakeId = ARBEIDSGIVER_INITERT_ID;
         const opplysningerMedId = {
           ...opplysninger,
-          forespørselUuid: fakeId,
+          forespørselUuid: ARBEIDSGIVER_INITERT_ID,
         };
-        sessionStorage.setItem(fakeId, JSON.stringify(opplysningerMedId));
+        sessionStorage.setItem(
+          ARBEIDSGIVER_INITERT_ID,
+          JSON.stringify(opplysningerMedId),
+        );
 
         return navigate({
           from: "/agi/opprett",
@@ -211,7 +216,7 @@ function HentPersonError({ error }: { error: Error | null }) {
         </Heading>
         Ønsker du heller sende inntektsmelding for foreldrepenger?{" "}
         <TanstackLink
-          from="/opprett"
+          from="/agi/opprett"
           search={(s) => ({ ...s, ytelseType: "FORELDREPENGER" })}
           to="."
         >

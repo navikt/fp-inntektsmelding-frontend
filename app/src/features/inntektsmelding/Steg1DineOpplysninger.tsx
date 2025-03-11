@@ -4,8 +4,11 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
 import { useInntektsmeldingSkjema } from "~/features/InntektsmeldingSkjemaState";
+import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import {
+  Intro,
   KontaktInformasjon,
+  Personinformasjon,
   PersonOgSelskapsInformasjonForm,
 } from "~/features/skjema-moduler/KontaktInformasjon.tsx";
 import { formatYtelsesnavn, lagFulltNavn } from "~/utils";
@@ -64,7 +67,15 @@ export const Steg1DineOpplysninger = () => {
       )}
       <FormProvider {...methods}>
         <form onSubmit={onSubmit}>
-          <KontaktInformasjon opplysninger={opplysninger} />
+          <div className="bg-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
+            <Heading level="3" size="large">
+              Dine opplysninger
+            </Heading>
+            <Fremgangsindikator aktivtSteg={1} />
+            <Intro opplysninger={opplysninger} />
+            <Personinformasjon opplysninger={opplysninger} />
+            <KontaktInformasjon />
+          </div>
         </form>
       </FormProvider>
     </section>

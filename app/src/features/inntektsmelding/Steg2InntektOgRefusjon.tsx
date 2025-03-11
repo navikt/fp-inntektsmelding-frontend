@@ -161,7 +161,7 @@ export function Steg2InntektOgRefusjon() {
             harEksisterendeInntektsmeldinger={harEksisterendeInntektsmeldinger}
             opplysninger={opplysninger}
           />
-          <UtbetalingOgRefusjon />
+          <UtbetalingOgRefusjon opplysninger={opplysninger} />
           <Naturalytelser opplysninger={opplysninger} />
           <div className="flex gap-4 justify-center">
             <Button

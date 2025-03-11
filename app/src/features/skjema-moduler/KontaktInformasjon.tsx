@@ -14,7 +14,6 @@ import { useFormContext } from "react-hook-form";
 import { useHjelpetekst } from "~/features/Hjelpetekst.tsx";
 import { Informasjonsseksjon } from "~/features/Informasjonsseksjon.tsx";
 import type { InntektsmeldingSkjemaState } from "~/features/InntektsmeldingSkjemaState.tsx";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import {
   capitalizeSetning,
@@ -27,23 +26,12 @@ export type PersonOgSelskapsInformasjonForm = NonNullable<
   InntektsmeldingSkjemaState["kontaktperson"]
 >;
 
-export const KontaktInformasjon = ({
-  opplysninger,
-}: {
-  opplysninger: OpplysningerDto;
-}) => {
+export const KontaktInformasjon = () => {
   const { register, formState } =
     useFormContext<PersonOgSelskapsInformasjonForm>();
 
   return (
-    <div className="bg-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
-      <Heading level="3" size="large">
-        Dine opplysninger
-      </Heading>
-      <Fremgangsindikator aktivtSteg={1} />
-
-      <Intro opplysninger={opplysninger} />
-      <Personinformasjon opplysninger={opplysninger} />
+    <>
       <Informasjonsseksjon
         className="col-span-2"
         kilde="Fra Altinn og Folkeregisteret"
@@ -101,7 +89,7 @@ export const KontaktInformasjon = ({
       >
         Bekreft og gå videre
       </Button>
-    </div>
+    </>
   );
 };
 
@@ -109,7 +97,7 @@ type PersoninformasjonProps = {
   opplysninger: OpplysningerDto;
 };
 
-const Personinformasjon = ({ opplysninger }: PersoninformasjonProps) => {
+export const Personinformasjon = ({ opplysninger }: PersoninformasjonProps) => {
   const { person } = opplysninger;
   const fulltNavn = lagFulltNavn(person);
 
@@ -132,7 +120,7 @@ const Personinformasjon = ({ opplysninger }: PersoninformasjonProps) => {
 type IntroProps = {
   opplysninger: OpplysningerDto;
 };
-const Intro = ({ opplysninger }: IntroProps) => {
+export const Intro = ({ opplysninger }: IntroProps) => {
   const { person, arbeidsgiver } = opplysninger;
   const fulltNavnSøker = lagFulltNavn(person);
   const fornavnSøker = person.fornavn;
