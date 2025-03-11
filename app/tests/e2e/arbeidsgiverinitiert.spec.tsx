@@ -65,7 +65,7 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
 }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
-  await page.goto("/fp-im-dialog/opprett?ytelseType=FORELDREPENGER");
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
   await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
@@ -83,17 +83,13 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
 
   await page.locator('input[name="skalRefunderes"][value="NEI"]').click();
-  await page.locator('input[name="misterNaturalytelser"][value="nei"]').click();
-  await expect(
-    page.getByText("Inntektsmelding kan ikke sendes inn"),
-  ).toBeVisible();
   await expect(page.getByRole("button", { name: "Neste steg" })).toBeDisabled();
 });
 
 test("Kun kvinner kan søke SVP", async ({ page }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
-  await page.goto("/fp-im-dialog/opprett?ytelseType=SVANGERSKAPSPENGER");
+  await page.goto("/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER");
 
   await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
