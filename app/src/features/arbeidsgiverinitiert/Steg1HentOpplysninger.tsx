@@ -23,6 +23,7 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import { AgiSkjemaState } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import {
@@ -36,7 +37,7 @@ const route = getRouteApi("/agi/opprett");
 type FormType = {
   fødselsnummer: string;
   organisasjonsnummer: string;
-  årsak: "ny_ansatt" | "unntatt_aaregister" | "annen_årsak" | "";
+  agiÅrsak: AgiSkjemaState["agiÅrsak"] | "";
   førsteFraværsdag: string;
 };
 
@@ -50,12 +51,12 @@ export const Steg1HentOpplysninger = () => {
   const formMethods = useForm<FormType>({
     defaultValues: {
       fødselsnummer: "",
-      årsak: "",
+      agiÅrsak: "",
       organisasjonsnummer: "",
     },
   });
 
-  const { name, ...radioGroupProps } = formMethods.register("årsak", {
+  const { name, ...radioGroupProps } = formMethods.register("agiÅrsak", {
     required: "Du må svare på dette spørsmålet",
   });
 
@@ -137,7 +138,7 @@ export const Steg1HentOpplysninger = () => {
               Opprett manuell inntektsmelding
             </Heading>
             <RadioGroup
-              error={formMethods.formState.errors.årsak?.message}
+              error={formMethods.formState.errors.agiÅrsak?.message}
               legend="Årsak til at du vil opprette inntektsmelding"
               name={name}
             >
@@ -152,10 +153,10 @@ export const Steg1HentOpplysninger = () => {
                 Unntatt registrering i Aa-registeret
               </Radio>
               <Radio value="annen_årsak" {...radioGroupProps}>
-                Annen årsak
+                Annen agiÅrsak
               </Radio>
             </RadioGroup>
-            {formMethods.watch("årsak") === "ny_ansatt" && (
+            {formMethods.watch("agiÅrsak") === "NY_ANSATT" && (
               <>
                 <NyAnsattForm data={hentPersonMutation.data} />
                 <Button
@@ -169,10 +170,10 @@ export const Steg1HentOpplysninger = () => {
                 <VelgArbeidsgiver data={hentPersonMutation.data} />
               </>
             )}
-            {formMethods.watch("årsak") === "unntatt_aaregister" && (
+            {formMethods.watch("agiÅrsak") === "UNNTATT_AAREGISTER" && (
               <UnntattAaregRegistrering />
             )}
-            {formMethods.watch("årsak") === "annen_årsak" && <AnnenÅrsak />}
+            {formMethods.watch("agiÅrsak") === "ANNEN_ÅRSAK" && <AnnenÅrsak />}
             <HentPersonError error={hentPersonMutation.error} />
             <HentOpplysningerError error={opprettOpplysningerMutation.error} />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (

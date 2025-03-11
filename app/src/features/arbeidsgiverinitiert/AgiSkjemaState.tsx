@@ -11,6 +11,13 @@ import { beløpSchema, logDev } from "~/utils.ts";
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
  */
 export const AgiSkjemaStateSchema = z.object({
+  agiÅrsak: z
+    .union([
+      z.literal("NY_ANSATT"),
+      z.literal("UNNTATT_AAREGISTER"),
+      z.literal("ANNEN_ÅRSAK"),
+    ])
+    .optional(),
   kontaktperson: z
     .object({
       navn: z.string(),
@@ -36,6 +43,11 @@ export const AgiSkjemaStateSchema = z.object({
  * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
  */
 export const AgiSkjemaStateSchemaValidated = z.object({
+  agiÅrsak: z.union([
+    z.literal("NY_ANSATT"),
+    z.literal("UNNTATT_AAREGISTER"),
+    z.literal("ANNEN_ÅRSAK"),
+  ]),
   kontaktperson: z.object({
     navn: z.string(),
     telefonnummer: z.string(),
