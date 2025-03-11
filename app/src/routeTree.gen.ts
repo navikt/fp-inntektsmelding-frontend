@@ -11,10 +11,15 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as OpprettImport } from './routes/opprett'
+import { Route as AgiImport } from './routes/agi'
 import { Route as IdImport } from './routes/$id'
 import { Route as OpprettIndexImport } from './routes/opprett.index'
+import { Route as AgiIndexImport } from './routes/agi.index'
 import { Route as IdIndexImport } from './routes/$id.index'
+import { Route as AgiRefusjonImport } from './routes/agi.refusjon'
+import { Route as AgiOppsummeringImport } from './routes/agi.oppsummering'
+import { Route as AgiOpprettImport } from './routes/agi.opprett'
+import { Route as AgiDineOpplysningerImport } from './routes/agi.dine-opplysninger'
 import { Route as IdVisImport } from './routes/$id.vis'
 import { Route as IdOppsummeringImport } from './routes/$id.oppsummering'
 import { Route as IdKvitteringImport } from './routes/$id.kvittering'
@@ -23,9 +28,9 @@ import { Route as IdDineOpplysningerImport } from './routes/$id.dine-opplysninge
 
 // Create/Update Routes
 
-const OpprettRoute = OpprettImport.update({
-  id: '/opprett',
-  path: '/opprett',
+const AgiRoute = AgiImport.update({
+  id: '/agi',
+  path: '/agi',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -36,15 +41,45 @@ const IdRoute = IdImport.update({
 } as any)
 
 const OpprettIndexRoute = OpprettIndexImport.update({
+  id: '/opprett/',
+  path: '/opprett/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AgiIndexRoute = AgiIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => OpprettRoute,
+  getParentRoute: () => AgiRoute,
 } as any)
 
 const IdIndexRoute = IdIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => IdRoute,
+} as any)
+
+const AgiRefusjonRoute = AgiRefusjonImport.update({
+  id: '/refusjon',
+  path: '/refusjon',
+  getParentRoute: () => AgiRoute,
+} as any)
+
+const AgiOppsummeringRoute = AgiOppsummeringImport.update({
+  id: '/oppsummering',
+  path: '/oppsummering',
+  getParentRoute: () => AgiRoute,
+} as any)
+
+const AgiOpprettRoute = AgiOpprettImport.update({
+  id: '/opprett',
+  path: '/opprett',
+  getParentRoute: () => AgiRoute,
+} as any)
+
+const AgiDineOpplysningerRoute = AgiDineOpplysningerImport.update({
+  id: '/dine-opplysninger',
+  path: '/dine-opplysninger',
+  getParentRoute: () => AgiRoute,
 } as any)
 
 const IdVisRoute = IdVisImport.update({
@@ -88,11 +123,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdImport
       parentRoute: typeof rootRoute
     }
-    '/opprett': {
-      id: '/opprett'
-      path: '/opprett'
-      fullPath: '/opprett'
-      preLoaderRoute: typeof OpprettImport
+    '/agi': {
+      id: '/agi'
+      path: '/agi'
+      fullPath: '/agi'
+      preLoaderRoute: typeof AgiImport
       parentRoute: typeof rootRoute
     }
     '/$id/dine-opplysninger': {
@@ -130,6 +165,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdVisImport
       parentRoute: typeof IdImport
     }
+    '/agi/dine-opplysninger': {
+      id: '/agi/dine-opplysninger'
+      path: '/dine-opplysninger'
+      fullPath: '/agi/dine-opplysninger'
+      preLoaderRoute: typeof AgiDineOpplysningerImport
+      parentRoute: typeof AgiImport
+    }
+    '/agi/opprett': {
+      id: '/agi/opprett'
+      path: '/opprett'
+      fullPath: '/agi/opprett'
+      preLoaderRoute: typeof AgiOpprettImport
+      parentRoute: typeof AgiImport
+    }
+    '/agi/oppsummering': {
+      id: '/agi/oppsummering'
+      path: '/oppsummering'
+      fullPath: '/agi/oppsummering'
+      preLoaderRoute: typeof AgiOppsummeringImport
+      parentRoute: typeof AgiImport
+    }
+    '/agi/refusjon': {
+      id: '/agi/refusjon'
+      path: '/refusjon'
+      fullPath: '/agi/refusjon'
+      preLoaderRoute: typeof AgiRefusjonImport
+      parentRoute: typeof AgiImport
+    }
     '/$id/': {
       id: '/$id/'
       path: '/'
@@ -137,12 +200,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdIndexImport
       parentRoute: typeof IdImport
     }
+    '/agi/': {
+      id: '/agi/'
+      path: '/'
+      fullPath: '/agi/'
+      preLoaderRoute: typeof AgiIndexImport
+      parentRoute: typeof AgiImport
+    }
     '/opprett/': {
       id: '/opprett/'
-      path: '/'
-      fullPath: '/opprett/'
+      path: '/opprett'
+      fullPath: '/opprett'
       preLoaderRoute: typeof OpprettIndexImport
-      parentRoute: typeof OpprettImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -169,27 +239,39 @@ const IdRouteChildren: IdRouteChildren = {
 
 const IdRouteWithChildren = IdRoute._addFileChildren(IdRouteChildren)
 
-interface OpprettRouteChildren {
-  OpprettIndexRoute: typeof OpprettIndexRoute
+interface AgiRouteChildren {
+  AgiDineOpplysningerRoute: typeof AgiDineOpplysningerRoute
+  AgiOpprettRoute: typeof AgiOpprettRoute
+  AgiOppsummeringRoute: typeof AgiOppsummeringRoute
+  AgiRefusjonRoute: typeof AgiRefusjonRoute
+  AgiIndexRoute: typeof AgiIndexRoute
 }
 
-const OpprettRouteChildren: OpprettRouteChildren = {
-  OpprettIndexRoute: OpprettIndexRoute,
+const AgiRouteChildren: AgiRouteChildren = {
+  AgiDineOpplysningerRoute: AgiDineOpplysningerRoute,
+  AgiOpprettRoute: AgiOpprettRoute,
+  AgiOppsummeringRoute: AgiOppsummeringRoute,
+  AgiRefusjonRoute: AgiRefusjonRoute,
+  AgiIndexRoute: AgiIndexRoute,
 }
 
-const OpprettRouteWithChildren =
-  OpprettRoute._addFileChildren(OpprettRouteChildren)
+const AgiRouteWithChildren = AgiRoute._addFileChildren(AgiRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/$id': typeof IdRouteWithChildren
-  '/opprett': typeof OpprettRouteWithChildren
+  '/agi': typeof AgiRouteWithChildren
   '/$id/dine-opplysninger': typeof IdDineOpplysningerRoute
   '/$id/inntekt-og-refusjon': typeof IdInntektOgRefusjonRoute
   '/$id/kvittering': typeof IdKvitteringRoute
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
+  '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/opprett': typeof AgiOpprettRoute
+  '/agi/oppsummering': typeof AgiOppsummeringRoute
+  '/agi/refusjon': typeof AgiRefusjonRoute
   '/$id/': typeof IdIndexRoute
-  '/opprett/': typeof OpprettIndexRoute
+  '/agi/': typeof AgiIndexRoute
+  '/opprett': typeof OpprettIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -198,20 +280,30 @@ export interface FileRoutesByTo {
   '/$id/kvittering': typeof IdKvitteringRoute
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
+  '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/opprett': typeof AgiOpprettRoute
+  '/agi/oppsummering': typeof AgiOppsummeringRoute
+  '/agi/refusjon': typeof AgiRefusjonRoute
   '/$id': typeof IdIndexRoute
+  '/agi': typeof AgiIndexRoute
   '/opprett': typeof OpprettIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/$id': typeof IdRouteWithChildren
-  '/opprett': typeof OpprettRouteWithChildren
+  '/agi': typeof AgiRouteWithChildren
   '/$id/dine-opplysninger': typeof IdDineOpplysningerRoute
   '/$id/inntekt-og-refusjon': typeof IdInntektOgRefusjonRoute
   '/$id/kvittering': typeof IdKvitteringRoute
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
+  '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/opprett': typeof AgiOpprettRoute
+  '/agi/oppsummering': typeof AgiOppsummeringRoute
+  '/agi/refusjon': typeof AgiRefusjonRoute
   '/$id/': typeof IdIndexRoute
+  '/agi/': typeof AgiIndexRoute
   '/opprett/': typeof OpprettIndexRoute
 }
 
@@ -219,14 +311,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/$id'
-    | '/opprett'
+    | '/agi'
     | '/$id/dine-opplysninger'
     | '/$id/inntekt-og-refusjon'
     | '/$id/kvittering'
     | '/$id/oppsummering'
     | '/$id/vis'
+    | '/agi/dine-opplysninger'
+    | '/agi/opprett'
+    | '/agi/oppsummering'
+    | '/agi/refusjon'
     | '/$id/'
-    | '/opprett/'
+    | '/agi/'
+    | '/opprett'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$id/dine-opplysninger'
@@ -234,30 +331,42 @@ export interface FileRouteTypes {
     | '/$id/kvittering'
     | '/$id/oppsummering'
     | '/$id/vis'
+    | '/agi/dine-opplysninger'
+    | '/agi/opprett'
+    | '/agi/oppsummering'
+    | '/agi/refusjon'
     | '/$id'
+    | '/agi'
     | '/opprett'
   id:
     | '__root__'
     | '/$id'
-    | '/opprett'
+    | '/agi'
     | '/$id/dine-opplysninger'
     | '/$id/inntekt-og-refusjon'
     | '/$id/kvittering'
     | '/$id/oppsummering'
     | '/$id/vis'
+    | '/agi/dine-opplysninger'
+    | '/agi/opprett'
+    | '/agi/oppsummering'
+    | '/agi/refusjon'
     | '/$id/'
+    | '/agi/'
     | '/opprett/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IdRoute: typeof IdRouteWithChildren
-  OpprettRoute: typeof OpprettRouteWithChildren
+  AgiRoute: typeof AgiRouteWithChildren
+  OpprettIndexRoute: typeof OpprettIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IdRoute: IdRouteWithChildren,
-  OpprettRoute: OpprettRouteWithChildren,
+  AgiRoute: AgiRouteWithChildren,
+  OpprettIndexRoute: OpprettIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -271,7 +380,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/$id",
-        "/opprett"
+        "/agi",
+        "/opprett/"
       ]
     },
     "/$id": {
@@ -285,10 +395,14 @@ export const routeTree = rootRoute
         "/$id/"
       ]
     },
-    "/opprett": {
-      "filePath": "opprett.tsx",
+    "/agi": {
+      "filePath": "agi.tsx",
       "children": [
-        "/opprett/"
+        "/agi/dine-opplysninger",
+        "/agi/opprett",
+        "/agi/oppsummering",
+        "/agi/refusjon",
+        "/agi/"
       ]
     },
     "/$id/dine-opplysninger": {
@@ -311,13 +425,32 @@ export const routeTree = rootRoute
       "filePath": "$id.vis.tsx",
       "parent": "/$id"
     },
+    "/agi/dine-opplysninger": {
+      "filePath": "agi.dine-opplysninger.tsx",
+      "parent": "/agi"
+    },
+    "/agi/opprett": {
+      "filePath": "agi.opprett.tsx",
+      "parent": "/agi"
+    },
+    "/agi/oppsummering": {
+      "filePath": "agi.oppsummering.tsx",
+      "parent": "/agi"
+    },
+    "/agi/refusjon": {
+      "filePath": "agi.refusjon.tsx",
+      "parent": "/agi"
+    },
     "/$id/": {
       "filePath": "$id.index.tsx",
       "parent": "/$id"
     },
+    "/agi/": {
+      "filePath": "agi.index.tsx",
+      "parent": "/agi"
+    },
     "/opprett/": {
-      "filePath": "opprett.index.tsx",
-      "parent": "/opprett"
+      "filePath": "opprett.index.tsx"
     }
   }
 }

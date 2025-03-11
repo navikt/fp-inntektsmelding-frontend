@@ -8,7 +8,7 @@ const FAKE_FNR = "09810198874";
 test("Ny ansatt", async ({ page }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
-  await page.goto("/fp-im-dialog/opprett?ytelseType=FORELDREPENGER");
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
   await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));
