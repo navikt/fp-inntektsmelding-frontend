@@ -27,6 +27,7 @@ import { HjelpetekstReadMore } from "~/features/Hjelpetekst.tsx";
 import type { InntektOgRefusjonForm } from "~/features/inntektsmelding/Steg2InntektOgRefusjon";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { OpplysningerDto } from "~/types/api-models.ts";
+import { SkalRefunderesType } from "~/types/schema-models.ts";
 import { formatKroner, formatStønadsnavn } from "~/utils.ts";
 
 import { FormattertTallTextField } from "../react-hook-form-wrappers/FormattertTallTextField";
@@ -36,7 +37,7 @@ export const REFUSJON_RADIO_VALG = {
   JA_VARIERENDE_REFUSJON:
     "Ja, men kun deler av perioden eller varierende beløp",
   NEI: "Nei",
-} satisfies Record<InntektOgRefusjonForm["skalRefunderes"], string>;
+} satisfies Record<SkalRefunderesType, string>;
 
 type UtbetalingOgRefusjonProps = {
   opplysninger: OpplysningerDto;
