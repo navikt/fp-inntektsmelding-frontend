@@ -44,7 +44,6 @@ export function Steg3Refusjon() {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
-    console.log("submitting")
     const { refusjon, skalRefunderes } = skjemadata;
 
     setAgiSkjemaState((prev) => ({
