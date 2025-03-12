@@ -184,7 +184,7 @@ export type SendInntektsmeldingRequestDto = z.infer<
 >;
 
 export type SendAgiInntektsmeldingRequestDto = z.infer<
-    typeof SendAgiInntektsmeldingRequestDtoSchema
+  typeof SendAgiInntektsmeldingRequestDtoSchema
 >;
 
 export const opplysningerSchema = z.object({
