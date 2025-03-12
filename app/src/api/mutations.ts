@@ -1,6 +1,7 @@
 import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
 import {
   InntektsmeldingResponseDtoSchema,
+  SendAgiInntektsmeldingRequestDto,
   SendInntektsmeldingRequestDto,
 } from "~/types/api-models.ts";
 import { logDev } from "~/utils.ts";
@@ -8,7 +9,9 @@ import { logDev } from "~/utils.ts";
 const SERVER_URL = `${import.meta.env.BASE_URL}/server/api`;
 
 export async function sendInntektsmelding(
-  sendInntektsmeldingRequest: SendInntektsmeldingRequestDto,
+  sendInntektsmeldingRequest:
+    | SendInntektsmeldingRequestDto
+    | SendAgiInntektsmeldingRequestDto,
 ) {
   const response = await fetch(`${SERVER_URL}/imdialog/send-inntektsmelding`, {
     method: "POST",

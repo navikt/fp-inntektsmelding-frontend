@@ -69,9 +69,11 @@ export type SlåOppArbeidstakerResponseDto = z.infer<
   typeof SlåOppArbeidstakerResponseDtoSchema
 >;
 
+/**
+ * Denne brukes for de aller fleste inntektsmeldinger.
+ */
 export const SendInntektsmeldingRequestDtoSchema = z.object({
-  foresporselUuid: z.string().optional(),
-  agiÅrsak: AgiÅrsakSchema.optional(),
+  foresporselUuid: z.string(),
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),
@@ -80,7 +82,7 @@ export const SendInntektsmeldingRequestDtoSchema = z.object({
     navn: z.string(),
   }),
   startdato: z.string(),
-  inntekt: z.number().optional(),
+  inntekt: z.number(),
   refusjon: z
     .array(
       z.object({
@@ -105,6 +107,32 @@ export const SendInntektsmeldingRequestDtoSchema = z.object({
       naturalytelsetype: NaturalytelseTypeSchema,
     }),
   ),
+});
+
+/**
+ * Denne brukes for arbeidsgiverinitierte inntektsmeldinger. Den er tilnærmet lik den vanlige men med laxere typer
+ */
+export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
+  agiÅrsak: AgiÅrsakSchema,
+  aktorId: z.string(),
+  ytelse: YtelsetypeSchema,
+  arbeidsgiverIdent: z.string(),
+  kontaktperson: z.object({
+    telefonnummer: z.string(),
+    navn: z.string(),
+  }),
+  startdato: z.string(),
+  inntekt: z.number().optional(),
+  refusjon: z
+    .array(
+      z.object({
+        fom: z.string().optional(),
+        beløp: z.number(),
+      }),
+    )
+    .optional(),
+  endringAvInntektÅrsaker: z.array(z.any()).length(0),
+  bortfaltNaturalytelsePerioder: z.array(z.any()).length(0),
 });
 
 export const InntektsmeldingResponseDtoSchema = z.object({
@@ -153,6 +181,10 @@ export type SendInntektsmeldingResponseDto = z.infer<
 
 export type SendInntektsmeldingRequestDto = z.infer<
   typeof SendInntektsmeldingRequestDtoSchema
+>;
+
+export type SendAgiInntektsmeldingRequestDto = z.infer<
+    typeof SendAgiInntektsmeldingRequestDtoSchema
 >;
 
 export const opplysningerSchema = z.object({

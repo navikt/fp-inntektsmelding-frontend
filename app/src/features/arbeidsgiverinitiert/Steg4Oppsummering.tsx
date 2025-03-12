@@ -12,8 +12,10 @@ import {
 } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
-import type { OpplysningerDto } from "~/types/api-models.ts";
-import { SendInntektsmeldingRequestDto } from "~/types/api-models.ts";
+import {
+  OpplysningerDto,
+  SendAgiInntektsmeldingRequestDto,
+} from "~/types/api-models.ts";
 import { formatStrengTilTall, formatYtelsesnavn } from "~/utils";
 
 export const Steg4Oppsummering = () => {
@@ -135,6 +137,7 @@ function lagSendInntektsmeldingRequest(
         : [];
 
   return {
+    agiÅrsak: skjemaState.agiÅrsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,
@@ -146,5 +149,5 @@ function lagSendInntektsmeldingRequest(
     })),
     bortfaltNaturalytelsePerioder: [],
     endringAvInntektÅrsaker: [],
-  } satisfies SendInntektsmeldingRequestDto;
+  } satisfies SendAgiInntektsmeldingRequestDto;
 }
