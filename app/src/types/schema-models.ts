@@ -5,3 +5,4 @@ export const SkalRefunderesSchema = z.enum([
   "JA_VARIERENDE_REFUSJON",
   "NEI",
 ]);
+export type SkalRefunderesType = z.infer<typeof SkalRefunderesSchema>;
