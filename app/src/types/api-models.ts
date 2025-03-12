@@ -221,14 +221,6 @@ export const feilmeldingSchema = z.object({
   ]),
 });
 
-export const organisasjonsnummerSchema = z
-  .string()
-  .regex(/^\d+$/, "Må være tall")
-  .refine((val) => {
-    const num = Number(val);
-    return num >= 100_000_000 && num <= 999_999_999;
-  }, "Ugyldig organisasjonsnummer");
-
 export const OpplysningerRequestSchema = z.object({
   fødselsnummer: z.string(),
   ytelseType: YtelsetypeSchema,

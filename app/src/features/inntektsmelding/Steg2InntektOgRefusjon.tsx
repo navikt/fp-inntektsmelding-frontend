@@ -31,13 +31,12 @@ import {
 type JaNei = "ja" | "nei";
 
 export type InntektOgRefusjonForm = {
-  skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON" | "NEI";
   misterNaturalytelser: JaNei;
   bortfaltNaturalytelsePerioder: NaturalytelserSomMistesForm[];
   endringAvInntektÅrsaker: EndringsÅrsakerForm[];
 } & Pick<
   InntektsmeldingSkjemaState,
-  "refusjon" | "inntekt" | "korrigertInntekt"
+  "refusjon" | "inntekt" | "korrigertInntekt" | "skalRefunderes"
 >;
 
 type EndringsÅrsakerForm = {

@@ -7,6 +7,7 @@ import {
   EndringAvInntektÅrsakerSchema,
   NaturalytelseTypeSchema,
 } from "~/types/api-models.ts";
+import { SkalRefunderesSchema } from "~/types/schema-models.ts";
 import { beløpSchema, logDev } from "~/utils.ts";
 
 import { useSessionStorageState } from "../usePersistedState.tsx";
@@ -31,13 +32,7 @@ export const InntektsmeldingSkjemaStateSchema = z.object({
       bleKjentFom: z.string().optional(),
     }),
   ),
-  skalRefunderes: z
-    .union([
-      z.literal("JA_LIK_REFUSJON"),
-      z.literal("JA_VARIERENDE_REFUSJON"),
-      z.literal("NEI"),
-    ])
-    .optional(),
+  skalRefunderes: SkalRefunderesSchema.optional(),
   refusjon: z.array(
     z.object({
       fom: z.string().optional(),
@@ -75,11 +70,7 @@ export const InntektsmeldingSkjemaStateSchemaValidated = z.object({
       bleKjentFom: z.string().optional(),
     }),
   ),
-  skalRefunderes: z.union([
-    z.literal("JA_LIK_REFUSJON"),
-    z.literal("JA_VARIERENDE_REFUSJON"),
-    z.literal("NEI"),
-  ]),
+  skalRefunderes: SkalRefunderesSchema,
   refusjon: z.array(
     z.object({
       fom: z.string().optional(),

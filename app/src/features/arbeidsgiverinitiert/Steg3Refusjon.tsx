@@ -11,9 +11,10 @@ import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefu
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { formatYtelsesnavn } from "~/utils.ts";
 
-export type RefusjonForm = {
-  skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON" | "NEI";
-} & Pick<InntektsmeldingSkjemaState, "refusjon">;
+export type RefusjonForm = Pick<
+  InntektsmeldingSkjemaState,
+  "refusjon" | "skalRefunderes"
+>;
 
 export function Steg3Refusjon() {
   const opplysninger = useAgiOpplysninger();

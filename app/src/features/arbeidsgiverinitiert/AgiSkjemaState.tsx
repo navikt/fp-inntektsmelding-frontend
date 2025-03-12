@@ -5,6 +5,7 @@ import { z, ZodError } from "zod";
 
 import { ARBEIDSGIVER_INITERT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { useSessionStorageState } from "~/features/usePersistedState.tsx";
+import { SkalRefunderesSchema } from "~/types/schema-models.ts";
 import { beløpSchema, logDev } from "~/utils.ts";
 
 export const AgiÅrsakSchema = z.enum([
@@ -24,13 +25,7 @@ export const AgiSkjemaStateSchema = z.object({
       telefonnummer: z.string(),
     })
     .optional(),
-  skalRefunderes: z
-    .union([
-      z.literal("JA_LIK_REFUSJON"),
-      z.literal("JA_VARIERENDE_REFUSJON"),
-      z.literal("NEI"),
-    ])
-    .optional(),
+  skalRefunderes: SkalRefunderesSchema.optional(),
   refusjon: z.array(
     z.object({
       fom: z.string().optional(),
@@ -49,11 +44,7 @@ export const AgiSkjemaStateSchemaValidated = z.object({
     telefonnummer: z.string(),
   }),
 
-  skalRefunderes: z.union([
-    z.literal("JA_LIK_REFUSJON"),
-    z.literal("JA_VARIERENDE_REFUSJON"),
-    z.literal("NEI"),
-  ]),
+  skalRefunderes: SkalRefunderesSchema,
   refusjon: z.array(
     z.object({
       fom: z.string().optional(),
