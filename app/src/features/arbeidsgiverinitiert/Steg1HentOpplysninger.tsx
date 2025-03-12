@@ -142,7 +142,7 @@ export const Steg1HentOpplysninger = () => {
               legend="Årsak til at du vil opprette inntektsmelding"
               name={name}
             >
-              <Radio value="ny_ansatt" {...radioGroupProps}>
+              <Radio value="NYANSATT" {...radioGroupProps}>
                 Ny ansatt som mottar ytelse fra Nav
               </Radio>
               <Radio

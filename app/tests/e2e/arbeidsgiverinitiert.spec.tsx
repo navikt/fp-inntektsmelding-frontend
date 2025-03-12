@@ -11,7 +11,7 @@ test("Ny ansatt", async ({ page }) => {
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
-  await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
+  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
@@ -67,7 +67,7 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
-  await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
+  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.4.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -91,7 +91,7 @@ test("Kun kvinner kan søke SVP", async ({ page }) => {
 
   await page.goto("/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER");
 
-  await page.locator('input[name="årsak"][value="ny_ansatt"]').click();
+  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.8.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
