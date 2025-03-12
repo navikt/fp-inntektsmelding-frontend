@@ -13,5 +13,7 @@ export const enkelSendInntektsmeldingResponse = {
   startdato: "2024-05-30",
   inntekt: 20_000,
   refusjon: [],
+  endringAvInntektÅrsaker: [],
+  bortfaltNaturalytelsePerioder: [],
   opprettetTidspunkt: "2024-09-11T15:23:16.013",
 } satisfies SendInntektsmeldingResponseDto;

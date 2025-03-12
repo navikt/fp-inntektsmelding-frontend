@@ -22,40 +22,45 @@ import {
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
+import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import {
+  AgiSkjemaState,
+  useAgiSkjema,
+} from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import {
   OpplysningerRequest,
   SlåOppArbeidstakerResponseDto,
 } from "~/types/api-models.ts";
 import { formatYtelsesnavn } from "~/utils.ts";
 
-const route = getRouteApi("/opprett");
+const route = getRouteApi("/agi/opprett");
 
 type FormType = {
   fødselsnummer: string;
   organisasjonsnummer: string;
-  årsak: "ny_ansatt" | "unntatt_aaregister" | "annen_årsak" | "";
+  agiÅrsak: AgiSkjemaState["agiÅrsak"];
   førsteFraværsdag: string;
 };
 
-export const HentOpplysninger = () => {
+export const Steg1HentOpplysninger = () => {
   const { ytelseType } = route.useSearch();
   const navigate = useNavigate();
   useDocumentTitle(
     `Opprett inntektsmelding for ${formatYtelsesnavn(ytelseType)}`,
   );
+  const { agiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
 
   const formMethods = useForm<FormType>({
     defaultValues: {
-      fødselsnummer: "",
-      årsak: "",
+      fødselsnummer: "", // TODO: kan vi lagre fødselsnummer i sessionstorage?
+      agiÅrsak: agiSkjemaState.agiÅrsak,
       organisasjonsnummer: "",
     },
   });
 
-  const { name, ...radioGroupProps } = formMethods.register("årsak", {
+  const { name, ...radioGroupProps } = formMethods.register("agiÅrsak", {
     required: "Du må svare på dette spørsmålet",
   });
 
@@ -64,24 +69,32 @@ export const HentOpplysninger = () => {
       return hentOpplysninger(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      if (opplysninger.forespørselUuid === undefined) {
+      if (
+        opplysninger.forespørselUuid === undefined ||
+        opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+      ) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
         // 3. redirecter til samme sti som før
         // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
-        const fakeId = ARBEIDSGIVER_INITERT_ID;
         const opplysningerMedId = {
           ...opplysninger,
-          forespørselUuid: fakeId,
+          forespørselUuid: ARBEIDSGIVER_INITERT_ID,
         };
-        sessionStorage.setItem(fakeId, JSON.stringify(opplysningerMedId));
-
+        sessionStorage.setItem(
+          ARBEIDSGIVER_INITERT_ID,
+          JSON.stringify(opplysningerMedId),
+        );
+        const agiÅrsak = formMethods.watch("agiÅrsak");
+        setAgiSkjemaState((prev) => ({ ...prev, agiÅrsak }));
         return navigate({
-          to: "/$id",
-          params: { id: fakeId },
+          from: "/agi/opprett",
+          to: "/agi/dine-opplysninger",
+          search: true,
         });
       }
 
+      // Hvis forespørsel finnes navigerer vi deg ut av AGI-flyten
       return navigate({
         to: "/$id",
         params: { id: opplysninger.forespørselUuid },
@@ -130,11 +143,11 @@ export const HentOpplysninger = () => {
               Opprett manuell inntektsmelding
             </Heading>
             <RadioGroup
-              error={formMethods.formState.errors.årsak?.message}
+              error={formMethods.formState.errors.agiÅrsak?.message}
               legend="Årsak til at du vil opprette inntektsmelding"
               name={name}
             >
-              <Radio value="ny_ansatt" {...radioGroupProps}>
+              <Radio value="NYANSATT" {...radioGroupProps}>
                 Ny ansatt som mottar ytelse fra Nav
               </Radio>
               <Radio
@@ -145,10 +158,10 @@ export const HentOpplysninger = () => {
                 Unntatt registrering i Aa-registeret
               </Radio>
               <Radio value="annen_årsak" {...radioGroupProps}>
-                Annen årsak
+                Annen agiÅrsak
               </Radio>
             </RadioGroup>
-            {formMethods.watch("årsak") === "ny_ansatt" && (
+            {formMethods.watch("agiÅrsak") === "NYANSATT" && (
               <>
                 <NyAnsattForm data={hentPersonMutation.data} />
                 <Button
@@ -162,10 +175,10 @@ export const HentOpplysninger = () => {
                 <VelgArbeidsgiver data={hentPersonMutation.data} />
               </>
             )}
-            {formMethods.watch("årsak") === "unntatt_aaregister" && (
+            {formMethods.watch("agiÅrsak") === "UNNTATT_AAREGISTER" && (
               <UnntattAaregRegistrering />
             )}
-            {formMethods.watch("årsak") === "annen_årsak" && <AnnenÅrsak />}
+            {formMethods.watch("agiÅrsak") === "ANNEN_ÅRSAK" && <AnnenÅrsak />}
             <HentPersonError error={hentPersonMutation.error} />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (
               <Button
@@ -208,7 +221,7 @@ function HentPersonError({ error }: { error: Error | null }) {
         </Heading>
         Ønsker du heller sende inntektsmelding for foreldrepenger?{" "}
         <TanstackLink
-          from="/opprett"
+          from="/agi/opprett"
           search={(s) => ({ ...s, ytelseType: "FORELDREPENGER" })}
           to="."
         >

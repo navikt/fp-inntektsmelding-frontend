@@ -8,10 +8,9 @@ import { sendInntektsmelding } from "~/api/mutations.ts";
 import {
   InntektsmeldingSkjemaStateValid,
   useInntektsmeldingSkjema,
-} from "~/features/InntektsmeldingSkjemaState";
+} from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import { SendInntektsmeldingRequestDto } from "~/types/api-models.ts";
 import {
@@ -188,13 +187,15 @@ function lagSendInntektsmeldingRequest(
   );
 
   return {
-    foresporselUuid: id === ARBEIDSGIVER_INITERT_ID ? undefined : id,
+    foresporselUuid: id,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,
     kontaktperson: skjemaState.kontaktperson,
     startdato: opplysninger.førsteUttaksdato,
-    inntekt: formatStrengTilTall(gjeldendeInntekt),
+    inntekt: gjeldendeInntekt
+      ? formatStrengTilTall(gjeldendeInntekt)
+      : undefined,
     refusjon: refusjon.map((r) => ({
       ...r,
       beløp: formatStrengTilTall(r.beløp),

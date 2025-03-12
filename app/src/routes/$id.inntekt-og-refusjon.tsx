@@ -4,10 +4,12 @@ import { HjelpetekstToggle } from "~/features/Hjelpetekst.tsx";
 import { Steg2InntektOgRefusjon } from "~/features/inntektsmelding/Steg2InntektOgRefusjon";
 
 export const Route = createFileRoute("/$id/inntekt-og-refusjon")({
-  component: () => (
-    <>
-      <HjelpetekstToggle />
-      <Steg2InntektOgRefusjon />
-    </>
-  ),
+  component: () => {
+    return (
+      <>
+        <HjelpetekstToggle />
+        <Steg2InntektOgRefusjon />
+      </>
+    );
+  },
 });

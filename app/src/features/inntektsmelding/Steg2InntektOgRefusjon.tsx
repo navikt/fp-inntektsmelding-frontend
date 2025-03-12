@@ -5,7 +5,6 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
 import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/routes/opprett.tsx";
 import { EndringAvInntektÅrsaker, Naturalytelsetype } from "~/types/api-models";
 import {
   capitalize,
@@ -17,10 +16,6 @@ import {
 
 import { HjelpetekstReadMore } from "../Hjelpetekst";
 import { Informasjonsseksjon } from "../Informasjonsseksjon";
-import {
-  InntektsmeldingSkjemaState,
-  useInntektsmeldingSkjema,
-} from "../InntektsmeldingSkjemaState";
 import { ENDRINGSÅRSAK_TEMPLATE, Inntekt } from "../skjema-moduler/Inntekt";
 import {
   NATURALYTELSE_SOM_MISTES_TEMPLATE,
@@ -28,6 +23,10 @@ import {
 } from "../skjema-moduler/Naturalytelser";
 import { UtbetalingOgRefusjon } from "../skjema-moduler/UtbetalingOgRefusjon";
 import { useDocumentTitle } from "../useDocumentTitle";
+import {
+  InntektsmeldingSkjemaState,
+  useInntektsmeldingSkjema,
+} from "./InntektsmeldingSkjemaState.tsx";
 
 type JaNei = "ja" | "nei";
 
@@ -113,7 +112,7 @@ export function Steg2InntektOgRefusjon() {
     },
   });
 
-  const { handleSubmit, watch } = formMethods;
+  const { handleSubmit } = formMethods;
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
@@ -162,7 +161,7 @@ export function Steg2InntektOgRefusjon() {
             harEksisterendeInntektsmeldinger={harEksisterendeInntektsmeldinger}
             opplysninger={opplysninger}
           />
-          <UtbetalingOgRefusjon />
+          <UtbetalingOgRefusjon opplysninger={opplysninger} />
           <Naturalytelser opplysninger={opplysninger} />
           <div className="flex gap-4 justify-center">
             <Button
@@ -174,10 +173,6 @@ export function Steg2InntektOgRefusjon() {
               Forrige steg
             </Button>
             <Button
-              disabled={
-                watch("skalRefunderes") === "NEI" &&
-                opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
-              }
               icon={<ArrowRightIcon />}
               iconPosition="right"
               type="submit"
