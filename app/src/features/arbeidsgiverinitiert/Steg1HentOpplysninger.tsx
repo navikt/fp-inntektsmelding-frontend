@@ -23,7 +23,10 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
-import { AgiSkjemaState } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import {
+  AgiSkjemaState,
+  useAgiSkjema,
+} from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import {
@@ -37,7 +40,7 @@ const route = getRouteApi("/agi/opprett");
 type FormType = {
   fødselsnummer: string;
   organisasjonsnummer: string;
-  agiÅrsak: AgiSkjemaState["agiÅrsak"] | "";
+  agiÅrsak: AgiSkjemaState["agiÅrsak"];
   førsteFraværsdag: string;
 };
 
@@ -47,11 +50,12 @@ export const Steg1HentOpplysninger = () => {
   useDocumentTitle(
     `Opprett inntektsmelding for ${formatYtelsesnavn(ytelseType)}`,
   );
+  const { agiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
 
   const formMethods = useForm<FormType>({
     defaultValues: {
-      fødselsnummer: "",
-      agiÅrsak: "",
+      fødselsnummer: "", // TODO: kan vi lagre fødselsnummer i sessionstorage?
+      agiÅrsak: agiSkjemaState.agiÅrsak,
       organisasjonsnummer: "",
     },
   });
@@ -81,7 +85,8 @@ export const Steg1HentOpplysninger = () => {
           ARBEIDSGIVER_INITERT_ID,
           JSON.stringify(opplysningerMedId),
         );
-
+        const agiÅrsak = formMethods.watch("agiÅrsak");
+        setAgiSkjemaState((prev) => ({ ...prev, agiÅrsak }));
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",

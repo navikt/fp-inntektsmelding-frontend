@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@navikt/aksel-icons";
-import { Button, Heading } from "@navikt/ds-react";
+import { Alert, Button, Heading } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -12,7 +12,7 @@ import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { formatYtelsesnavn } from "~/utils.ts";
 
 export type RefusjonForm = {
-  skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON";
+  skalRefunderes: "JA_LIK_REFUSJON" | "JA_VARIERENDE_REFUSJON" | "NEI";
 } & Pick<InntektsmeldingSkjemaState, "refusjon">;
 
 export function Steg3Refusjon() {
@@ -27,10 +27,7 @@ export function Steg3Refusjon() {
 
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
-      skalRefunderes:
-        agiSkjemaState.skalRefunderes === "NEI"
-          ? undefined
-          : agiSkjemaState.skalRefunderes,
+      skalRefunderes: agiSkjemaState.skalRefunderes,
       refusjon:
         agiSkjemaState.refusjon.length === 0
           ? [
@@ -43,10 +40,11 @@ export function Steg3Refusjon() {
     },
   });
 
-  const { handleSubmit } = formMethods;
+  const { handleSubmit, watch } = formMethods;
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
+    console.log("submitting")
     const { refusjon, skalRefunderes } = skjemadata;
 
     setAgiSkjemaState((prev) => ({
@@ -62,6 +60,8 @@ export function Steg3Refusjon() {
     });
   });
 
+  const harValgtNeiTilRefusjon = watch("skalRefunderes") === "NEI";
+
   return (
     <FormProvider {...formMethods}>
       <section className="mt-2">
@@ -74,6 +74,15 @@ export function Steg3Refusjon() {
           </Heading>
           <Fremgangsindikator aktivtSteg={3} />
           <UtbetalingOgRefusjon opplysninger={opplysninger} />
+          {harValgtNeiTilRefusjon && (
+            <Alert variant="warning">
+              <Heading level="2" size="small">
+                Inntektsmelding kan ikke sendes inn
+              </Heading>
+              Det er ikke nødvendig å sende inn inntektsmelding dersom du ikke
+              krever refusjon for den nyansatte.
+            </Alert>
+          )}
           <div className="flex gap-4 justify-center">
             <Button
               as={Link}
@@ -84,6 +93,7 @@ export function Steg3Refusjon() {
               Forrige steg
             </Button>
             <Button
+              disabled={harValgtNeiTilRefusjon}
               icon={<ArrowRightIcon />}
               iconPosition="right"
               type="submit"

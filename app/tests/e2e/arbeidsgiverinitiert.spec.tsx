@@ -82,7 +82,16 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
   await page.getByLabel("Telefon").fill("13371337");
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
 
-  await page.locator('input[name="skalRefunderes"][value="NEI"]').click();
+  await page
+    .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
+    .click();
+  await expect(
+    page.getByText("Inntektsmelding kan ikke sendes inn"),
+  ).toBeVisible({ visible: false });
+  await page.locator('input[name="skalRefunderes"][value="NEI"]').focus();
+  await page.keyboard.press("Space");
+  await page.keyboard.press("Enter");
+
   await expect(page.getByRole("button", { name: "Neste steg" })).toBeDisabled();
 });
 
