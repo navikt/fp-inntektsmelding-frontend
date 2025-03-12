@@ -60,6 +60,8 @@ export const AgiSkjemaStateSchemaValidated = z.object({
       beløp: beløpSchema,
     }),
   ),
+  // Injectes når IM er blitt sendt inn og fått id
+  id: z.number().optional(),
 });
 
 export type AgiSkjemaState = z.infer<typeof AgiSkjemaStateSchema>;

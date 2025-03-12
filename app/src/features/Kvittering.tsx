@@ -82,7 +82,7 @@ export const Kvittering = ({
         {inntektsmeldingId && (
           <Button
             as="a"
-            download={`inntektsmelding-${inntektsmeldingId}.pdf`} //TODO: sjekk hvordan id'er ser ut
+            download={`inntektsmelding-${inntektsmeldingId}.pdf`}
             href={hentInntektsmeldingPdfUrl(inntektsmeldingId)}
             icon={<DownloadIcon />}
             iconPosition="left"

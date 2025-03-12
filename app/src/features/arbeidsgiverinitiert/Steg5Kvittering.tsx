@@ -11,11 +11,12 @@ export const Steg5Kvittering = () => {
     `Kvittering – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
   const erRefusjon = gyldigAgiSkjemaState?.skalRefunderes !== "NEI";
+  const inntektsmeldingsId = gyldigAgiSkjemaState?.id;
 
   return (
     <Kvittering
       erRefusjon={erRefusjon}
-      inntektsmeldingId={123} // TODO
+      inntektsmeldingId={inntektsmeldingsId}
       opplysninger={opplysninger}
     />
   );
