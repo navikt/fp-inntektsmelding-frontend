@@ -55,7 +55,7 @@ export const Steg1HentOpplysninger = () => {
 
   const formMethods = useForm<FormType>({
     defaultValues: {
-      fødselsnummer: "", // TODO: kan vi lagre fødselsnummer i sessionstorage?
+      fødselsnummer: "",
       agiÅrsak: agiSkjemaState.agiÅrsak,
       organisasjonsnummer: "",
     },
@@ -87,7 +87,9 @@ export const Steg1HentOpplysninger = () => {
           JSON.stringify(opplysningerMedId),
         );
         const agiÅrsak = formMethods.watch("agiÅrsak");
-        setAgiSkjemaState((prev) => ({ ...prev, agiÅrsak }));
+
+        // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
+        setAgiSkjemaState({ agiÅrsak, refusjon: [] });
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",

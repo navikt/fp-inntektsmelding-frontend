@@ -4,6 +4,7 @@ import { Link, useLoaderData, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
+import { ImRefusjon } from "~/features/inntektsmelding/ImRefusjon.tsx";
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
 import { EndringAvInntektÅrsaker, Naturalytelsetype } from "~/types/api-models";
 import {
@@ -21,7 +22,6 @@ import {
   NATURALYTELSE_SOM_MISTES_TEMPLATE,
   Naturalytelser,
 } from "../skjema-moduler/Naturalytelser";
-import { UtbetalingOgRefusjon } from "../skjema-moduler/UtbetalingOgRefusjon";
 import { useDocumentTitle } from "../useDocumentTitle";
 import {
   InntektsmeldingSkjemaState,
@@ -160,7 +160,7 @@ export function Steg2InntektOgRefusjon() {
             harEksisterendeInntektsmeldinger={harEksisterendeInntektsmeldinger}
             opplysninger={opplysninger}
           />
-          <UtbetalingOgRefusjon opplysninger={opplysninger} />
+          <ImRefusjon opplysninger={opplysninger} />
           <Naturalytelser opplysninger={opplysninger} />
           <div className="flex gap-4 justify-center">
             <Button

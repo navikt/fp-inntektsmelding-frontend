@@ -12,14 +12,12 @@ import {
   HGrid,
   HStack,
   Label,
-  Radio,
-  RadioGroup,
   Stack,
   VStack,
 } from "@navikt/ds-react";
 import { useQuery } from "@tanstack/react-query";
 import { isAfter } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
 import { hentGrunnbeløpOptions } from "~/api/queries.ts";
@@ -39,115 +37,15 @@ export const REFUSJON_RADIO_VALG = {
   NEI: "Nei",
 } satisfies Record<SkalRefunderesType, string>;
 
-type UtbetalingOgRefusjonProps = {
-  opplysninger: OpplysningerDto;
+export const ENDRING_I_REFUSJON_TEMPLATE = {
+  fom: undefined,
+  beløp: 0,
 };
 
-export function UtbetalingOgRefusjon({
-  opplysninger,
-}: UtbetalingOgRefusjonProps) {
-  const { register, formState, watch, setValue } =
-    useFormContext<InntektOgRefusjonForm>();
-  const { name, ...radioGroupProps } = register("skalRefunderes", {
-    required: "Du må svare på dette spørsmålet",
-  });
-  const korrigertInntekt = watch("korrigertInntekt");
-  useEffect(() => {
-    if (korrigertInntekt) {
-      setValue("refusjon.0.beløp", korrigertInntekt);
-    }
-  }, [korrigertInntekt]);
-
-  // Denne bolken er kun relevant hvis A-inntekt er nede. Da vil bruker endre på inntekts-feltet.
-  // I alle andre tilfeller er det korrigertInntekt de vil endre.
-  // Dette fordi når A-inntekt er nede forventer vi ingen endringsårsak da bruker ikke fikk noen foreslått inntekt til å begynne med
-  const inntekt = watch("inntekt");
-  useEffect(() => {
-    if (inntekt) {
-      setValue("refusjon.0.beløp", inntekt);
-    }
-  }, [inntekt]);
-
-  const skalRefunderes = watch("skalRefunderes");
-
-  return (
-    <VStack gap="4">
-      <hr />
-      <Heading id="refusjon" level="4" size="medium">
-        Utbetaling og refusjon
-      </Heading>
-      <HjelpetekstReadMore header="Hva vil det si å ha refusjon?">
-        <Stack gap="2">
-          <BodyLong>
-            Refusjon er når arbeidsgiver utbetaler lønn som vanlig til den
-            ansatte, og får tilbakebetalt{" "}
-            {formatStønadsnavn({
-              ytelsesnavn: opplysninger.ytelse,
-              form: "ubestemt",
-            })}{" "}
-            direkte fra Nav. Dette kalles ofte å forskuttere lønn, som man
-            krever refundert fra Nav. Vi utbetaler da{" "}
-            {formatStønadsnavn({
-              ytelsesnavn: opplysninger.ytelse,
-              form: "bestemt",
-            })}{" "}
-            til det kontonummeret som arbeidsgiver har registrert i Altinn.
-          </BodyLong>
-          <BodyLong>
-            Noen arbeidsgivere er forpliktet til å forskuttere ut fra
-            tariffavtaler, mens andre arbeidsgivere velger selv om de ønsker en
-            slik ordning. Hvis dere velger å forskuttere lønn, er det viktig at
-            dere har en god dialog med arbeidstakeren om utfallet av søknaden.
-          </BodyLong>
-        </Stack>
-      </HjelpetekstReadMore>
-      <RadioGroup
-        error={formState.errors.skalRefunderes?.message}
-        legend="Betaler dere lønn under fraværet og krever refusjon?"
-        name={name}
-      >
-        <Radio value="JA_LIK_REFUSJON" {...radioGroupProps}>
-          {REFUSJON_RADIO_VALG["JA_LIK_REFUSJON"]}
-        </Radio>
-        <Radio value="JA_VARIERENDE_REFUSJON" {...radioGroupProps}>
-          {REFUSJON_RADIO_VALG["JA_VARIERENDE_REFUSJON"]}
-        </Radio>
-        <Radio value="NEI" {...radioGroupProps}>
-          {REFUSJON_RADIO_VALG["NEI"]}
-        </Radio>
-      </RadioGroup>
-      {skalRefunderes === "JA_LIK_REFUSJON" ? (
-        <LikRefusjon opplysninger={opplysninger} />
-      ) : undefined}
-      {skalRefunderes === "JA_VARIERENDE_REFUSJON" ? (
-        <VarierendeRefusjon opplysninger={opplysninger} />
-      ) : undefined}
-    </VStack>
-  );
-}
-
-function Over6GAlert() {
-  const { watch } = useFormContext<InntektOgRefusjonForm>();
-  const GRUNNBELØP = useQuery(hentGrunnbeløpOptions()).data;
-
-  const refusjonsbeløpPerMåned = watch("refusjon")[0];
-  const refusjonsbeløpPerMånedSomNummer = Number(refusjonsbeløpPerMåned);
-  const erRefusjonOver6G =
-    !Number.isNaN(refusjonsbeløpPerMånedSomNummer) &&
-    refusjonsbeløpPerMånedSomNummer > 6 * GRUNNBELØP;
-
-  if (erRefusjonOver6G) {
-    return (
-      <Alert variant="info">
-        Nav utbetaler opptil 6G av årslønnen. Du skal likevel føre opp den
-        lønnen dere utbetaler til den ansatte i sin helhet.
-      </Alert>
-    );
-  }
-  return null;
-}
-
-function LikRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
+type OpplysningerProps = {
+  opplysninger: OpplysningerDto;
+};
+export function LikRefusjon({ opplysninger }: OpplysningerProps) {
   const { watch, resetField, setValue } =
     useFormContext<InntektOgRefusjonForm>();
   const [skalEndreBeløp, setSkalEndreBeløp] = useState(false);
@@ -213,7 +111,7 @@ function LikRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
   );
 }
 
-function VarierendeRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
+export function VarierendeRefusjon({ opplysninger }: OpplysningerProps) {
   return (
     <>
       <VStack data-testid="varierende-refusjon">
@@ -254,12 +152,7 @@ function VarierendeRefusjon({ opplysninger }: UtbetalingOgRefusjonProps) {
   );
 }
 
-export const ENDRING_I_REFUSJON_TEMPLATE = {
-  fom: undefined,
-  beløp: 0,
-};
-
-function Refusjonsperioder() {
+export function Refusjonsperioder() {
   const { control, watch } = useFormContext<InntektOgRefusjonForm>();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -336,7 +229,7 @@ function Refusjonsperioder() {
   );
 }
 
-function DelvisFraværHjelpetekst({ opplysninger }: UtbetalingOgRefusjonProps) {
+export function DelvisFraværHjelpetekst({ opplysninger }: OpplysningerProps) {
   return (
     <HjelpetekstReadMore header="Har den ansatte delvis fravær i perioden?">
       <BodyLong>
@@ -351,4 +244,54 @@ function DelvisFraværHjelpetekst({ opplysninger }: UtbetalingOgRefusjonProps) {
       </BodyLong>
     </HjelpetekstReadMore>
   );
+}
+
+export function HvaVilDetSiÅHaRefusjon({ opplysninger }: OpplysningerProps) {
+  return (
+    <HjelpetekstReadMore header="Hva vil det si å ha refusjon?">
+      <Stack gap="2">
+        <BodyLong>
+          Refusjon er når arbeidsgiver utbetaler lønn som vanlig til den
+          ansatte, og får tilbakebetalt{" "}
+          {formatStønadsnavn({
+            ytelsesnavn: opplysninger.ytelse,
+            form: "ubestemt",
+          })}{" "}
+          direkte fra Nav. Dette kalles ofte å forskuttere lønn, som man krever
+          refundert fra Nav. Vi utbetaler da{" "}
+          {formatStønadsnavn({
+            ytelsesnavn: opplysninger.ytelse,
+            form: "bestemt",
+          })}{" "}
+          til det kontonummeret som arbeidsgiver har registrert i Altinn.
+        </BodyLong>
+        <BodyLong>
+          Noen arbeidsgivere er forpliktet til å forskuttere ut fra
+          tariffavtaler, mens andre arbeidsgivere velger selv om de ønsker en
+          slik ordning. Hvis dere velger å forskuttere lønn, er det viktig at
+          dere har en god dialog med arbeidstakeren om utfallet av søknaden.
+        </BodyLong>
+      </Stack>
+    </HjelpetekstReadMore>
+  );
+}
+export function Over6GAlert() {
+  const { watch } = useFormContext<InntektOgRefusjonForm>();
+  const GRUNNBELØP = useQuery(hentGrunnbeløpOptions()).data;
+
+  const refusjonsbeløpPerMåned = watch("refusjon")[0];
+  const refusjonsbeløpPerMånedSomNummer = Number(refusjonsbeløpPerMåned);
+  const erRefusjonOver6G =
+    !Number.isNaN(refusjonsbeløpPerMånedSomNummer) &&
+    refusjonsbeløpPerMånedSomNummer > 6 * GRUNNBELØP;
+
+  if (erRefusjonOver6G) {
+    return (
+      <Alert variant="info">
+        Nav utbetaler opptil 6G av årslønnen. Du skal likevel føre opp den
+        lønnen dere utbetaler til den ansatte i sin helhet.
+      </Alert>
+    );
+  }
+  return null;
 }
