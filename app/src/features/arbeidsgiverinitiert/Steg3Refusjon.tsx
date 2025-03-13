@@ -87,6 +87,7 @@ export function Steg3Refusjon() {
             <Button
               as={Link}
               icon={<ArrowLeftIcon />}
+              search
               to="../dine-opplysninger"
               variant="secondary"
             >

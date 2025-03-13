@@ -106,7 +106,8 @@ function SendInnInntektsmelding() {
         <Button
           as={Link}
           icon={<ArrowLeftIcon />}
-          to="../inntekt-og-refusjon"
+          search
+          to="../refusjon"
           variant="secondary"
         >
           Forrige steg
