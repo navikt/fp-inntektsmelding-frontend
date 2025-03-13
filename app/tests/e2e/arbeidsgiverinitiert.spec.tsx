@@ -11,6 +11,7 @@ test("Valgt: Ny ansatt", async ({ page }) => {
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
+  await expect(page.getByText("Steg 1 av 4")).toBeVisible();
   await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -37,18 +38,24 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
 
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  await expect(page.getByText("Steg 2 av 4")).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Dine opplysninger" }),
   ).toBeVisible();
-
   await page.getByLabel("Telefon").fill("13371337");
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
 
+  await expect(page.getByText("Steg 3 av 4")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Refusjon", exact: true }),
+  ).toBeVisible();
   await page
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
   await page.getByRole("button", { name: "Neste steg" }).click();
 
+  await expect(page.getByText("Steg 4 av 4")).toBeVisible();
   // TODO: test at oppsummeringsside ser rett ut
   await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
     await route.fulfill({ json: enkelSendInntektsmeldingResponse });

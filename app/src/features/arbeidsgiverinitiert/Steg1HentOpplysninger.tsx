@@ -22,6 +22,7 @@ import {
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
+import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import {
   AgiSkjemaState,
@@ -142,6 +143,7 @@ export const Steg1HentOpplysninger = () => {
             <Heading level="3" size="large">
               Opprett manuell inntektsmelding
             </Heading>
+            <AgiFremgangsindikator aktivtSteg={1} />
             <RadioGroup
               error={formMethods.formState.errors.agiÅrsak?.message}
               legend="Årsak til at du vil opprette inntektsmelding"
