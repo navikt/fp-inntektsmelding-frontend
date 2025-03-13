@@ -113,7 +113,7 @@ export const SendInntektsmeldingRequestDtoSchema = z.object({
  * Denne brukes for arbeidsgiverinitierte inntektsmeldinger. Den er tilnærmet lik den vanlige men med laxere typer
  */
 export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
-  agiÅrsak: AgiÅrsakSchema,
+  arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),

@@ -138,7 +138,7 @@ function lagSendInntektsmeldingRequest(
         : [];
 
   return {
-    agiÅrsak: skjemaState.agiÅrsak,
+    arbeidsgiverinitiertÅrsak: skjemaState.agiÅrsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,
