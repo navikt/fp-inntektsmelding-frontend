@@ -3,10 +3,10 @@ import { Alert, Button, Heading } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { formatYtelsesnavn } from "~/utils.ts";
@@ -70,9 +70,9 @@ export function Steg3Refusjon() {
           onSubmit={onSubmit}
         >
           <Heading level="3" size="large">
-            Inntekt og refusjon
+            Refusjon
           </Heading>
-          <Fremgangsindikator aktivtSteg={3} />
+          <AgiFremgangsindikator aktivtSteg={3} />
           <UtbetalingOgRefusjon opplysninger={opplysninger} />
           {harValgtNeiTilRefusjon && (
             <Alert variant="warning">

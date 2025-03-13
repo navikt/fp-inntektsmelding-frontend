@@ -4,7 +4,6 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import {
   KontaktInformasjon,
   PersonOgSelskapsInformasjonForm,
@@ -12,6 +11,7 @@ import {
 import { formatYtelsesnavn, lagFulltNavn } from "~/utils";
 
 import { useDocumentTitle } from "../useDocumentTitle";
+import { AgiFremgangsindikator } from "./AgiFremgangsindikator";
 
 export const Steg2DineOpplysninger = () => {
   const opplysninger = useAgiOpplysninger();
@@ -49,7 +49,7 @@ export const Steg2DineOpplysninger = () => {
             <Heading level="3" size="large">
               Dine opplysninger
             </Heading>
-            <Fremgangsindikator aktivtSteg={2} />
+            <AgiFremgangsindikator aktivtSteg={2} />
             <KontaktInformasjon />
           </div>
         </form>

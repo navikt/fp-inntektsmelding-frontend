@@ -2,9 +2,9 @@ import { Alert, BodyLong, Heading } from "@navikt/ds-react";
 import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
 import {
   Intro,
   KontaktInformasjon,

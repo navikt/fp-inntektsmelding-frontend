@@ -5,11 +5,11 @@ import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import isEqual from "lodash/isEqual";
 
 import { sendInntektsmelding } from "~/api/mutations.ts";
+import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import {
   InntektsmeldingSkjemaStateValid,
   useInntektsmeldingSkjema,
 } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import { SendInntektsmeldingRequestDto } from "~/types/api-models.ts";
