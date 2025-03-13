@@ -1,14 +1,30 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@navikt/aksel-icons";
-import { Alert, Button, Heading } from "@navikt/ds-react";
+import {
+  Alert,
+  Button,
+  Heading,
+  HStack,
+  Radio,
+  RadioGroup,
+  Stack,
+  VStack,
+} from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
+import { FormattertTallTextField } from "~/features/react-hook-form-wrappers/FormattertTallTextField.tsx";
+import {
+  HvaVilDetSiÅHaRefusjon,
+  Over6GAlert,
+  REFUSJON_RADIO_VALG,
+  VarierendeRefusjon,
+} from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
+import { OpplysningerDto } from "~/types/api-models.ts";
 import { formatYtelsesnavn } from "~/utils.ts";
 
 export type RefusjonForm = Pick<
@@ -24,15 +40,13 @@ export function Steg3Refusjon() {
 
   const { agiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
 
-  const defaultInntekt = opplysninger.inntektsopplysninger.gjennomsnittLønn;
-
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
       skalRefunderes: agiSkjemaState.skalRefunderes,
       refusjon:
         agiSkjemaState.refusjon.length === 0
           ? [
-              { fom: opplysninger.førsteUttaksdato, beløp: defaultInntekt },
+              { fom: opplysninger.førsteUttaksdato, beløp: 0 },
               { fom: undefined, beløp: 0 },
             ]
           : agiSkjemaState.refusjon.length === 1
@@ -73,7 +87,7 @@ export function Steg3Refusjon() {
             Refusjon
           </Heading>
           <AgiFremgangsindikator aktivtSteg={3} />
-          <UtbetalingOgRefusjon opplysninger={opplysninger} />
+          <AgiRefusjon opplysninger={opplysninger} />
           {harValgtNeiTilRefusjon && (
             <Alert variant="warning">
               <Heading level="2" size="small">
@@ -108,3 +122,57 @@ export function Steg3Refusjon() {
     </FormProvider>
   );
 }
+
+const AgiRefusjon = ({ opplysninger }: { opplysninger: OpplysningerDto }) => {
+  const { register, formState, watch } = useFormContext<RefusjonForm>();
+  const { name, ...radioGroupProps } = register("skalRefunderes", {
+    required: "Du må svare på dette spørsmålet",
+  });
+
+  const skalRefunderes = watch("skalRefunderes");
+
+  return (
+    <VStack gap="4">
+      <hr />
+      <Heading id="refusjon" level="4" size="medium">
+        Utbetaling og refusjon
+      </Heading>
+      <HvaVilDetSiÅHaRefusjon opplysninger={opplysninger} />
+      <RadioGroup
+        error={formState.errors.skalRefunderes?.message}
+        legend="Betaler dere lønn under fraværet og krever refusjon?"
+        name={name}
+      >
+        <Radio value="JA_LIK_REFUSJON" {...radioGroupProps}>
+          {REFUSJON_RADIO_VALG["JA_LIK_REFUSJON"]}
+        </Radio>
+        <Radio value="JA_VARIERENDE_REFUSJON" {...radioGroupProps}>
+          {REFUSJON_RADIO_VALG["JA_VARIERENDE_REFUSJON"]}
+        </Radio>
+        <Radio value="NEI" {...radioGroupProps}>
+          {REFUSJON_RADIO_VALG["NEI"]}
+        </Radio>
+      </RadioGroup>
+      {skalRefunderes === "JA_LIK_REFUSJON" ? <LikRefusjon /> : undefined}
+      {skalRefunderes === "JA_VARIERENDE_REFUSJON" ? (
+        <VarierendeRefusjon opplysninger={opplysninger} />
+      ) : undefined}
+    </VStack>
+  );
+};
+
+const LikRefusjon = () => {
+  return (
+    <Stack gap="4">
+      <HStack gap="4">
+        <FormattertTallTextField
+          autoFocus
+          label="Refusjonsbeløp per måned"
+          min={1}
+          name="refusjon.0.beløp"
+        />
+      </HStack>
+      <Over6GAlert />
+    </Stack>
+  );
+};
