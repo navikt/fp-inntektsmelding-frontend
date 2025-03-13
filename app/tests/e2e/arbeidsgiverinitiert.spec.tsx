@@ -6,7 +6,7 @@ import { enkelSendInntektsmeldingResponse } from "../mocks/send-inntektsmelding.
 
 const FAKE_FNR = "09810198874";
 
-test("Ny ansatt", async ({ page }) => {
+test("Valgt: Ny ansatt", async ({ page }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
@@ -57,6 +57,30 @@ test("Ny ansatt", async ({ page }) => {
   await page.getByRole("button", { name: "Send inn" }).click();
   await expect(
     page.getByText("Inntektsmelding for Underfundig Dyreflokk er sendt"),
+  ).toBeVisible();
+});
+
+test("Valgt: Unntatt registrering i Aa-registeret. Skal vise info alert", async ({
+  page,
+}) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+  await page
+    .locator('input[name="agiÅrsak"][value="UNNTATT_AAREGISTER"]')
+    .click();
+  await expect(
+    page.getByTestId("unntatt-aareg-registrering-alert"),
+  ).toBeVisible();
+});
+
+test("Valgt: Annen årsak", async ({ page }) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+  await page.locator('input[name="agiÅrsak"][value="ANNEN_ÅRSAK"]').click();
+  await expect(
+    page.getByTestId("im-kan-ikke-opprettes-for-andre-årsaker-alert"),
   ).toBeVisible();
 });
 

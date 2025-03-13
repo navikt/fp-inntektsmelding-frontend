@@ -152,12 +152,12 @@ export const Steg1HentOpplysninger = () => {
               </Radio>
               <Radio
                 description="(Ambassadepersonell, fiskere og utenlandske arbeidstakere)"
-                value="unntatt_aaregister"
+                value="UNNTATT_AAREGISTER"
                 {...radioGroupProps}
               >
                 Unntatt registrering i Aa-registeret
               </Radio>
-              <Radio value="annen_årsak" {...radioGroupProps}>
+              <Radio value="ANNEN_ÅRSAK" {...radioGroupProps}>
                 Annen agiÅrsak
               </Radio>
             </RadioGroup>
@@ -264,7 +264,7 @@ function HentPersonError({ error }: { error: Error | null }) {
 
 function UnntattAaregRegistrering() {
   return (
-    <Alert variant="info">
+    <Alert data-testid="unntatt-aareg-registrering-alert" variant="info">
       <Heading level="3" size="small">
         Du må sende inn inntektsmelding via Altinn
       </Heading>
@@ -343,7 +343,10 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
 
 function AnnenÅrsak() {
   return (
-    <Alert variant="warning">
+    <Alert
+      data-testid="im-kan-ikke-opprettes-for-andre-årsaker-alert"
+      variant="warning"
+    >
       <Heading level="2" size="small" spacing>
         Det er ikke mulig å opprette inntektsmelding for andre årsaker enda
       </Heading>
