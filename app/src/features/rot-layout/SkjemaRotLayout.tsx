@@ -49,7 +49,7 @@ export const SkjemaRotLayout = (props: SkjemaRotLayoutProps) => {
     >
       <Outlet />
       {!erPåKvitteringssiden && (
-        <HStack align="center" justify="center" className="mt-2">
+        <HStack align="center" className="mt-2" justify="center">
           <Button
             as="a"
             href="/min-side-arbeidsgiver"
