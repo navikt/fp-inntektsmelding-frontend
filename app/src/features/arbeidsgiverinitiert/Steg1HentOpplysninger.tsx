@@ -158,7 +158,7 @@ export const Steg1HentOpplysninger = () => {
                 Unntatt registrering i Aa-registeret
               </Radio>
               <Radio value="ANNEN_ÅRSAK" {...radioGroupProps}>
-                Annen agiÅrsak
+                Annen årsak
               </Radio>
             </RadioGroup>
             {formMethods.watch("agiÅrsak") === "NYANSATT" && (
