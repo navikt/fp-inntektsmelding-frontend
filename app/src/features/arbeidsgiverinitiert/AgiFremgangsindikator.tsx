@@ -13,8 +13,9 @@ export const AgiFremgangsindikator = ({
       interactiveSteps={false}
       totalSteps={4}
     >
+      <FormProgress.Step>Opprett</FormProgress.Step>
       <FormProgress.Step>Dine opplysninger</FormProgress.Step>
-      <FormProgress.Step>Inntekt og refusjon</FormProgress.Step>
+      <FormProgress.Step>Refusjon</FormProgress.Step>
       <FormProgress.Step>Oppsummering</FormProgress.Step>
     </FormProgress>
   );
