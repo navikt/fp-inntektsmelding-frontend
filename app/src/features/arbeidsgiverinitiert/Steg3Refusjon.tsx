@@ -3,13 +3,13 @@ import { Alert, Button, Heading } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { UtbetalingOgRefusjon } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { formatYtelsesnavn } from "~/utils.ts";
-import {AgiFremgangsindikator} from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 
 export type RefusjonForm = Pick<
   InntektsmeldingSkjemaState,
