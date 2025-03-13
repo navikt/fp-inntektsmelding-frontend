@@ -228,6 +228,11 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByLabel("Telefon").fill("13371337");
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await page
+    .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
+    .click();
+  await page.getByText("Refusjonsbeløp per måned").fill("20000");
+  await page.getByRole("button", { name: "Neste steg" }).click();
 
   // Gå manuelt tilbake til start (ikke mulig i løsningen)
   await page.goto("/fp-im-dialog/agi/opprett?ytelseType=FORELDREPENGER");
@@ -239,11 +244,12 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await page.getByRole("button", { name: "Neste steg" }).click();
 
   // Felt skal ha blitt tomt
   await expectError({
     page,
-    error: "Du må fylle ut et gyldig fødselsnummer",
-    label: "Ansattes fødselsnummer",
+    error: "Du må svare på dette spørsmålet",
+    label: "Betaler dere lønn under fraværet og krever refusjon?",
   });
 });

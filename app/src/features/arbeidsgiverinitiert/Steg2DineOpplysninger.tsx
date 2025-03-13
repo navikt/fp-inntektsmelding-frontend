@@ -19,7 +19,7 @@ export const Steg2DineOpplysninger = () => {
     `Dine opplysninger – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
   const { agiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
-
+  console.log(agiSkjemaState)
   const innsenderNavn = lagFulltNavn(opplysninger.innsender);
 
   const methods = useForm<PersonOgSelskapsInformasjonForm>({
