@@ -9,7 +9,7 @@ import {
   InntektsmeldingSkjemaStateValid,
   useInntektsmeldingSkjema,
 } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator";
+import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import type { OpplysningerDto } from "~/types/api-models.ts";
 import { SendInntektsmeldingRequestDto } from "~/types/api-models.ts";

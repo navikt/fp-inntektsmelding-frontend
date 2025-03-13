@@ -4,7 +4,7 @@ import { Link, useLoaderData, useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
+import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import { EndringAvInntektÅrsaker, Naturalytelsetype } from "~/types/api-models";
 import {
   capitalize,

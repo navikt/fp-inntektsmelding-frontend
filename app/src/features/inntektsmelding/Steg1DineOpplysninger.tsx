@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { useOpplysninger } from "~/features/inntektsmelding/useOpplysninger";
-import { Fremgangsindikator } from "~/features/skjema-moduler/Fremgangsindikator.tsx";
+import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import {
   Intro,
   KontaktInformasjon,
