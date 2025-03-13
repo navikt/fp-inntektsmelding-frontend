@@ -94,6 +94,21 @@ test("Valgt: Annen årsak", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("Verifiser fremgangsindikator", async ({ page }) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page.getByRole("button", { name: "Vis alle steg" }).click();
+  const formprogress = await page.locator(".navds-stepper");
+  // Verfiser at den ikke er interaktiv
+  await expect(formprogress.locator("a")).toHaveCount(0);
+  await expect(formprogress).toContainText("Opprett");
+  await expect(formprogress).toContainText("Dine opplysninger");
+  await expect(formprogress).toContainText("Refusjon");
+  await expect(formprogress).toContainText("Oppsummering");
+});
+
 test("Sjekk at man kan gå frem og tilbake mellom alle steg", async ({
   page,
 }) => {
