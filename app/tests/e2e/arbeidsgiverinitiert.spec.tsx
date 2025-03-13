@@ -54,6 +54,13 @@ test("Valgt: Ny ansatt", async ({ page }) => {
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
   await page.getByRole("button", { name: "Neste steg" }).click();
+  await expectError({
+    page,
+    label: "Refusjonsbeløp per måned",
+    error: "Beløpet må være 1 eller høyere",
+  });
+  await page.getByText("Refusjonsbeløp per måned").fill("20000");
+  await page.getByRole("button", { name: "Neste steg" }).click();
 
   await expect(page.getByText("Steg 4 av 4")).toBeVisible();
   await expect(
@@ -131,6 +138,7 @@ test("Sjekk at man kan gå frem og tilbake mellom alle steg", async ({
   await page
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
+  await page.getByText("Refusjonsbeløp per måned").fill("20000");
   await page.getByRole("button", { name: "Neste steg" }).click();
   await expect(
     page.getByRole("heading", { name: "Oppsummering", exact: true }),
