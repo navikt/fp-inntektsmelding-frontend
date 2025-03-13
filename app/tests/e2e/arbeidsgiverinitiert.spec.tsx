@@ -207,3 +207,43 @@ test("Kun kvinner kan søke SVP", async ({ page }) => {
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
 });
+
+test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
+  page,
+}) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  // Fyll inn litt skjemadata
+  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
+    await route.fulfill({ json: enkeltOpplysningerResponse });
+  });
+  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+  await page.getByLabel("Telefon").fill("13371337");
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+
+  // Gå manuelt tilbake til start (ikke mulig i løsningen)
+  await page.goto("/fp-im-dialog/agi/opprett?ytelseType=FORELDREPENGER");
+
+  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+
+  // Felt skal ha blitt tomt
+  await expectError({
+    page,
+    error: "Du må fylle ut et gyldig fødselsnummer",
+    label: "Ansattes fødselsnummer",
+  });
+});
