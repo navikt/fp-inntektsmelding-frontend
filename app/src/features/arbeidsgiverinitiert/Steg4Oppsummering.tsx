@@ -5,6 +5,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 
 import { sendAgiInntektsmelding } from "~/api/mutations.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
+import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import {
   AgiSkjemaStateValid,
@@ -137,7 +138,14 @@ function lagSendInntektsmeldingRequest(
         ? skjemaState.refusjon
         : [];
 
+  // Send kun med forespørselUuid ved endring. Ved opprinnelig innsendelse skal den være undefined.
+  const forespørselUuid =
+    opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+      ? undefined
+      : opplysninger.forespørselUuid;
+
   return {
+    forespørselUuid: forespørselUuid,
     arbeidsgiverinitiertÅrsak: skjemaState.agiÅrsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
