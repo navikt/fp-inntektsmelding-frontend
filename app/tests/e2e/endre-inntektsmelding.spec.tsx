@@ -10,6 +10,7 @@ import {
   agiInntektsmeldingResponse,
   mangeEksisterendeInntektsmeldingerResponse,
 } from "../mocks/eksisterende-inntektsmeldinger";
+import { agiOpplysninger } from "../mocks/opplysninger.ts";
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
   await mockOpplysninger({
@@ -283,6 +284,8 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
     page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
   ).toBeVisible();
 
+  await expect(page.getByText("Første fraværsdag med refusjon")).toBeVisible();
+
   // Skal ikke vises månedslønn
   await expect(page.getByText("Månedslønn")).toBeVisible({ visible: false });
   // Skal ikke vises naturalytelser
@@ -300,5 +303,33 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
   await page.getByRole("link", { name: "Endre refusjon" }).click();
   await expect(
     page.getByRole("heading", { name: "Refusjon", exact: true }),
+  ).toBeVisible();
+});
+
+test("Skal ikke få lov til å sende inn AGI-IM uten endring", async ({
+  page,
+}) => {
+  await mockOpplysninger({
+    page,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+    json: agiOpplysninger,
+  });
+  await mockGrunnbeløp({ page });
+  await mockInntektsmeldinger({
+    page,
+    json: agiInntektsmeldingResponse,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  });
+
+  await page.goto("/fp-im-dialog/e29dcea7-febe-4a76-911c-ad8f6d3e8858");
+  await page.getByRole("button", { name: "Endre" }).first().click();
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await page.getByRole("button", { name: "Neste steg" }).click();
+  await page.getByRole("button", { name: "Send inn" }).click();
+
+  await expect(
+    page.getByText(
+      "Du har ikke gjort noen endringer fra forrige innsendte inntektsmelding.",
+    ),
   ).toBeVisible();
 });

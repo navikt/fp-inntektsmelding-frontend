@@ -12,7 +12,9 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
   await expect(page.getByText("Steg 1 av 4")).toBeVisible();
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
@@ -87,7 +89,9 @@ test("Valgt: Unntatt registrering i Aa-registeret. Skal vise info alert", async 
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
   await page
-    .locator('input[name="agiÅrsak"][value="UNNTATT_AAREGISTER"]')
+    .locator(
+      'input[name="arbeidsgiverinitiertÅrsak"][value="UNNTATT_AAREGISTER"]',
+    )
     .click();
   await expect(
     page.getByTestId("unntatt-aareg-registrering-alert"),
@@ -98,7 +102,9 @@ test("Valgt: Annen årsak", async ({ page }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
-  await page.locator('input[name="agiÅrsak"][value="ANNEN_ÅRSAK"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="ANNEN_ÅRSAK"]')
+    .click();
   await expect(
     page.getByTestId("im-kan-ikke-opprettes-for-andre-årsaker-alert"),
   ).toBeVisible();
@@ -126,7 +132,9 @@ test("Sjekk at man kan gå frem og tilbake mellom alle steg", async ({
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.4.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -162,7 +170,9 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.4.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -195,7 +205,9 @@ test("Kun kvinner kan søke SVP", async ({ page }) => {
 
   await page.goto("/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER");
 
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.8.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -219,7 +231,9 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
   // Fyll inn litt skjemadata
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.4.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
@@ -240,7 +254,9 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   // Gå manuelt tilbake til start (ikke mulig i løsningen)
   await page.goto("/fp-im-dialog/agi/opprett?ytelseType=FORELDREPENGER");
 
-  await page.locator('input[name="agiÅrsak"][value="NYANSATT"]').click();
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("01.4.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();

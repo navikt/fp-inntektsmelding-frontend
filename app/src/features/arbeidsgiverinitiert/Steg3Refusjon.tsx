@@ -134,11 +134,8 @@ const AgiRefusjon = ({ opplysninger }: { opplysninger: OpplysningerDto }) => {
   return (
     <VStack gap="4">
       <hr />
-      <Heading id="refusjon" level="4" size="medium">
-        Utbetaling og refusjon
-      </Heading>
-      <HvaVilDetSiÅHaRefusjon opplysninger={opplysninger} />
       <RadioGroup
+        description={<HvaVilDetSiÅHaRefusjon opplysninger={opplysninger} />}
         error={formState.errors.skalRefunderes?.message}
         legend="Betaler dere lønn under fraværet og krever refusjon?"
         name={name}

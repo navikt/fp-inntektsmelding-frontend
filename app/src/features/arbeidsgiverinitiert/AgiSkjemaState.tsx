@@ -18,7 +18,7 @@ export const AgiÅrsakSchema = z.enum([
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
  */
 export const AgiSkjemaStateSchema = z.object({
-  agiÅrsak: AgiÅrsakSchema.optional(),
+  arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
   kontaktperson: z
     .object({
       navn: z.string(),
@@ -41,7 +41,7 @@ export const AgiSkjemaStateSchema = z.object({
  * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
  */
 export const AgiSkjemaStateSchemaValidated = z.object({
-  agiÅrsak: AgiÅrsakSchema,
+  arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
   kontaktperson: z.object({
     navn: z.string(),
     telefonnummer: z.string(),

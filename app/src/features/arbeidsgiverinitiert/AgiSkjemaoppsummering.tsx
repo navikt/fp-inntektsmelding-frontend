@@ -11,7 +11,6 @@ import {
   formatKroner,
   formatNavn,
   formatTelefonnummer,
-  formatYtelsesnavn,
   lagFulltNavn,
 } from "~/utils";
 
@@ -69,7 +68,7 @@ export const AgiSkjemaoppsummering = ({
       <FormSummary>
         <FormSummary.Header>
           <FormSummary.Heading level="3">
-            Første dag med {formatYtelsesnavn(opplysninger.ytelse)}
+            Første fraværsdag med refusjon
           </FormSummary.Heading>
         </FormSummary.Header>
         <FormSummary.Answers>
