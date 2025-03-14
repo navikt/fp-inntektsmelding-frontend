@@ -89,8 +89,6 @@ export const AgiSkjemaStateProvider = ({
     AgiSkjemaStateSchema,
   );
 
-  console.log("state", state);
-
   const gyldigAgiSkjemaState = AgiSkjemaStateSchemaValidated.safeParse(state);
 
   if (!gyldigAgiSkjemaState.success) {
