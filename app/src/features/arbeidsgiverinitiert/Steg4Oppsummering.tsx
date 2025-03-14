@@ -179,7 +179,7 @@ function lagSendInntektsmeldingRequest(
       : opplysninger.forespørselUuid;
 
   return {
-    forespørselUuid: forespørselUuid,
+    foresporselUuid: forespørselUuid,
     arbeidsgiverinitiertÅrsak: skjemaState.arbeidsgiverinitiertÅrsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
