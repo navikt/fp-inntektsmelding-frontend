@@ -137,7 +137,7 @@ export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
 
 export const InntektsmeldingResponseDtoSchema = z.object({
   foresporselUuid: z.string().optional(),
-  agiÅrsak: AgiÅrsakSchema.optional(),
+  arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),

@@ -94,7 +94,7 @@ export const agiInntektsmeldingResponse = [
   {
     id: 1_001_706,
     foresporselUuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
-    agiÅrsak: "NYANSATT",
+    arbeidsgiverinitiertÅrsak: "NYANSATT",
     aktorId: "2715347149890",
     ytelse: "FORELDREPENGER",
     arbeidsgiverIdent: "810007842",

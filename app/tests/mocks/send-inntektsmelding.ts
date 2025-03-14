@@ -20,7 +20,7 @@ export const enkelSendInntektsmeldingResponse = {
 
 export const sendAgiInntektsmeldingResponse = {
   id: 1_000_801,
-  agiÅrsak: "NYANSATT",
+  arbeidsgiverinitiertÅrsak: "NYANSATT",
   foresporselUuid: "1",
   aktorId: "2715347149890",
   ytelse: "FORELDREPENGER",

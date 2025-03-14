@@ -17,7 +17,7 @@ export const Route = createFileRoute("/$id/")({
       return <Navigate params={params} replace to={"/$id/dine-opplysninger"} />;
     }
     const erAgiNyansattInntektsmelding =
-      eksisterendeInntektsmeldinger[0].agiÅrsak === "NYANSATT";
+      eksisterendeInntektsmeldinger[0].arbeidsgiverinitiertÅrsak === "NYANSATT";
 
     if (erAgiNyansattInntektsmelding) {
       // TODO: forklar

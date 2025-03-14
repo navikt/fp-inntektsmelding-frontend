@@ -117,7 +117,7 @@ export function mapInntektsmeldingResponseTilValidState(
 export function mapInntektsmeldingResponseTilValidAgiState(
   inntektsmelding: SendInntektsmeldingResponseDto,
 ) {
-  const agiÅrsak = inntektsmelding.agiÅrsak;
+  const agiÅrsak = inntektsmelding.arbeidsgiverinitiertÅrsak;
 
   if (agiÅrsak === undefined) {
     throw new Error(
