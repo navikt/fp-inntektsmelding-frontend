@@ -32,6 +32,9 @@ export const AgiSkjemaStateSchema = z.object({
       beløp: beløpSchema,
     }),
   ),
+  // Injectes når IM er blitt sendt inn og fått id
+  opprettetTidspunkt: z.string().optional(),
+  id: z.number().optional(),
 });
 
 /**

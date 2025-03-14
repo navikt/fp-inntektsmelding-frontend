@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { PÅKREVDE_ENDRINGSÅRSAK_FELTER } from "~/features/skjema-moduler/Inntekt.tsx";
 import {
@@ -74,9 +75,7 @@ export async function hentEksisterendeInntektsmeldinger(uuid: string) {
     throw new Error("Responsen fra serveren matchet ikke forventet format");
   }
 
-  return parsedJson.data.map((im) =>
-    mapInntektsmeldingResponseTilValidState(im),
-  );
+  return parsedJson.data;
 }
 
 export function mapInntektsmeldingResponseTilValidState(
@@ -113,6 +112,32 @@ export function mapInntektsmeldingResponseTilValidState(
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
     id: inntektsmelding.id,
   } satisfies InntektsmeldingSkjemaStateValid;
+}
+
+export function mapInntektsmeldingResponseTilValidAgiState(
+  inntektsmelding: SendInntektsmeldingResponseDto,
+) {
+  const agiÅrsak = inntektsmelding.agiÅrsak;
+
+  if (agiÅrsak === undefined) {
+    throw new Error(
+      "AgiÅrsak ikke satt i inntektsmelding respons for send inn AGI-IM",
+    );
+  }
+
+  return {
+    agiÅrsak,
+    kontaktperson: inntektsmelding.kontaktperson,
+    refusjon: inntektsmelding.refusjon ?? [],
+    skalRefunderes:
+      (inntektsmelding.refusjon ?? []).length > 1
+        ? "JA_VARIERENDE_REFUSJON"
+        : (inntektsmelding.refusjon ?? []).length === 1
+          ? "JA_LIK_REFUSJON"
+          : "NEI",
+    opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
+    id: inntektsmelding.id,
+  } satisfies AgiSkjemaStateValid;
 }
 
 export async function hentOpplysningerData(uuid: string) {

@@ -1,4 +1,5 @@
 import { FormSummary, VStack } from "@navikt/ds-react";
+import { Link } from "@tanstack/react-router";
 
 import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
@@ -22,6 +23,8 @@ export const AgiSkjemaoppsummering = ({
   opplysninger,
   skjemaState,
 }: AgiSkjemaoppsummeringProps) => {
+  const kanEndres = opplysninger.forespørselStatus !== "UTGÅTT";
+
   return (
     <VStack gap="4">
       <FormSummary>
@@ -29,6 +32,14 @@ export const AgiSkjemaoppsummering = ({
           <FormSummary.Heading level="3">
             Arbeidsgiver og den ansatte
           </FormSummary.Heading>
+          {kanEndres && (
+            <FormSummary.EditLink
+              aria-label="Endre dine opplysninger"
+              as={Link}
+              search
+              to="../dine-opplysninger"
+            />
+          )}
         </FormSummary.Header>
         <FormSummary.Answers>
           <FormSummary.Answer>
@@ -73,6 +84,14 @@ export const AgiSkjemaoppsummering = ({
       <FormSummary>
         <FormSummary.Header>
           <FormSummary.Heading level="3">Refusjon</FormSummary.Heading>
+          {kanEndres && (
+            <FormSummary.EditLink
+              aria-label="Endre refusjon"
+              as={Link}
+              search
+              to="../refusjon"
+            />
+          )}
         </FormSummary.Header>
         <FormSummary.Answers>
           <FormSummary.Answer>

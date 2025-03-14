@@ -8,40 +8,24 @@ import {
   HStack,
   VStack,
 } from "@navikt/ds-react";
-import { getRouteApi, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 
-import {
-  hentInntektsmeldingPdfUrl,
-  mapInntektsmeldingResponseTilValidState,
-} from "~/api/queries";
-import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { finnSenesteInntektsmelding, formatDatoTidKort } from "~/utils.ts";
+import { hentInntektsmeldingPdfUrl } from "~/api/queries";
+import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
+import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { formatDatoTidKort } from "~/utils.ts";
 
-import { Skjemaoppsummering } from "./Skjemaoppsummering";
+export const VisAgiInntektsmelding = () => {
+  const opplysninger = useAgiOpplysninger();
+  const { gyldigAgiSkjemaState } = useAgiSkjema();
 
-const route = getRouteApi("/$id");
-
-export const VisInntektsmelding = () => {
-  const { opplysninger, eksisterendeInntektsmeldinger } = route.useLoaderData();
-  const { id } = route.useParams();
-  const { setInntektsmeldingSkjemaState } = useInntektsmeldingSkjema();
-
-  const sisteInntektsmelding = finnSenesteInntektsmelding(
-    eksisterendeInntektsmeldinger,
-  );
-
-  // Sett IM i skjemaStaten hvis den finnes
-  useEffect(() => {
-    if (sisteInntektsmelding) {
-      setInntektsmeldingSkjemaState(
-        mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
-      );
-    }
-  }, [sisteInntektsmelding]);
-
-  if (!sisteInntektsmelding) {
-    return null;
+  if (
+    !gyldigAgiSkjemaState ||
+    gyldigAgiSkjemaState.opprettetTidspunkt === undefined ||
+    gyldigAgiSkjemaState.id === undefined
+  ) {
+    throw new Error("Ugyldig skjematilstand på visning av AGI inntektsmelding");
   }
 
   const endreKnapp = (
@@ -50,6 +34,7 @@ export const VisInntektsmelding = () => {
       className="w-fit"
       disabled={opplysninger.forespørselStatus === "UTGÅTT"}
       icon={<PencilIcon />}
+      search
       to="../dine-opplysninger"
       variant="secondary"
     >
@@ -68,7 +53,7 @@ export const VisInntektsmelding = () => {
             <Detail uppercase>
               sendt inn{" "}
               {formatDatoTidKort(
-                new Date(sisteInntektsmelding.opprettetTidspunkt),
+                new Date(gyldigAgiSkjemaState.opprettetTidspunkt),
               )}
             </Detail>
           </VStack>
@@ -83,11 +68,9 @@ export const VisInntektsmelding = () => {
             </BodyShort>
           </Alert>
         )}
-        <Skjemaoppsummering
+        <AgiSkjemaoppsummering
           opplysninger={opplysninger}
-          skjemaState={mapInntektsmeldingResponseTilValidState(
-            sisteInntektsmelding,
-          )}
+          skjemaState={gyldigAgiSkjemaState}
         />
         <HStack gap="4" justify="space-between">
           <HStack gap="4">
@@ -99,8 +82,8 @@ export const VisInntektsmelding = () => {
           </HStack>
           <Button
             as="a"
-            download={`inntektsmelding-${id}.pdf`}
-            href={hentInntektsmeldingPdfUrl(sisteInntektsmelding.id)}
+            download={`inntektsmelding-${gyldigAgiSkjemaState.id}.pdf`}
+            href={hentInntektsmeldingPdfUrl(gyldigAgiSkjemaState.id)}
             icon={<DownloadIcon />}
             variant="tertiary"
           >

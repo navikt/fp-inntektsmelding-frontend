@@ -6,7 +6,10 @@ import {
   mockOpplysninger,
 } from "tests/mocks/utils";
 
-import { mangeEksisterendeInntektsmeldingerResponse } from "../mocks/eksisterende-inntektsmeldinger";
+import {
+  agiInntektsmeldingResponse,
+  mangeEksisterendeInntektsmeldingerResponse,
+} from "../mocks/eksisterende-inntektsmeldinger";
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
   await mockOpplysninger({
@@ -257,5 +260,45 @@ test("skal ikke få lov til å sende inn uten endring", async ({ page }) => {
     page.getByText(
       "Du har ikke gjort noen endringer fra forrige innsendte inntektsmelding.",
     ),
+  ).toBeVisible();
+});
+
+test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside", async ({
+  page,
+}) => {
+  await mockOpplysninger({
+    page,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  });
+  await mockGrunnbeløp({ page });
+  await mockInntektsmeldinger({
+    page,
+    json: agiInntektsmeldingResponse,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  });
+
+  await page.goto("/fp-im-dialog/e29dcea7-febe-4a76-911c-ad8f6d3e8858");
+  await expect(page.getByText("Sendt inn 04.10.24 KL 13:34")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
+  ).toBeVisible();
+
+  // Skal ikke vises månedslønn
+  await expect(page.getByText("Månedslønn")).toBeVisible({ visible: false });
+  // Skal ikke vises naturalytelser
+  await expect(page.getByText("Naturalytelse")).toBeVisible({ visible: false });
+
+  // Klikke endre-knapp, eller endre lenke på dine-opplysninger skal ta deg til steg 2 av skjema.
+  await page.getByRole("button", { name: "Endre" }).first().click();
+  await expect(
+    page.getByRole("heading", { name: "Dine opplysninger" }),
+  ).toBeVisible();
+  await expect(page.getByText("Steg 2 av 4")).toBeVisible();
+  await page.goBack();
+  await page.getByRole("link", { name: "Endre dine opplysninger" }).click();
+  await page.goBack();
+  await page.getByRole("link", { name: "Endre refusjon" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Refusjon", exact: true }),
   ).toBeVisible();
 });
