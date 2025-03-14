@@ -117,9 +117,16 @@ export function mapInntektsmeldingResponseTilValidState(
 export function mapInntektsmeldingResponseTilValidAgiState(
   inntektsmelding: SendInntektsmeldingResponseDto,
 ) {
-  const agi
+  const agiÅrsak = inntektsmelding.agiÅrsak;
+
+  if (agiÅrsak === undefined) {
+    throw new Error(
+      "AgiÅrsak ikke satt i inntektsmelding respons for send inn AGI-IM",
+    );
+  }
+
   return {
-    agiÅrsak: inntektsmelding.agiÅrsak,
+    agiÅrsak,
     kontaktperson: inntektsmelding.kontaktperson,
     refusjon: inntektsmelding.refusjon ?? [],
     skalRefunderes:

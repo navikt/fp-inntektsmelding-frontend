@@ -8,32 +8,22 @@ import {
   HStack,
   VStack,
 } from "@navikt/ds-react";
-import { getRouteApi, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 
-import {
-  hentInntektsmeldingPdfUrl,
-  mapInntektsmeldingResponseTilValidState,
-} from "~/api/queries";
+import { hentInntektsmeldingPdfUrl } from "~/api/queries";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
-import { finnSenesteInntektsmelding, formatDatoTidKort } from "~/utils.ts";
-
-const route = getRouteApi("/$id");
+import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { formatDatoTidKort } from "~/utils.ts";
 
 export const VisAgiInntektsmelding = () => {
-  const { opplysninger, eksisterendeInntektsmeldinger } = route.useLoaderData();
-  const { id } = route.useParams();
-  const { setAgiSkjemaState } = useAgiSkjema();
+  const opplysninger = useAgiOpplysninger();
+  const { gyldigAgiSkjemaState } = useAgiSkjema();
 
-  const sisteInntektsmelding = finnSenesteInntektsmelding(
-    eksisterendeInntektsmeldinger,
-  );
-
-  if (!sisteInntektsmelding) {
-    return null;
+  if (!gyldigAgiSkjemaState) {
+    throw new Error("Ugyldig skjematilstand på visning av AGI inntektsmelding");
   }
+  console.log(gyldigAgiSkjemaState);
 
   const endreKnapp = (
     <Button
@@ -59,7 +49,7 @@ export const VisAgiInntektsmelding = () => {
             <Detail uppercase>
               sendt inn{" "}
               {formatDatoTidKort(
-                new Date(sisteInntektsmelding.opprettetTidspunkt),
+                new Date(gyldigAgiSkjemaState.opprettetTidspunkt),
               )}
             </Detail>
           </VStack>
@@ -76,9 +66,7 @@ export const VisAgiInntektsmelding = () => {
         )}
         <AgiSkjemaoppsummering
           opplysninger={opplysninger}
-          skjemaState={mapInntektsmeldingResponseTilValidState(
-            sisteInntektsmelding,
-          )}
+          skjemaState={gyldigAgiSkjemaState}
         />
         <HStack gap="4" justify="space-between">
           <HStack gap="4">
@@ -90,8 +78,8 @@ export const VisAgiInntektsmelding = () => {
           </HStack>
           <Button
             as="a"
-            download={`inntektsmelding-${id}.pdf`}
-            href={hentInntektsmeldingPdfUrl(sisteInntektsmelding.id)}
+            download={`inntektsmelding-${gyldigAgiSkjemaState.id}.pdf`}
+            href={hentInntektsmeldingPdfUrl(gyldigAgiSkjemaState.id)}
             icon={<DownloadIcon />}
             variant="tertiary"
           >

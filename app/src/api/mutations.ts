@@ -1,5 +1,7 @@
-import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
-import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import {
+  mapInntektsmeldingResponseTilValidAgiState,
+  mapInntektsmeldingResponseTilValidState,
+} from "~/api/queries.ts";
 import {
   InntektsmeldingResponseDtoSchema,
   SendAgiInntektsmeldingRequestDto,
@@ -60,26 +62,5 @@ export async function sendAgiInntektsmelding(
     throw new Error("Responsen fra serveren matchet ikke forventet format");
   }
 
-  const inntektsmelding = parsedJson.data;
-  const agiÅrsak = inntektsmelding.agiÅrsak;
-
-  if (agiÅrsak === undefined) {
-    throw new Error(
-      "AgiÅrsak ikke satt i inntektsmelding respons for send inn AGI-IMƒ",
-    );
-  }
-
-  return {
-    agiÅrsak,
-    kontaktperson: inntektsmelding.kontaktperson,
-    refusjon: inntektsmelding.refusjon ?? [],
-    skalRefunderes:
-      (inntektsmelding.refusjon ?? []).length > 1
-        ? "JA_VARIERENDE_REFUSJON"
-        : (inntektsmelding.refusjon ?? []).length === 1
-          ? "JA_LIK_REFUSJON"
-          : "NEI",
-    opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
-    id: inntektsmelding.id,
-  } satisfies AgiSkjemaStateValid;
+  return mapInntektsmeldingResponseTilValidAgiState(parsedJson.data);
 }

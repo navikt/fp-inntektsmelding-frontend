@@ -1,6 +1,6 @@
 import { createFileRoute, getRouteApi, Navigate } from "@tanstack/react-router";
 
-import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
+import { mapInntektsmeldingResponseTilValidAgiState } from "~/api/queries.ts";
 import {
   ARBEIDSGIVER_INITERT_ID,
   ARBEIDSGIVER_INITERT_SKJEMA_ID,
