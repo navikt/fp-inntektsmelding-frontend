@@ -98,6 +98,7 @@ function SendInnInntektsmelding() {
         opplysninger.forespørselUuid !== ARBEIDSGIVER_INITERT_ID;
 
       if (erEndring && forespørselUuid) {
+        // TODO: uoptimalt å hente dette on-demand her. Burde ta ibruk query-cachen.
         const eksisterendeInntektsmeldinger =
           await hentEksisterendeInntektsmeldinger(forespørselUuid);
         const sisteInntektsmelding = finnSenesteInntektsmelding(
