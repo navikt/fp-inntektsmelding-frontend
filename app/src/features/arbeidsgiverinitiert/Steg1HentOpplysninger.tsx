@@ -41,7 +41,7 @@ const route = getRouteApi("/agi/opprett");
 type FormType = {
   fødselsnummer: string;
   organisasjonsnummer: string;
-  agiÅrsak: AgiSkjemaState["agiÅrsak"];
+  arbeidsgiverinitiertÅrsak: AgiSkjemaState["arbeidsgiverinitiertÅrsak"];
   førsteFraværsdag: string;
 };
 
@@ -56,14 +56,17 @@ export const Steg1HentOpplysninger = () => {
   const formMethods = useForm<FormType>({
     defaultValues: {
       fødselsnummer: "",
-      agiÅrsak: agiSkjemaState.agiÅrsak,
+      arbeidsgiverinitiertÅrsak: agiSkjemaState.arbeidsgiverinitiertÅrsak,
       organisasjonsnummer: "",
     },
   });
 
-  const { name, ...radioGroupProps } = formMethods.register("agiÅrsak", {
-    required: "Du må svare på dette spørsmålet",
-  });
+  const { name, ...radioGroupProps } = formMethods.register(
+    "arbeidsgiverinitiertÅrsak",
+    {
+      required: "Du må svare på dette spørsmålet",
+    },
+  );
 
   const opprettOpplysningerMutation = useMutation({
     mutationFn: async (opplysningerRequest: OpplysningerRequest) => {
@@ -86,10 +89,12 @@ export const Steg1HentOpplysninger = () => {
           ARBEIDSGIVER_INITERT_ID,
           JSON.stringify(opplysningerMedId),
         );
-        const agiÅrsak = formMethods.watch("agiÅrsak");
+        const arbeidsgiverinitiertÅrsak = formMethods.watch(
+          "arbeidsgiverinitiertÅrsak",
+        );
 
         // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
-        setAgiSkjemaState({ agiÅrsak, refusjon: [] });
+        setAgiSkjemaState({ arbeidsgiverinitiertÅrsak, refusjon: [] });
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",
@@ -147,7 +152,9 @@ export const Steg1HentOpplysninger = () => {
             </Heading>
             <AgiFremgangsindikator aktivtSteg={1} />
             <RadioGroup
-              error={formMethods.formState.errors.agiÅrsak?.message}
+              error={
+                formMethods.formState.errors.arbeidsgiverinitiertÅrsak?.message
+              }
               legend="Årsak til at du vil opprette inntektsmelding"
               name={name}
             >
@@ -165,7 +172,7 @@ export const Steg1HentOpplysninger = () => {
                 Annen årsak
               </Radio>
             </RadioGroup>
-            {formMethods.watch("agiÅrsak") === "NYANSATT" && (
+            {formMethods.watch("arbeidsgiverinitiertÅrsak") === "NYANSATT" && (
               <>
                 <NyAnsattForm data={hentPersonMutation.data} />
                 <Button
@@ -179,10 +186,10 @@ export const Steg1HentOpplysninger = () => {
                 <VelgArbeidsgiver data={hentPersonMutation.data} />
               </>
             )}
-            {formMethods.watch("agiÅrsak") === "UNNTATT_AAREGISTER" && (
-              <UnntattAaregRegistrering />
-            )}
-            {formMethods.watch("agiÅrsak") === "ANNEN_ÅRSAK" && <AnnenÅrsak />}
+            {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
+              "UNNTATT_AAREGISTER" && <UnntattAaregRegistrering />}
+            {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
+              "ANNEN_ÅRSAK" && <AnnenÅrsak />}
             <HentPersonError error={hentPersonMutation.error} />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (
               <Button

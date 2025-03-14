@@ -2,8 +2,13 @@ import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
 import { Alert, BodyLong, Button, Heading, Stack } from "@navikt/ds-react";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
+import isEqual from "lodash/isEqual";
 
 import { sendAgiInntektsmelding } from "~/api/mutations.ts";
+import {
+  hentEksisterendeInntektsmeldinger,
+  mapInntektsmeldingResponseTilValidAgiState,
+} from "~/api/queries.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
@@ -17,7 +22,11 @@ import {
   OpplysningerDto,
   SendAgiInntektsmeldingRequestDto,
 } from "~/types/api-models.ts";
-import { formatStrengTilTall, formatYtelsesnavn } from "~/utils";
+import {
+  finnSenesteInntektsmelding,
+  formatStrengTilTall,
+  formatYtelsesnavn,
+} from "~/utils";
 
 export const Steg4Oppsummering = () => {
   const opplysninger = useAgiOpplysninger();
@@ -84,6 +93,30 @@ function SendInnInntektsmelding() {
         skjemaState,
         opplysninger,
       );
+      const forespørselUuid = opplysninger.forespørselUuid;
+      const erEndring =
+        opplysninger.forespørselUuid !== ARBEIDSGIVER_INITERT_ID;
+
+      if (erEndring && forespørselUuid) {
+        const eksisterendeInntektsmeldinger =
+          await hentEksisterendeInntektsmeldinger(forespørselUuid);
+        const sisteInntektsmelding = finnSenesteInntektsmelding(
+          eksisterendeInntektsmeldinger,
+        );
+
+        if (sisteInntektsmelding) {
+          const eksisterendeInntektsmelding = lagSendInntektsmeldingRequest(
+            mapInntektsmeldingResponseTilValidAgiState(sisteInntektsmelding),
+            opplysninger,
+          );
+          if (isEqual(inntektsmeldingRequest, eksisterendeInntektsmelding)) {
+            throw new Error(
+              "Du har ikke gjort noen endringer fra forrige innsendte inntektsmelding.",
+            );
+          }
+        }
+      }
+
       return sendAgiInntektsmelding(inntektsmeldingRequest);
     },
     onSuccess: (inntektsmeldingState) => {
@@ -146,7 +179,7 @@ function lagSendInntektsmeldingRequest(
 
   return {
     forespørselUuid: forespørselUuid,
-    arbeidsgiverinitiertÅrsak: skjemaState.agiÅrsak,
+    arbeidsgiverinitiertÅrsak: skjemaState.arbeidsgiverinitiertÅrsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,

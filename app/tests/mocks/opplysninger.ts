@@ -211,3 +211,9 @@ export const fullførtOppgaveResponse = {
   ...STANDARD_OPPLYSNINGER,
   forespørselStatus: "FERDIG" as const,
 } satisfies OpplysningerDto;
+
+export const agiOpplysninger = {
+  ...STANDARD_OPPLYSNINGER,
+  forespørselStatus: "FERDIG" as const,
+  forespørselUuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+} satisfies OpplysningerDto;
