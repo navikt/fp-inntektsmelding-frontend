@@ -3,7 +3,7 @@ import { Alert, BodyLong, Button, Heading, Stack } from "@navikt/ds-react";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 
-import { sendInntektsmelding } from "~/api/mutations.ts";
+import { sendAgiInntektsmelding } from "~/api/mutations.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import {
@@ -83,7 +83,7 @@ function SendInnInntektsmelding() {
         skjemaState,
         opplysninger,
       );
-      return sendInntektsmelding(inntektsmeldingRequest);
+      return sendAgiInntektsmelding(inntektsmeldingRequest);
     },
     onSuccess: (inntektsmeldingState) => {
       setAgiSkjemaState(inntektsmeldingState);
