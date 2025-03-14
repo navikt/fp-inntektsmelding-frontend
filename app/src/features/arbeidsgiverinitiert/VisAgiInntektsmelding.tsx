@@ -20,10 +20,13 @@ export const VisAgiInntektsmelding = () => {
   const opplysninger = useAgiOpplysninger();
   const { gyldigAgiSkjemaState } = useAgiSkjema();
 
-  if (!gyldigAgiSkjemaState) {
+  if (
+    !gyldigAgiSkjemaState ||
+    gyldigAgiSkjemaState.opprettetTidspunkt === undefined ||
+    gyldigAgiSkjemaState.id === undefined
+  ) {
     throw new Error("Ugyldig skjematilstand på visning av AGI inntektsmelding");
   }
-  console.log(gyldigAgiSkjemaState);
 
   const endreKnapp = (
     <Button
@@ -31,6 +34,7 @@ export const VisAgiInntektsmelding = () => {
       className="w-fit"
       disabled={opplysninger.forespørselStatus === "UTGÅTT"}
       icon={<PencilIcon />}
+      search
       to="../dine-opplysninger"
       variant="secondary"
     >

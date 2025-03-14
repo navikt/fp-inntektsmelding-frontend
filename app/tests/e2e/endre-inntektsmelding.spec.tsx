@@ -278,7 +278,7 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
   });
 
   await page.goto("/fp-im-dialog/e29dcea7-febe-4a76-911c-ad8f6d3e8858");
-  await expect(page.getByText("Sendt inn 08.10.24 KL 13:34")).toBeVisible();
+  await expect(page.getByText("Sendt inn 04.10.24 KL 13:34")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
   ).toBeVisible();

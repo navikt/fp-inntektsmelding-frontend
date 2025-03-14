@@ -34,6 +34,7 @@ export const Route = createFileRoute("/$id/")({
           ),
         ),
       );
+
       return (
         <Navigate
           params={params}
