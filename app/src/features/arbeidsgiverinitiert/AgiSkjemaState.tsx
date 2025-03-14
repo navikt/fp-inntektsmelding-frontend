@@ -52,6 +52,7 @@ export const AgiSkjemaStateSchemaValidated = z.object({
     }),
   ),
   // Injectes når IM er blitt sendt inn og fått id
+  opprettetTidspunkt: z.string().optional(),
   id: z.number().optional(),
 });
 

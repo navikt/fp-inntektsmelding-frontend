@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { expectError, mockHentPersonOgArbeidsforhold } from "tests/mocks/utils";
 
 import { enkeltOpplysningerResponse } from "../mocks/opplysninger.ts";
-import { enkelSendInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
+import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
 
@@ -68,12 +68,15 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   ).toBeVisible();
   // TODO: test at oppsummeringsside ser rett ut
   await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
-    await route.fulfill({ json: enkelSendInntektsmeldingResponse });
+    await route.fulfill({ json: sendAgiInntektsmeldingResponse });
   });
 
   await page.getByRole("button", { name: "Send inn" }).click();
   await expect(
     page.getByText("Inntektsmelding for Underfundig Dyreflokk er sendt"),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
   ).toBeVisible();
 });
 
