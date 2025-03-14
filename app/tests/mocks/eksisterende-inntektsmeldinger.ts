@@ -89,3 +89,33 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
     ],
   },
 ] satisfies SendInntektsmeldingResponseDto[];
+
+export const agiInntektsmeldingResponse = [
+  {
+    id: 1_001_706,
+    foresporselUuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+    agiÅrsak: "NYANSATT",
+    aktorId: "2715347149890",
+    ytelse: "FORELDREPENGER",
+    arbeidsgiverIdent: "810007842",
+    kontaktperson: {
+      navn: "Berømt Flyttelass",
+      telefonnummer: "12312312",
+    },
+    startdato: "2024-05-30",
+    inntekt: 500,
+    opprettetTidspunkt: "2024-10-04T13:34:43.184",
+    refusjon: [
+      {
+        fom: "2024-05-30",
+        beløp: 500,
+      },
+      {
+        fom: "2024-10-25",
+        beløp: 80,
+      },
+    ],
+    bortfaltNaturalytelsePerioder: [],
+    endringAvInntektÅrsaker: [],
+  },
+] satisfies SendInntektsmeldingResponseDto[];
