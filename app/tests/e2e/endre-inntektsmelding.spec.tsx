@@ -296,4 +296,9 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
   await expect(page.getByText("Steg 2 av 4")).toBeVisible();
   await page.goBack();
   await page.getByRole("link", { name: "Endre dine opplysninger" }).click();
+  await page.goBack();
+  await page.getByRole("link", { name: "Endre refusjon" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Refusjon", exact: true }),
+  ).toBeVisible();
 });
