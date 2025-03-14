@@ -15,6 +15,7 @@ import { Route as AgiImport } from './routes/agi'
 import { Route as IdImport } from './routes/$id'
 import { Route as AgiIndexImport } from './routes/agi.index'
 import { Route as IdIndexImport } from './routes/$id.index'
+import { Route as AgiVisImport } from './routes/agi.vis'
 import { Route as AgiRefusjonImport } from './routes/agi.refusjon'
 import { Route as AgiOppsummeringImport } from './routes/agi.oppsummering'
 import { Route as AgiOpprettImport } from './routes/agi.opprett'
@@ -50,6 +51,12 @@ const IdIndexRoute = IdIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => IdRoute,
+} as any)
+
+const AgiVisRoute = AgiVisImport.update({
+  id: '/vis',
+  path: '/vis',
+  getParentRoute: () => AgiRoute,
 } as any)
 
 const AgiRefusjonRoute = AgiRefusjonImport.update({
@@ -200,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgiRefusjonImport
       parentRoute: typeof AgiImport
     }
+    '/agi/vis': {
+      id: '/agi/vis'
+      path: '/vis'
+      fullPath: '/agi/vis'
+      preLoaderRoute: typeof AgiVisImport
+      parentRoute: typeof AgiImport
+    }
     '/$id/': {
       id: '/$id/'
       path: '/'
@@ -245,6 +259,7 @@ interface AgiRouteChildren {
   AgiOpprettRoute: typeof AgiOpprettRoute
   AgiOppsummeringRoute: typeof AgiOppsummeringRoute
   AgiRefusjonRoute: typeof AgiRefusjonRoute
+  AgiVisRoute: typeof AgiVisRoute
   AgiIndexRoute: typeof AgiIndexRoute
 }
 
@@ -254,6 +269,7 @@ const AgiRouteChildren: AgiRouteChildren = {
   AgiOpprettRoute: AgiOpprettRoute,
   AgiOppsummeringRoute: AgiOppsummeringRoute,
   AgiRefusjonRoute: AgiRefusjonRoute,
+  AgiVisRoute: AgiVisRoute,
   AgiIndexRoute: AgiIndexRoute,
 }
 
@@ -272,6 +288,7 @@ export interface FileRoutesByFullPath {
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
   '/agi/refusjon': typeof AgiRefusjonRoute
+  '/agi/vis': typeof AgiVisRoute
   '/$id/': typeof IdIndexRoute
   '/agi/': typeof AgiIndexRoute
 }
@@ -287,6 +304,7 @@ export interface FileRoutesByTo {
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
   '/agi/refusjon': typeof AgiRefusjonRoute
+  '/agi/vis': typeof AgiVisRoute
   '/$id': typeof IdIndexRoute
   '/agi': typeof AgiIndexRoute
 }
@@ -305,6 +323,7 @@ export interface FileRoutesById {
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
   '/agi/refusjon': typeof AgiRefusjonRoute
+  '/agi/vis': typeof AgiVisRoute
   '/$id/': typeof IdIndexRoute
   '/agi/': typeof AgiIndexRoute
 }
@@ -324,6 +343,7 @@ export interface FileRouteTypes {
     | '/agi/opprett'
     | '/agi/oppsummering'
     | '/agi/refusjon'
+    | '/agi/vis'
     | '/$id/'
     | '/agi/'
   fileRoutesByTo: FileRoutesByTo
@@ -338,6 +358,7 @@ export interface FileRouteTypes {
     | '/agi/opprett'
     | '/agi/oppsummering'
     | '/agi/refusjon'
+    | '/agi/vis'
     | '/$id'
     | '/agi'
   id:
@@ -354,6 +375,7 @@ export interface FileRouteTypes {
     | '/agi/opprett'
     | '/agi/oppsummering'
     | '/agi/refusjon'
+    | '/agi/vis'
     | '/$id/'
     | '/agi/'
   fileRoutesById: FileRoutesById
@@ -402,6 +424,7 @@ export const routeTree = rootRoute
         "/agi/opprett",
         "/agi/oppsummering",
         "/agi/refusjon",
+        "/agi/vis",
         "/agi/"
       ]
     },
@@ -443,6 +466,10 @@ export const routeTree = rootRoute
     },
     "/agi/refusjon": {
       "filePath": "agi.refusjon.tsx",
+      "parent": "/agi"
+    },
+    "/agi/vis": {
+      "filePath": "agi.vis.tsx",
       "parent": "/agi"
     },
     "/$id/": {

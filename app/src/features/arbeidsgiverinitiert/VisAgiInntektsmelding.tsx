@@ -15,30 +15,21 @@ import {
   hentInntektsmeldingPdfUrl,
   mapInntektsmeldingResponseTilValidState,
 } from "~/api/queries";
+import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
+import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { finnSenesteInntektsmelding, formatDatoTidKort } from "~/utils.ts";
 
-import { Skjemaoppsummering } from "./Skjemaoppsummering";
-
 const route = getRouteApi("/$id");
 
-export const VisInntektsmelding = () => {
+export const VisAgiInntektsmelding = () => {
   const { opplysninger, eksisterendeInntektsmeldinger } = route.useLoaderData();
   const { id } = route.useParams();
-  const { setInntektsmeldingSkjemaState } = useInntektsmeldingSkjema();
+  const { setAgiSkjemaState } = useAgiSkjema();
 
   const sisteInntektsmelding = finnSenesteInntektsmelding(
     eksisterendeInntektsmeldinger,
   );
-
-  // Sett IM i skjemaStaten hvis den finnes
-  useEffect(() => {
-    if (sisteInntektsmelding) {
-      setInntektsmeldingSkjemaState(
-        mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
-      );
-    }
-  }, [sisteInntektsmelding]);
 
   if (!sisteInntektsmelding) {
     return null;
@@ -83,7 +74,7 @@ export const VisInntektsmelding = () => {
             </BodyShort>
           </Alert>
         )}
-        <Skjemaoppsummering
+        <AgiSkjemaoppsummering
           opplysninger={opplysninger}
           skjemaState={mapInntektsmeldingResponseTilValidState(
             sisteInntektsmelding,

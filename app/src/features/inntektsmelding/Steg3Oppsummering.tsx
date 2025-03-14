@@ -5,6 +5,7 @@ import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import isEqual from "lodash/isEqual";
 
 import { sendInntektsmelding } from "~/api/mutations.ts";
+import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
 import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import {
   InntektsmeldingSkjemaStateValid,
@@ -112,7 +113,7 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
       if (sisteInntektsmelding) {
         const eksisterendeInntektsmelding = lagSendInntektsmeldingRequest(
           id,
-          sisteInntektsmelding,
+          mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
           opplysninger,
         );
         if (isEqual(inntektsmeldingRequest, eksisterendeInntektsmelding)) {

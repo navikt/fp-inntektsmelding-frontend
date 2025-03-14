@@ -1,7 +1,9 @@
 import { z } from "zod";
 
-import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
-import type { OpplysningerDto } from "~/types/api-models.ts";
+import {
+  OpplysningerDto,
+  SendInntektsmeldingResponseDto,
+} from "~/types/api-models.ts";
 
 export function leggTilGenitiv(navn?: string) {
   if (!navn) {
@@ -188,9 +190,7 @@ export function slugify(text: string): string {
 }
 
 export function finnSenesteInntektsmelding(
-  inntektsmeldinger: ReturnType<
-    typeof mapInntektsmeldingResponseTilValidState
-  >[],
+  inntektsmeldinger: SendInntektsmeldingResponseDto[],
 ) {
   const medOpprettetTidspunkt = inntektsmeldinger.filter(
     (im) => !!im.opprettetTidspunkt,
