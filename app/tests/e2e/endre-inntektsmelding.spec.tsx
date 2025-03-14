@@ -284,6 +284,8 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
     page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
   ).toBeVisible();
 
+  await expect(page.getByText("Første fraværsdag med refusjon")).toBeVisible();
+
   // Skal ikke vises månedslønn
   await expect(page.getByText("Månedslønn")).toBeVisible({ visible: false });
   // Skal ikke vises naturalytelser
