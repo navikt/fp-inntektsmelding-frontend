@@ -302,3 +302,29 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
     page.getByRole("heading", { name: "Refusjon", exact: true }),
   ).toBeVisible();
 });
+
+test("Skal ikke få lov til å sende inn AGI-IM uten endring", async ({
+  page,
+}) => {
+  await mockOpplysninger({
+    page,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  });
+  await mockGrunnbeløp({ page });
+  await mockInntektsmeldinger({
+    page,
+    json: agiInntektsmeldingResponse,
+    uuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  });
+
+  await page.goto("/fp-im-dialog/e29dcea7-febe-4a76-911c-ad8f6d3e8858");
+  await page.getByRole("button", { name: "Endre" }).first().click();
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  await expect(
+    page.getByText(
+      "Du har ikke gjort noen endringer fra forrige innsendte inntektsmelding.",
+    ),
+  ).toBeVisible();
+});
