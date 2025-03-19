@@ -62,12 +62,13 @@ export function Steg3Refusjon() {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
-    const { refusjon, skalRefunderes } = skjemadata;
+    const { refusjon, skalRefunderes, førsteFraværsdag } = skjemadata;
 
     setAgiSkjemaState((prev) => ({
       ...prev,
       inntekt: refusjon[0].beløp,
       refusjon,
+      førsteFraværsdag,
       skalRefunderes,
     }));
     navigate({

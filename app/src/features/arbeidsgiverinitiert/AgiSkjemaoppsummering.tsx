@@ -75,7 +75,7 @@ export const AgiSkjemaoppsummering = ({
           <FormSummary.Answer>
             <FormSummary.Label>Fra og med</FormSummary.Label>
             <FormSummary.Value>
-              {formatDatoLang(new Date(opplysninger.førsteUttaksdato))}
+              {formatDatoLang(new Date(skjemaState.førsteFraværsdag))}
             </FormSummary.Value>
           </FormSummary.Answer>
         </FormSummary.Answers>

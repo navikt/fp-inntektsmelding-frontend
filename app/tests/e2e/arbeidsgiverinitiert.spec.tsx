@@ -369,4 +369,24 @@ test("Verifiser at varierende refusjon samspiller med endre fraværsdag", async 
       labelText: "Refusjonsbeløp per måned",
     }),
   ).toHaveValue("0");
+
+  await page
+    .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
+    .click();
+  await page.getByLabel("Første fraværsdag med refusjon").fill("26.05.2024");
+  await page.getByText("Refusjonsbeløp per måned").fill("777");
+
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  // Sjekk at fraværsdato er oppdatert
+  await expect(
+    page.getByRole("heading", { name: "Første fraværsdag med refusjon" }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole("heading", { name: "Første fraværsdag med refusjon" })
+      .locator("..")
+      .locator("..")
+      .getByText("søndag 26. mai 2024"),
+  ).toBeVisible();
 });
