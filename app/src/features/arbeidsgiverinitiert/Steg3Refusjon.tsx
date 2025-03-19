@@ -10,6 +10,7 @@ import {
   VStack,
 } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
@@ -179,6 +180,17 @@ const LikRefusjon = () => {
 
 const FørsteFraværsdag = () => {
   // TODO: valider opp mot nytt datafelt i opplysninger
+  const { watch, setValue } = useFormContext<RefusjonForm>();
+  const førsteFraværsdag = watch("førsteFraværsdag");
+
+  // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
+  useEffect(() => {
+    setValue("refusjon", [
+      { fom: førsteFraværsdag, beløp: 0 },
+      { fom: undefined, beløp: 0 },
+    ]);
+  }, [førsteFraværsdag]);
+
   return (
     <DatePickerWrapped
       label="Første fraværsdag med refusjon"
