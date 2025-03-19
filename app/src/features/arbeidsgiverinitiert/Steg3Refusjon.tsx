@@ -16,6 +16,7 @@ import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremga
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
+import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { FormattertTallTextField } from "~/features/react-hook-form-wrappers/FormattertTallTextField.tsx";
 import {
   HvaVilDetSiÅHaRefusjon,
@@ -30,7 +31,7 @@ import { formatYtelsesnavn } from "~/utils.ts";
 export type RefusjonForm = Pick<
   InntektsmeldingSkjemaState,
   "refusjon" | "skalRefunderes"
->;
+> & { førsteFraværsdag: string };
 
 export function Steg3Refusjon() {
   const opplysninger = useAgiOpplysninger();
@@ -43,6 +44,7 @@ export function Steg3Refusjon() {
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
       skalRefunderes: agiSkjemaState.skalRefunderes,
+      førsteFraværsdag: agiSkjemaState.førsteFraværsdag,
       refusjon:
         agiSkjemaState.refusjon.length === 0
           ? [
@@ -87,6 +89,7 @@ export function Steg3Refusjon() {
             Refusjon
           </Heading>
           <AgiFremgangsindikator aktivtSteg={3} />
+          <FørsteFraværsdag />
           <AgiRefusjon opplysninger={opplysninger} />
           {harValgtNeiTilRefusjon && (
             <Alert variant="warning">
@@ -171,5 +174,16 @@ const LikRefusjon = () => {
       </HStack>
       <Over6GAlert />
     </Stack>
+  );
+};
+
+const FørsteFraværsdag = () => {
+  // TODO: valider opp mot nytt datafelt i opplysninger
+  return (
+    <DatePickerWrapped
+      label="Første fraværsdag med refusjon"
+      name="førsteFraværsdag"
+      rules={{ required: "Må oppgis" }}
+    />
   );
 };

@@ -19,6 +19,7 @@ export const AgiÅrsakSchema = z.enum([
  */
 export const AgiSkjemaStateSchema = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
+  førsteFraværsdag: z.string().optional(),
   kontaktperson: z
     .object({
       navn: z.string(),
@@ -42,6 +43,7 @@ export const AgiSkjemaStateSchema = z.object({
  */
 export const AgiSkjemaStateSchemaValidated = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
+  førsteFraværsdag: z.string(),
   kontaktperson: z.object({
     navn: z.string(),
     telefonnummer: z.string(),

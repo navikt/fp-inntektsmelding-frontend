@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { expectError, mockHentPersonOgArbeidsforhold } from "tests/mocks/utils";
+import {
+  expectError,
+  finnInputFraLabel,
+  mockHentPersonOgArbeidsforhold,
+} from "tests/mocks/utils";
 
 import { enkeltOpplysningerResponse } from "../mocks/opplysninger.ts";
 import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
@@ -52,6 +56,13 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Refusjon", exact: true }),
   ).toBeVisible();
+  await expect(
+    await finnInputFraLabel({
+      page,
+      nth: 0,
+      labelText: "Første fraværsdag med refusjon",
+    }),
+  ).toHaveValue("01.04.2024");
   await page
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();

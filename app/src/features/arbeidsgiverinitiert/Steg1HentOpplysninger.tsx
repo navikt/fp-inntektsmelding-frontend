@@ -92,9 +92,14 @@ export const Steg1HentOpplysninger = () => {
         const arbeidsgiverinitiertÅrsak = formMethods.watch(
           "arbeidsgiverinitiertÅrsak",
         );
+        const førsteFraværsdag = formMethods.watch("førsteFraværsdag");
 
-        // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
-        setAgiSkjemaState({ arbeidsgiverinitiertÅrsak, refusjon: [] });
+        // Det er med intensjon at vi ikke tar med alle eksisterende verdier. Fra dette punktet ønsker vi alltid blank refusjon
+        setAgiSkjemaState({
+          førsteFraværsdag,
+          arbeidsgiverinitiertÅrsak,
+          refusjon: [],
+        });
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",
@@ -346,7 +351,7 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
       <DatePickerWrapped
         label="Første fraværsdag med refusjon"
         name="førsteFraværsdag"
-        rules={{ required: "Må oppgis" }} // TODO: Forklare hvorfor det må oppgis
+        rules={{ required: "Må oppgis" }}
       />
     </VStack>
   );
