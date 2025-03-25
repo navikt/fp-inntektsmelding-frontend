@@ -1,4 +1,9 @@
-import { SlåOppArbeidstakerResponseDto } from "~/types/api-models.ts";
+import { z } from "zod";
+
+import {
+  feilmeldingSchema,
+  SlåOppArbeidstakerResponseDto,
+} from "~/types/api-models.ts";
 
 export const arbeidsforholdResponse = {
   fornavn: "MOMENTAN",
@@ -15,3 +20,9 @@ export const arbeidsforholdResponse = {
   ],
   kjønn: "MANN",
 } satisfies SlåOppArbeidstakerResponseDto;
+
+export const arbeidsforholdIngenSakFunnet = {
+  callId: "123",
+  type: "INGEN_SAK_FUNNET",
+  feilmelding: "Fant ikke sak",
+} satisfies z.infer<typeof feilmeldingSchema>;

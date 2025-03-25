@@ -245,7 +245,7 @@ function HentPersonError({ error }: { error: Error | null }) {
   const { ytelseType } = route.useSearch();
   if (error?.message === "INGEN_SAK_FUNNET") {
     return (
-      <Alert variant="warning">
+      <Alert data-testid="ingen-sak-funnet" variant="warning">
         <Heading level="3" size="small">
           Kan ikke opprette inntektsmelding
         </Heading>

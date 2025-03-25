@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { expectError, mockHentPersonOgArbeidsforhold } from "tests/mocks/utils";
+import {
+  expectError,
+  mockHentPersonOgArbeidsforhold,
+  mockHentPersonOgArbeidsforholdIngenSakFunnet,
+} from "tests/mocks/utils";
 
 import { enkeltOpplysningerResponse } from "../mocks/opplysninger.ts";
 import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
@@ -80,6 +84,22 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: "Last ned inntektsmeldingen" }),
   ).toBeVisible();
+});
+
+test("Ingen sak funnet", async ({ page }) => {
+  await mockHentPersonOgArbeidsforholdIngenSakFunnet({
+    page,
+  });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+  await expect(page.getByTestId("ingen-sak-funnet")).toBeVisible();
 });
 
 test("Valgt: Unntatt registrering i Aa-registeret. Skal vise info alert", async ({
