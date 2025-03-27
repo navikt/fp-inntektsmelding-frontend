@@ -2,7 +2,10 @@ import { expect, Locator, Page } from "@playwright/test";
 
 import type { OpplysningerDto } from "~/types/api-models.ts";
 
-import {arbeidsforholdIngenSakFunnet, arbeidsforholdResponse} from "./arbeidsforhold.ts";
+import {
+  arbeidsforholdIngenSakFunnet,
+  arbeidsforholdResponse,
+} from "./arbeidsforhold.ts";
 import {
   ingenEksisterendeInntektsmeldingerResponse,
   mangeEksisterendeInntektsmeldingerResponse,
