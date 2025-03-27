@@ -94,12 +94,13 @@ export const Steg1HentOpplysninger = () => {
         );
         const førsteFraværsdag = formMethods.watch("førsteFraværsdag");
 
-        // Det er med intensjon at vi ikke tar med alle eksisterende verdier. Fra dette punktet ønsker vi alltid blank refusjon
-        setAgiSkjemaState({
+        // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
+        setAgiSkjemaState((prevState) => ({
           førsteFraværsdag,
+          kontaktperson: prevState.kontaktperson,
           arbeidsgiverinitiertÅrsak,
           refusjon: [],
-        });
+        }));
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",
@@ -250,7 +251,7 @@ function HentPersonError({ error }: { error: Error | null }) {
   const { ytelseType } = route.useSearch();
   if (error?.message === "INGEN_SAK_FUNNET") {
     return (
-      <Alert variant="warning">
+      <Alert data-testid="ingen-sak-funnet" variant="warning">
         <Heading level="3" size="small">
           Kan ikke opprette inntektsmelding
         </Heading>
