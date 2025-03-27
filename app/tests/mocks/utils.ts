@@ -2,7 +2,10 @@ import { expect, Locator, Page } from "@playwright/test";
 
 import type { OpplysningerDto } from "~/types/api-models.ts";
 
-import { arbeidsforholdResponse } from "./arbeidsforhold.ts";
+import {
+  arbeidsforholdIngenSakFunnet,
+  arbeidsforholdResponse,
+} from "./arbeidsforhold.ts";
 import {
   ingenEksisterendeInntektsmeldingerResponse,
   mangeEksisterendeInntektsmeldingerResponse,
@@ -41,6 +44,22 @@ export const mockHentPersonOgArbeidsforhold = ({
     `**/*/arbeidsgiverinitiert/arbeidsforhold`,
     async (route) => {
       await route.fulfill({ json });
+    },
+  );
+};
+
+type MockHentPersonOgArbeidsforholdIngenSakFunnet = {
+  page: Page;
+  json?: typeof arbeidsforholdIngenSakFunnet;
+};
+export const mockHentPersonOgArbeidsforholdIngenSakFunnet = ({
+  page,
+  json = arbeidsforholdIngenSakFunnet,
+}: MockHentPersonOgArbeidsforholdIngenSakFunnet) => {
+  return page.route(
+    `**/*/arbeidsgiverinitiert/arbeidsforhold`,
+    async (route) => {
+      await route.fulfill({ status: 403, json });
     },
   );
 };

@@ -133,7 +133,6 @@ const AgiRefusjon = ({ opplysninger }: { opplysninger: OpplysningerDto }) => {
 
   return (
     <VStack gap="4">
-      <hr />
       <RadioGroup
         description={<HvaVilDetSiÅHaRefusjon opplysninger={opplysninger} />}
         error={formState.errors.skalRefunderes?.message}
