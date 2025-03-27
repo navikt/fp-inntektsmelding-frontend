@@ -94,7 +94,11 @@ export const Steg1HentOpplysninger = () => {
         );
 
         // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
-        setAgiSkjemaState({ arbeidsgiverinitiertÅrsak, refusjon: [] });
+        setAgiSkjemaState((prevState) => ({
+          kontaktperson: prevState.kontaktperson,
+          arbeidsgiverinitiertÅrsak,
+          refusjon: [],
+        }));
         return navigate({
           from: "/agi/opprett",
           to: "/agi/dine-opplysninger",
