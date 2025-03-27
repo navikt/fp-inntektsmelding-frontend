@@ -1,4 +1,4 @@
-import { initializeFaro } from "@grafana/faro-react";
+import { initializeFaro } from "@grafana/faro-web-sdk";
 
 if (import.meta.env.PROD) {
   initializeFaro({
