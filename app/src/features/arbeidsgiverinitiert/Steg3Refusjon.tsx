@@ -10,6 +10,7 @@ import {
   VStack,
 } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { isAfter, isBefore } from "date-fns";
 import { useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
@@ -181,6 +182,7 @@ const LikRefusjon = () => {
 const FørsteFraværsdag = () => {
   // TODO: valider opp mot nytt datafelt i opplysninger
   const { watch, setValue } = useFormContext<RefusjonForm>();
+  const { ansettelsePerioder } = useAgiOpplysninger();
   const førsteFraværsdag = watch("førsteFraværsdag");
 
   // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
@@ -195,7 +197,19 @@ const FørsteFraværsdag = () => {
     <DatePickerWrapped
       label="Første fraværsdag med refusjon"
       name="førsteFraværsdag"
-      rules={{ required: "Må oppgis" }}
+      rules={{
+        required: "Må oppgis",
+        validate: (date: string) => {
+          const isWithinPeriod = ansettelsePerioder.some((periode) => {
+            const datoErFørPeriode = isBefore(date, periode.fom);
+            const datoErEtterPeriode = isAfter(date, periode.tom);
+            return !datoErFørPeriode && !datoErEtterPeriode;
+          });
+          return (
+            isWithinPeriod || "Dato må være innenfor en ansettelsesperiode"
+          );
+        },
+      }}
     />
   );
 };

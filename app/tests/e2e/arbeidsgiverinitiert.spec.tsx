@@ -6,7 +6,10 @@ import {
   mockHentPersonOgArbeidsforholdIngenSakFunnet,
 } from "tests/mocks/utils";
 
-import { enkeltOpplysningerResponse } from "../mocks/opplysninger.ts";
+import {
+  enkeltOpplysningerResponse,
+  opplysningerMedAnsettelsePerioder,
+} from "../mocks/opplysninger.ts";
 import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
@@ -316,7 +319,7 @@ test("Verifiser at varierende refusjon samspiller med endre fraværsdag", async 
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
-    await route.fulfill({ json: enkeltOpplysningerResponse });
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
@@ -393,6 +396,16 @@ test("Verifiser at varierende refusjon samspiller med endre fraværsdag", async 
   await page.getByLabel("Første fraværsdag med refusjon").fill("26.05.2024");
   await page.getByText("Refusjonsbeløp per måned").fill("777");
 
+  // Verifiser at man får feilmelding hvis angitt dato er utenfor en ansettelseperiode.
+  await page.getByLabel("Første fraværsdag med refusjon").fill("26.06.2024");
+  await page.getByRole("button", { name: "Neste steg" }).click();
+  await expectError({
+    page,
+    error: "Dato må være innenfor en ansettelsesperiode",
+    label: "Første fraværsdag med refusjon",
+  });
+  await page.getByLabel("Første fraværsdag med refusjon").fill("26.05.2024");
+  await page.getByText("Refusjonsbeløp per måned").fill("777");
   await page.getByRole("button", { name: "Neste steg" }).click();
 
   // Sjekk at fraværsdato er oppdatert
