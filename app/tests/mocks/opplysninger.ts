@@ -217,6 +217,10 @@ export const agiOpplysninger = {
   ...STANDARD_OPPLYSNINGER,
   forespørselStatus: "FERDIG" as const,
   forespørselUuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
+  ansettelsePerioder: [
+    { fom: "2024-05-01", tom: "2024-05-30" },
+    { fom: "2024-12-05", tom: "2024-12-30" },
+  ],
 } satisfies OpplysningerDto;
 
 export const opplysningerMedAnsettelsePerioder = {

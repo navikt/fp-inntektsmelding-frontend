@@ -6,10 +6,7 @@ import {
   mockHentPersonOgArbeidsforholdIngenSakFunnet,
 } from "tests/mocks/utils";
 
-import {
-  enkeltOpplysningerResponse,
-  opplysningerMedAnsettelsePerioder,
-} from "../mocks/opplysninger.ts";
+import { opplysningerMedAnsettelsePerioder } from "../mocks/opplysninger.ts";
 import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
@@ -38,11 +35,11 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   });
 
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
-    await route.fulfill({ json: enkeltOpplysningerResponse });
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
 
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
@@ -66,7 +63,7 @@ test("Valgt: Ny ansatt", async ({ page }) => {
       nth: 0,
       labelText: "Første fraværsdag med refusjon",
     }),
-  ).toHaveValue("01.04.2024");
+  ).toHaveValue("24.05.2024");
   await page
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
@@ -108,7 +105,7 @@ test("Ingen sak funnet", async ({ page }) => {
     .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
     .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
   await expect(page.getByTestId("ingen-sak-funnet")).toBeVisible();
 });
@@ -167,10 +164,10 @@ test("Sjekk at man kan gå frem og tilbake mellom alle steg", async ({
     .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
     .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
-    await route.fulfill({ json: enkeltOpplysningerResponse });
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
@@ -205,11 +202,11 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
     .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
     .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
-    await route.fulfill({ json: enkeltOpplysningerResponse });
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
 
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
@@ -266,11 +263,11 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
     .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
     .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
 
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
-    await route.fulfill({ json: enkeltOpplysningerResponse });
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
@@ -289,7 +286,7 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
     .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
     .click();
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
-  await page.getByLabel("Første fraværsdag").fill("01.4.2024");
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
   await page.getByLabel("Arbeidsgiver").selectOption("974652293");
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();

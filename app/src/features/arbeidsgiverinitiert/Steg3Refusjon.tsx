@@ -180,17 +180,19 @@ const LikRefusjon = () => {
 };
 
 const FørsteFraværsdag = () => {
-  // TODO: valider opp mot nytt datafelt i opplysninger
-  const { watch, setValue } = useFormContext<RefusjonForm>();
+  const { watch, setValue, formState } = useFormContext<RefusjonForm>();
   const { ansettelsePerioder, arbeidsgiver } = useAgiOpplysninger();
   const førsteFraværsdag = watch("førsteFraværsdag");
-
   // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
   useEffect(() => {
-    setValue("refusjon", [
-      { fom: førsteFraværsdag, beløp: 0 },
-      { fom: undefined, beløp: 0 },
-    ]);
+    // Vi vil kun gjøre endring hvis bruker endret på feltet.
+    // Bruker derfor dirtyFields for å hindre at endringen gjøres på mount med eksisterende verdier
+    if (formState.dirtyFields.førsteFraværsdag) {
+      setValue("refusjon", [
+        { fom: førsteFraværsdag, beløp: 0 },
+        { fom: undefined, beløp: 0 },
+      ]);
+    }
   }, [førsteFraværsdag]);
 
   return (
