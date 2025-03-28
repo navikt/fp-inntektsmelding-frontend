@@ -127,6 +127,7 @@ export function mapInntektsmeldingResponseTilValidAgiState(
 
   return {
     arbeidsgiverinitiertÅrsak,
+    førsteFraværsdag: inntektsmelding.startdato,
     kontaktperson: inntektsmelding.kontaktperson,
     refusjon: inntektsmelding.refusjon ?? [],
     skalRefunderes:

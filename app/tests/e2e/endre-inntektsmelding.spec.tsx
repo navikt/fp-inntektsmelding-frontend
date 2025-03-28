@@ -304,6 +304,13 @@ test("Agiårsak NYANSATT skal lede til egen flyt og vise egen oppsummeringsside"
   await expect(
     page.getByRole("heading", { name: "Refusjon", exact: true }),
   ).toBeVisible();
+  await expect(
+    await finnInputFraLabel({
+      page,
+      nth: 0,
+      labelText: "Første fraværsdag med refusjon",
+    }),
+  ).toHaveValue("30.05.2024");
 });
 
 test("Skal ikke få lov til å sende inn AGI-IM uten endring", async ({

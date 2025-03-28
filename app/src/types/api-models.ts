@@ -226,6 +226,7 @@ export const opplysningerSchema = z.object({
       }),
     ),
   }),
+  ansettelsePerioder: z.array(z.object({ fom: z.string(), tom: z.string() })),
   forespørselStatus: z.enum(["UNDER_BEHANDLING", "FERDIG", "UTGÅTT"]),
   skjæringstidspunkt: z.string(),
   førsteUttaksdato: z.string(),
