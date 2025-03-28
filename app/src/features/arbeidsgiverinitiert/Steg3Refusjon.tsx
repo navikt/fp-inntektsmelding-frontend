@@ -28,7 +28,7 @@ import {
 } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { OpplysningerDto } from "~/types/api-models.ts";
-import { formatYtelsesnavn } from "~/utils.ts";
+import { formatDatoKort, formatYtelsesnavn } from "~/utils.ts";
 
 export type RefusjonForm = Pick<
   InntektsmeldingSkjemaState,
@@ -182,7 +182,7 @@ const LikRefusjon = () => {
 const FørsteFraværsdag = () => {
   // TODO: valider opp mot nytt datafelt i opplysninger
   const { watch, setValue } = useFormContext<RefusjonForm>();
-  const { ansettelsePerioder } = useAgiOpplysninger();
+  const { ansettelsePerioder, arbeidsgiver } = useAgiOpplysninger();
   const førsteFraværsdag = watch("førsteFraværsdag");
 
   // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
@@ -206,7 +206,8 @@ const FørsteFraværsdag = () => {
             return !datoErFørPeriode && !datoErEtterPeriode;
           });
           return (
-            isWithinPeriod || "Dato må være innenfor en ansettelsesperiode"
+            isWithinPeriod ||
+            `Den ansatte er ikke ansatt i ${arbeidsgiver.organisasjonNavn} ${formatDatoKort(new Date(date))}`
           );
         },
       }}

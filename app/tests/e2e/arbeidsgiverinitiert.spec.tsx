@@ -401,7 +401,8 @@ test("Verifiser at varierende refusjon samspiller med endre fraværsdag", async 
   await page.getByRole("button", { name: "Neste steg" }).click();
   await expectError({
     page,
-    error: "Dato må være innenfor en ansettelsesperiode",
+    error:
+      "Den ansatte er ikke ansatt i Papir- og pappvareproduksjon el. 26.06.2024",
     label: "Første fraværsdag med refusjon",
   });
   await page.getByLabel("Første fraværsdag med refusjon").fill("26.05.2024");
