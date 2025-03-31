@@ -92,9 +92,11 @@ export const Steg1HentOpplysninger = () => {
         const arbeidsgiverinitiertÅrsak = formMethods.watch(
           "arbeidsgiverinitiertÅrsak",
         );
+        const førsteFraværsdag = formMethods.watch("førsteFraværsdag");
 
         // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
         setAgiSkjemaState((prevState) => ({
+          førsteFraværsdag,
           kontaktperson: prevState.kontaktperson,
           arbeidsgiverinitiertÅrsak,
           refusjon: [],
@@ -350,7 +352,7 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
       <DatePickerWrapped
         label="Første fraværsdag med refusjon"
         name="førsteFraværsdag"
-        rules={{ required: "Må oppgis" }} // TODO: Forklare hvorfor det må oppgis
+        rules={{ required: "Må oppgis" }}
       />
     </VStack>
   );

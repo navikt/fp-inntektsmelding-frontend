@@ -10,12 +10,15 @@ import {
   VStack,
 } from "@navikt/ds-react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { isAfter, isBefore } from "date-fns";
+import { useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
+import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { FormattertTallTextField } from "~/features/react-hook-form-wrappers/FormattertTallTextField.tsx";
 import {
   HvaVilDetSiÅHaRefusjon,
@@ -25,12 +28,12 @@ import {
 } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { OpplysningerDto } from "~/types/api-models.ts";
-import { formatYtelsesnavn } from "~/utils.ts";
+import { formatDatoKort, formatYtelsesnavn } from "~/utils.ts";
 
 export type RefusjonForm = Pick<
   InntektsmeldingSkjemaState,
   "refusjon" | "skalRefunderes"
->;
+> & { førsteFraværsdag: string };
 
 export function Steg3Refusjon() {
   const opplysninger = useAgiOpplysninger();
@@ -43,6 +46,7 @@ export function Steg3Refusjon() {
   const formMethods = useForm<RefusjonForm>({
     defaultValues: {
       skalRefunderes: agiSkjemaState.skalRefunderes,
+      førsteFraværsdag: agiSkjemaState.førsteFraværsdag,
       refusjon:
         agiSkjemaState.refusjon.length === 0
           ? [
@@ -59,12 +63,13 @@ export function Steg3Refusjon() {
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit((skjemadata) => {
-    const { refusjon, skalRefunderes } = skjemadata;
+    const { refusjon, skalRefunderes, førsteFraværsdag } = skjemadata;
 
     setAgiSkjemaState((prev) => ({
       ...prev,
       inntekt: refusjon[0].beløp,
       refusjon,
+      førsteFraværsdag,
       skalRefunderes,
     }));
     navigate({
@@ -87,6 +92,7 @@ export function Steg3Refusjon() {
             Refusjon
           </Heading>
           <AgiFremgangsindikator aktivtSteg={3} />
+          <FørsteFraværsdag />
           <AgiRefusjon opplysninger={opplysninger} />
           {harValgtNeiTilRefusjon && (
             <Alert variant="warning">
@@ -170,5 +176,43 @@ const LikRefusjon = () => {
       </HStack>
       <Over6GAlert />
     </Stack>
+  );
+};
+
+const FørsteFraværsdag = () => {
+  const { watch, setValue, formState } = useFormContext<RefusjonForm>();
+  const { ansettelsePerioder, arbeidsgiver } = useAgiOpplysninger();
+  const førsteFraværsdag = watch("førsteFraværsdag");
+  // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
+  useEffect(() => {
+    // Vi vil kun gjøre endring hvis bruker endret på feltet.
+    // Bruker derfor dirtyFields for å hindre at endringen gjøres på mount med eksisterende verdier
+    if (formState.dirtyFields.førsteFraværsdag) {
+      setValue("refusjon", [
+        { fom: førsteFraværsdag, beløp: 0 },
+        { fom: undefined, beløp: 0 },
+      ]);
+    }
+  }, [førsteFraværsdag]);
+
+  return (
+    <DatePickerWrapped
+      label="Første fraværsdag med refusjon"
+      name="førsteFraværsdag"
+      rules={{
+        required: "Må oppgis",
+        validate: (date: string) => {
+          const isWithinPeriod = ansettelsePerioder.some((periode) => {
+            const datoErFørPeriode = isBefore(date, periode.fom);
+            const datoErEtterPeriode = isAfter(date, periode.tom);
+            return !datoErFørPeriode && !datoErEtterPeriode;
+          });
+          return (
+            isWithinPeriod ||
+            `Den ansatte er ikke ansatt i ${arbeidsgiver.organisasjonNavn} ${formatDatoKort(new Date(date))}`
+          );
+        },
+      }}
+    />
   );
 };

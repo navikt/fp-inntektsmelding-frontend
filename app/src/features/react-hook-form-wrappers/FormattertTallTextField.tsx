@@ -1,5 +1,5 @@
 import { TextField, TextFieldProps } from "@navikt/ds-react";
-import { useController } from "react-hook-form";
+import { useController, useFormContext, useWatch } from "react-hook-form";
 
 import { formatStrengTilTall } from "~/utils.ts";
 
@@ -18,6 +18,7 @@ export const FormattertTallTextField = ({
   required,
   ...rest
 }: FormattertTallTextFieldProps) => {
+  const { control } = useFormContext();
   const { field, fieldState } = useController({
     name,
     rules: {
@@ -46,6 +47,13 @@ export const FormattertTallTextField = ({
     },
   });
 
+  // NOTE: jeg forstår ikke helt hvorfor vi ikke kan bruke field.value som value til input.
+  // Det fungerer i de fleste caser. Men ikke når verdien oppdateres et annet sted med setValue(). useWatch fungerer derimot som ønsket
+  const watchedValue = useWatch({
+    control,
+    name,
+  });
+
   return (
     <TextField
       {...rest}
@@ -60,7 +68,7 @@ export const FormattertTallTextField = ({
         field.onChange(tallUtenMellomrom);
       }}
       ref={field.ref}
-      value={formatTall(field.value)}
+      value={formatTall(watchedValue)}
     />
   );
 };
