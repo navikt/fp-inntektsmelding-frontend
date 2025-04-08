@@ -62,7 +62,8 @@ export function setupStaticRoutes(router: Router) {
     const viteModeHtml = response.viteModeHtml;
 
     if (viteModeHtml) {
-      return response.send(await injectViteModeHtml(viteModeHtml));
+      response.send(await injectViteModeHtml(viteModeHtml));
+      return;
     }
 
     const html = await injectDecoratorServerSide({
@@ -70,7 +71,7 @@ export function setupStaticRoutes(router: Router) {
       ...dekoratørProps,
     });
 
-    return response.send(html);
+    response.send(html);
   });
 }
 

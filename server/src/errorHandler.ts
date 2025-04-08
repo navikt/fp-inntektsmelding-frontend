@@ -7,7 +7,8 @@ export function errorHandling(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ) {
-  return response.status(500).json({
+  response.status(500).json({
     error: "Internal server error",
   });
+  return;
 }
