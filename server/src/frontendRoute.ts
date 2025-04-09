@@ -57,8 +57,8 @@ export function setupStaticRoutes(router: Router) {
       useNonce: false,
     });
   }
-
-  router.get("*", async (request, response) => {
+  // Fra Express 5 er wildcard ruten erstattet med *splat: https://expressjs.com/en/guide/migrating-5.html
+  router.get("/*splat", async (request, response) => {
     const viteModeHtml = response.viteModeHtml;
 
     if (viteModeHtml) {
