@@ -33,19 +33,11 @@ export const Steg2DineOpplysninger = () => {
 
   const onSubmit = methods.handleSubmit((kontaktperson) => {
     setAgiSkjemaState((prev) => ({ ...prev, kontaktperson }));
-    if (true) {
-      navigate({
-        from: "/agi/dine-opplysninger",
-        to: "/agi/inntekt-og-refusjon",
-        search: true,
-      });
-    } else {
-      navigate({
-        from: "/agi/dine-opplysninger",
-        to: "/agi/refusjon",
-        search: true,
-      });
-    }
+    navigate({
+      from: "/agi/dine-opplysninger",
+      to: "/agi/refusjon",
+      search: true,
+    });
   });
 
   return (
