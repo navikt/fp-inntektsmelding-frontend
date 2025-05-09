@@ -1,10 +1,14 @@
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import {
+  ARBEIDSGIVER_INITERT_ID,
+  ARBEIDSGIVER_INITERT_RUTE_ID,
+} from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { PÅKREVDE_ENDRINGSÅRSAK_FELTER } from "~/features/skjema-moduler/Inntekt.tsx";
+import { parseStorageItem } from "~/features/usePersistedState.tsx";
 import {
   feilmeldingSchema,
   grunnbeløpSchema,
@@ -51,7 +55,10 @@ async function hentGrunnbeløp() {
 }
 
 export async function hentEksisterendeInntektsmeldinger(uuid: string) {
-  if (uuid === ARBEIDSGIVER_INITERT_ID) {
+  if (
+    uuid === ARBEIDSGIVER_INITERT_ID ||
+    uuid === ARBEIDSGIVER_INITERT_RUTE_ID
+  ) {
     return [];
   }
   const response = await fetch(
@@ -143,6 +150,17 @@ export function mapInntektsmeldingResponseTilValidAgiState(
 }
 
 export async function hentOpplysningerData(uuid: string) {
+  if (uuid === ARBEIDSGIVER_INITERT_RUTE_ID) {
+    console.log("ASDSA");
+    const opplysninger = parseStorageItem(
+      sessionStorage,
+      ARBEIDSGIVER_INITERT_ID,
+      opplysningerSchema,
+    );
+    console.log(opplysninger);
+
+    return opplysninger;
+  }
   const response = await fetch(
     `${SERVER_URL}/imdialog/opplysninger?foresporselUuid=${uuid}`,
   );

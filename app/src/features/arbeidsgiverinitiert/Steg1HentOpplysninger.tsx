@@ -28,7 +28,10 @@ import {
   hentPersonUregistrertArbeidFraFnr,
 } from "~/api/queries.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import {
+  ARBEIDSGIVER_INITERT_ID,
+  ARBEIDSGIVER_INITERT_RUTE_ID,
+} from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import {
   AgiSkjemaState,
   useAgiSkjema,
@@ -98,8 +101,7 @@ export const Steg1HentOpplysninger = () => {
       ) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
-        // 3. redirecter til samme sti som før
-        // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
+        // 3. AGI-løypa leser opplysninger fra sessionstorage istedetfor backend
         const opplysningerMedId = {
           ...opplysninger,
           forespørselUuid: ARBEIDSGIVER_INITERT_ID,
@@ -140,6 +142,7 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysningerUregistrert(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
+      // TODO: hmm, i hvilke case kan forespørselUuid være "ARBEIDSGIVER_INITERT_ID" her egentlig
       if (
         opplysninger.forespørselUuid === undefined ||
         opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
@@ -156,22 +159,10 @@ export const Steg1HentOpplysninger = () => {
           ARBEIDSGIVER_INITERT_ID,
           JSON.stringify(opplysningerMedId),
         );
-        const arbeidsgiverinitiertÅrsak = formMethods.watch(
-          "arbeidsgiverinitiertÅrsak",
-        );
-        const førsteFraværsdag = formMethods.watch("førsteFraværsdag");
 
-        // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
-        setAgiSkjemaState((prevState) => ({
-          førsteFraværsdag,
-          kontaktperson: prevState.kontaktperson,
-          arbeidsgiverinitiertÅrsak,
-          refusjon: [],
-        }));
         return navigate({
-          from: "/agi/opprett",
-          to: "/agi/dine-opplysninger",
-          search: true,
+          to: "/$id",
+          params: { id: ARBEIDSGIVER_INITERT_RUTE_ID },
         });
       }
 
