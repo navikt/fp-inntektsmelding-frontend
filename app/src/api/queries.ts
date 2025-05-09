@@ -11,6 +11,7 @@ import {
   InntektsmeldingResponseDtoSchema,
   OpplysningerRequest,
   opplysningerSchema,
+  OpplysningerUregistrertRequest,
   SendInntektsmeldingResponseDto,
   SlåOppArbeidstakerResponseDtoSchema,
   Ytelsetype,
@@ -161,6 +162,52 @@ export async function hentOpplysningerData(uuid: string) {
   return parsedJson.data;
 }
 
+export async function hentPersonUregistrertArbeidFraFnr(
+  fnr: string,
+  ytelsetype: Ytelsetype,
+) {
+  const response = await fetch(
+    `${SERVER_URL}/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fødselsnummer: fnr,
+        ytelseType: ytelsetype,
+      }),
+    },
+  );
+
+  if (response.status === 404) {
+    throw new Error("Fant ikke person");
+  }
+  if (!response.ok) {
+    const json = await response.json();
+    const parsedFeil = feilmeldingSchema.safeParse(json);
+    if (!parsedFeil.success) {
+      logDev("error", parsedFeil.error);
+      throw new Error("Kunne ikke hente opplysninger");
+    }
+    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
+      throw new Error(parsedFeil.data?.type);
+    }
+    throw new Error("Kunne ikke hente personopplysninger.");
+  }
+
+  const json = await response.json();
+  const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
+
+  if (!parsedJson.success) {
+    logDev("error", parsedJson.error);
+
+    throw new Error("Responsen fra serveren matchet ikke forventet format");
+  }
+
+  return parsedJson.data;
+}
+
 export async function hentPersonFraFnr(
   fnr: string,
   ytelsetype: Ytelsetype,
@@ -214,6 +261,35 @@ export async function hentOpplysninger(
 ) {
   const response = await fetch(
     `${SERVER_URL}/arbeidsgiverinitiert/opplysninger`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(opplysningerRequest),
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente opplysninger");
+  }
+
+  const json = await response.json();
+  const parsedJson = opplysningerSchema.safeParse(json);
+
+  if (!parsedJson.success) {
+    logDev("error", parsedJson.error);
+
+    throw new Error("Responsen fra serveren matchet ikke forventet format");
+  }
+
+  return parsedJson.data;
+}
+
+export async function hentOpplysningerUregistrert(
+  opplysningerRequest: OpplysningerUregistrertRequest,
+) {
+  const response = await fetch(
+    `${SERVER_URL}/arbeidsgiverinitiert/opplysningerUregistrert`,
     {
       method: "POST",
       headers: {

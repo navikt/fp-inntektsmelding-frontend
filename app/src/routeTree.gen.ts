@@ -20,6 +20,7 @@ import { Route as AgiRefusjonImport } from './routes/agi.refusjon'
 import { Route as AgiOppsummeringImport } from './routes/agi.oppsummering'
 import { Route as AgiOpprettImport } from './routes/agi.opprett'
 import { Route as AgiKvitteringImport } from './routes/agi.kvittering'
+import { Route as AgiInntektOgRefusjonImport } from './routes/agi.inntekt-og-refusjon'
 import { Route as AgiDineOpplysningerImport } from './routes/agi.dine-opplysninger'
 import { Route as IdVisImport } from './routes/$id.vis'
 import { Route as IdOppsummeringImport } from './routes/$id.oppsummering'
@@ -80,6 +81,12 @@ const AgiOpprettRoute = AgiOpprettImport.update({
 const AgiKvitteringRoute = AgiKvitteringImport.update({
   id: '/kvittering',
   path: '/kvittering',
+  getParentRoute: () => AgiRoute,
+} as any)
+
+const AgiInntektOgRefusjonRoute = AgiInntektOgRefusjonImport.update({
+  id: '/inntekt-og-refusjon',
+  path: '/inntekt-og-refusjon',
   getParentRoute: () => AgiRoute,
 } as any)
 
@@ -179,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgiDineOpplysningerImport
       parentRoute: typeof AgiImport
     }
+    '/agi/inntekt-og-refusjon': {
+      id: '/agi/inntekt-og-refusjon'
+      path: '/inntekt-og-refusjon'
+      fullPath: '/agi/inntekt-og-refusjon'
+      preLoaderRoute: typeof AgiInntektOgRefusjonImport
+      parentRoute: typeof AgiImport
+    }
     '/agi/kvittering': {
       id: '/agi/kvittering'
       path: '/kvittering'
@@ -255,6 +269,7 @@ const IdRouteWithChildren = IdRoute._addFileChildren(IdRouteChildren)
 
 interface AgiRouteChildren {
   AgiDineOpplysningerRoute: typeof AgiDineOpplysningerRoute
+  AgiInntektOgRefusjonRoute: typeof AgiInntektOgRefusjonRoute
   AgiKvitteringRoute: typeof AgiKvitteringRoute
   AgiOpprettRoute: typeof AgiOpprettRoute
   AgiOppsummeringRoute: typeof AgiOppsummeringRoute
@@ -265,6 +280,7 @@ interface AgiRouteChildren {
 
 const AgiRouteChildren: AgiRouteChildren = {
   AgiDineOpplysningerRoute: AgiDineOpplysningerRoute,
+  AgiInntektOgRefusjonRoute: AgiInntektOgRefusjonRoute,
   AgiKvitteringRoute: AgiKvitteringRoute,
   AgiOpprettRoute: AgiOpprettRoute,
   AgiOppsummeringRoute: AgiOppsummeringRoute,
@@ -284,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
   '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/inntekt-og-refusjon': typeof AgiInntektOgRefusjonRoute
   '/agi/kvittering': typeof AgiKvitteringRoute
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
@@ -300,6 +317,7 @@ export interface FileRoutesByTo {
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
   '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/inntekt-og-refusjon': typeof AgiInntektOgRefusjonRoute
   '/agi/kvittering': typeof AgiKvitteringRoute
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
@@ -319,6 +337,7 @@ export interface FileRoutesById {
   '/$id/oppsummering': typeof IdOppsummeringRoute
   '/$id/vis': typeof IdVisRoute
   '/agi/dine-opplysninger': typeof AgiDineOpplysningerRoute
+  '/agi/inntekt-og-refusjon': typeof AgiInntektOgRefusjonRoute
   '/agi/kvittering': typeof AgiKvitteringRoute
   '/agi/opprett': typeof AgiOpprettRoute
   '/agi/oppsummering': typeof AgiOppsummeringRoute
@@ -339,6 +358,7 @@ export interface FileRouteTypes {
     | '/$id/oppsummering'
     | '/$id/vis'
     | '/agi/dine-opplysninger'
+    | '/agi/inntekt-og-refusjon'
     | '/agi/kvittering'
     | '/agi/opprett'
     | '/agi/oppsummering'
@@ -354,6 +374,7 @@ export interface FileRouteTypes {
     | '/$id/oppsummering'
     | '/$id/vis'
     | '/agi/dine-opplysninger'
+    | '/agi/inntekt-og-refusjon'
     | '/agi/kvittering'
     | '/agi/opprett'
     | '/agi/oppsummering'
@@ -371,6 +392,7 @@ export interface FileRouteTypes {
     | '/$id/oppsummering'
     | '/$id/vis'
     | '/agi/dine-opplysninger'
+    | '/agi/inntekt-og-refusjon'
     | '/agi/kvittering'
     | '/agi/opprett'
     | '/agi/oppsummering'
@@ -420,6 +442,7 @@ export const routeTree = rootRoute
       "filePath": "agi.tsx",
       "children": [
         "/agi/dine-opplysninger",
+        "/agi/inntekt-og-refusjon",
         "/agi/kvittering",
         "/agi/opprett",
         "/agi/oppsummering",
@@ -450,6 +473,10 @@ export const routeTree = rootRoute
     },
     "/agi/dine-opplysninger": {
       "filePath": "agi.dine-opplysninger.tsx",
+      "parent": "/agi"
+    },
+    "/agi/inntekt-og-refusjon": {
+      "filePath": "agi.inntekt-og-refusjon.tsx",
       "parent": "/agi"
     },
     "/agi/kvittering": {

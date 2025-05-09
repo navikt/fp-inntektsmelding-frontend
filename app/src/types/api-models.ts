@@ -262,4 +262,14 @@ export const OpplysningerRequestSchema = z.object({
   organisasjonsnummer: z.string(),
 });
 
+export const OpplysningerUregistrertRequestSchema = z.object({
+  fødselsnummer: z.string(),
+  ytelseType: YtelsetypeSchema,
+  organisasjonsnummer: z.string(),
+});
+
 export type OpplysningerRequest = z.infer<typeof OpplysningerRequestSchema>;
+
+export type OpplysningerUregistrertRequest = z.infer<
+  typeof OpplysningerUregistrertRequestSchema
+>;
