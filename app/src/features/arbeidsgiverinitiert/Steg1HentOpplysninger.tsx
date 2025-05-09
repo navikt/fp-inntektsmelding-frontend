@@ -51,20 +51,7 @@ type FormType = {
   fødselsnummer: string;
   organisasjonsnummer: string;
   arbeidsgiverinitiertÅrsak: AgiSkjemaState["arbeidsgiverinitiertÅrsak"];
-  førsteFraværsdag?: string;
-};
-
-type NyansattFormType = {
-  fødselsnummer: string;
-  organisasjonsnummer: string;
-  arbeidsgiverinitiertÅrsak: AgiSkjemaState["arbeidsgiverinitiertÅrsak"];
   førsteFraværsdag: string;
-};
-
-type UregistrertFormType = {
-  fødselsnummer: string;
-  organisasjonsnummer: string;
-  arbeidsgiverinitiertÅrsak: AgiSkjemaState["arbeidsgiverinitiertÅrsak"];
 };
 
 export const Steg1HentOpplysninger = () => {
@@ -175,7 +162,7 @@ export const Steg1HentOpplysninger = () => {
   });
 
   const hentPersonUregistrertArbeidMutation = useMutation({
-    mutationFn: async ({ fødselsnummer }: UregistrertFormType) => {
+    mutationFn: async ({ fødselsnummer }: FormType) => {
       const personinfo = await hentPersonUregistrertArbeidFraFnr(
         fødselsnummer,
         ytelseType,
@@ -197,10 +184,7 @@ export const Steg1HentOpplysninger = () => {
   });
 
   const hentPersonMutation = useMutation({
-    mutationFn: async ({
-      fødselsnummer,
-      førsteFraværsdag,
-    }: NyansattFormType) => {
+    mutationFn: async ({ fødselsnummer, førsteFraværsdag }: FormType) => {
       const personinfo = await hentPersonFraFnr(
         fødselsnummer,
         ytelseType,
@@ -233,13 +217,11 @@ export const Steg1HentOpplysninger = () => {
         <form
           onSubmit={formMethods.handleSubmit((values) => {
             if (values.arbeidsgiverinitiertÅrsak === "NYANSATT") {
-              return hentPersonMutation.mutate(values as NyansattFormType);
+              return hentPersonMutation.mutate(values);
             } else if (
               values.arbeidsgiverinitiertÅrsak === "UNNTATT_AAREGISTER"
             ) {
-              return hentPersonUregistrertArbeidMutation.mutate(
-                values as UregistrertFormType,
-              );
+              return hentPersonUregistrertArbeidMutation.mutate(values);
             } else {
               throw new Error(
                 "Ikke gyldig årsak ved submit: " +
@@ -322,8 +304,7 @@ export const Steg1HentOpplysninger = () => {
                       "organisasjonsnummer",
                     ),
                     fødselsnummer: formMethods.watch("fødselsnummer"),
-                    førsteFraværsdag:
-                      formMethods.watch("førsteFraværsdag") || "", // TODO FIKS
+                    førsteFraværsdag: formMethods.watch("førsteFraværsdag"),
                     ytelseType,
                   })
                 }
@@ -479,7 +460,7 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
 }
 
 function UregistrertForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
-  const formMethods = useFormContext<UregistrertFormType>();
+  const formMethods = useFormContext<FormType>();
 
   return (
     <VStack gap="8">
