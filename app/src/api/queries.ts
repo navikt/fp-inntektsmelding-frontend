@@ -1,16 +1,21 @@
 import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import {
+  ARBEIDSGIVER_INITERT_ID,
+  ARBEIDSGIVER_INITERT_RUTE_ID,
+} from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { PÅKREVDE_ENDRINGSÅRSAK_FELTER } from "~/features/skjema-moduler/Inntekt.tsx";
+import { parseStorageItem } from "~/features/usePersistedState.tsx";
 import {
   feilmeldingSchema,
   grunnbeløpSchema,
   InntektsmeldingResponseDtoSchema,
   OpplysningerRequest,
   opplysningerSchema,
+  OpplysningerUregistrertRequest,
   SendInntektsmeldingResponseDto,
   SlåOppArbeidstakerResponseDtoSchema,
   Ytelsetype,
@@ -50,7 +55,10 @@ async function hentGrunnbeløp() {
 }
 
 export async function hentEksisterendeInntektsmeldinger(uuid: string) {
-  if (uuid === ARBEIDSGIVER_INITERT_ID) {
+  if (
+    uuid === ARBEIDSGIVER_INITERT_ID ||
+    uuid === ARBEIDSGIVER_INITERT_RUTE_ID
+  ) {
     return [];
   }
   const response = await fetch(
@@ -142,6 +150,17 @@ export function mapInntektsmeldingResponseTilValidAgiState(
 }
 
 export async function hentOpplysningerData(uuid: string) {
+  if (uuid === ARBEIDSGIVER_INITERT_RUTE_ID) {
+    console.log("ASDSA");
+    const opplysninger = parseStorageItem(
+      sessionStorage,
+      ARBEIDSGIVER_INITERT_ID,
+      opplysningerSchema,
+    );
+    console.log(opplysninger);
+
+    return opplysninger;
+  }
   const response = await fetch(
     `${SERVER_URL}/imdialog/opplysninger?foresporselUuid=${uuid}`,
   );
@@ -158,6 +177,52 @@ export async function hentOpplysningerData(uuid: string) {
     logDev("error", parsedJson.error);
     throw new Error("Responsen fra serveren matchet ikke forventet format");
   }
+  return parsedJson.data;
+}
+
+export async function hentPersonUregistrertArbeidFraFnr(
+  fnr: string,
+  ytelsetype: Ytelsetype,
+) {
+  const response = await fetch(
+    `${SERVER_URL}/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fødselsnummer: fnr,
+        ytelseType: ytelsetype,
+      }),
+    },
+  );
+
+  if (response.status === 404) {
+    throw new Error("Fant ikke person");
+  }
+  if (!response.ok) {
+    const json = await response.json();
+    const parsedFeil = feilmeldingSchema.safeParse(json);
+    if (!parsedFeil.success) {
+      logDev("error", parsedFeil.error);
+      throw new Error("Kunne ikke hente opplysninger");
+    }
+    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
+      throw new Error(parsedFeil.data?.type);
+    }
+    throw new Error("Kunne ikke hente personopplysninger.");
+  }
+
+  const json = await response.json();
+  const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
+
+  if (!parsedJson.success) {
+    logDev("error", parsedJson.error);
+
+    throw new Error("Responsen fra serveren matchet ikke forventet format");
+  }
+
   return parsedJson.data;
 }
 
@@ -214,6 +279,35 @@ export async function hentOpplysninger(
 ) {
   const response = await fetch(
     `${SERVER_URL}/arbeidsgiverinitiert/opplysninger`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(opplysningerRequest),
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente opplysninger");
+  }
+
+  const json = await response.json();
+  const parsedJson = opplysningerSchema.safeParse(json);
+
+  if (!parsedJson.success) {
+    logDev("error", parsedJson.error);
+
+    throw new Error("Responsen fra serveren matchet ikke forventet format");
+  }
+
+  return parsedJson.data;
+}
+
+export async function hentOpplysningerUregistrert(
+  opplysningerRequest: OpplysningerUregistrertRequest,
+) {
+  const response = await fetch(
+    `${SERVER_URL}/arbeidsgiverinitiert/opplysningerUregistrert`,
     {
       method: "POST",
       headers: {
