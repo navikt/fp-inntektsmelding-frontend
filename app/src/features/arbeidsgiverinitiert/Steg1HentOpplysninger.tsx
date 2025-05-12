@@ -29,8 +29,8 @@ import {
 } from "~/api/queries.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import {
-  ARBEIDSGIVER_INITERT_ID,
-  ARBEIDSGIVER_INITERT_RUTE_ID,
+  AGI_OPPLYSNINGER_UUID,
+  AGI_UREGISTRERT_RUTE_ID,
 } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import {
   AgiSkjemaState,
@@ -84,17 +84,17 @@ export const Steg1HentOpplysninger = () => {
     onSuccess: (opplysninger) => {
       if (
         opplysninger.forespørselUuid === undefined ||
-        opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+        opplysninger.forespørselUuid === AGI_OPPLYSNINGER_UUID
       ) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
         // 3. AGI-løypa leser opplysninger fra sessionstorage istedetfor backend
         const opplysningerMedId = {
           ...opplysninger,
-          forespørselUuid: ARBEIDSGIVER_INITERT_ID,
+          forespørselUuid: AGI_OPPLYSNINGER_UUID,
         };
         sessionStorage.setItem(
-          ARBEIDSGIVER_INITERT_ID,
+          AGI_OPPLYSNINGER_UUID,
           JSON.stringify(opplysningerMedId),
         );
         const arbeidsgiverinitiertÅrsak = formMethods.watch(
@@ -129,10 +129,10 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysningerUregistrert(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      // TODO: hmm, i hvilke case kan forespørselUuid være "ARBEIDSGIVER_INITERT_ID" her egentlig
+      // TODO: hmm, i hvilke case kan forespørselUuid være "AGI_OPPLYSNINGER_UUID" her egentlig
       if (
         opplysninger.forespørselUuid === undefined ||
-        opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+        opplysninger.forespørselUuid === AGI_OPPLYSNINGER_UUID
       ) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
@@ -140,16 +140,16 @@ export const Steg1HentOpplysninger = () => {
         // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
         const opplysningerMedId = {
           ...opplysninger,
-          forespørselUuid: ARBEIDSGIVER_INITERT_ID,
+          forespørselUuid: AGI_OPPLYSNINGER_UUID,
         };
         sessionStorage.setItem(
-          ARBEIDSGIVER_INITERT_ID,
+          AGI_OPPLYSNINGER_UUID,
           JSON.stringify(opplysningerMedId),
         );
 
         return navigate({
           to: "/$id",
-          params: { id: ARBEIDSGIVER_INITERT_RUTE_ID },
+          params: { id: AGI_UREGISTRERT_RUTE_ID },
         });
       }
 

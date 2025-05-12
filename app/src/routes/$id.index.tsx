@@ -2,8 +2,8 @@ import { createFileRoute, getRouteApi, Navigate } from "@tanstack/react-router";
 
 import { mapInntektsmeldingResponseTilValidAgiState } from "~/api/queries.ts";
 import {
-  ARBEIDSGIVER_INITERT_ID,
-  ARBEIDSGIVER_INITERT_SKJEMA_ID,
+  AGI_OPPLYSNINGER_UUID,
+  AGI_NYANSATT_SKJEMA_ID,
 } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 
 const route = getRouteApi("/$id");
@@ -22,12 +22,12 @@ export const Route = createFileRoute("/$id/")({
     if (erAgiNyansattInntektsmelding) {
       // TODO: forklar
       sessionStorage.setItem(
-        ARBEIDSGIVER_INITERT_ID,
+        AGI_OPPLYSNINGER_UUID,
         JSON.stringify(opplysninger),
       );
 
       sessionStorage.setItem(
-        ARBEIDSGIVER_INITERT_SKJEMA_ID,
+        AGI_NYANSATT_SKJEMA_ID,
         JSON.stringify(
           mapInntektsmeldingResponseTilValidAgiState(
             eksisterendeInntektsmeldinger[0],

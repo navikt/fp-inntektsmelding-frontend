@@ -2,8 +2,8 @@ import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 
 import {
-  ARBEIDSGIVER_INITERT_ID,
-  ARBEIDSGIVER_INITERT_RUTE_ID,
+  AGI_OPPLYSNINGER_UUID,
+  AGI_UREGISTRERT_RUTE_ID,
 } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaStateValid } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
@@ -56,8 +56,8 @@ async function hentGrunnbeløp() {
 
 export async function hentEksisterendeInntektsmeldinger(uuid: string) {
   if (
-    uuid === ARBEIDSGIVER_INITERT_ID ||
-    uuid === ARBEIDSGIVER_INITERT_RUTE_ID
+    uuid === AGI_OPPLYSNINGER_UUID ||
+    uuid === AGI_UREGISTRERT_RUTE_ID
   ) {
     return [];
   }
@@ -150,14 +150,12 @@ export function mapInntektsmeldingResponseTilValidAgiState(
 }
 
 export async function hentOpplysningerData(uuid: string) {
-  if (uuid === ARBEIDSGIVER_INITERT_RUTE_ID) {
-    console.log("ASDSA");
+  if (uuid === AGI_UREGISTRERT_RUTE_ID) {
     const opplysninger = parseStorageItem(
       sessionStorage,
-      ARBEIDSGIVER_INITERT_ID,
+      AGI_OPPLYSNINGER_UUID,
       opplysningerSchema,
     );
-    console.log(opplysninger);
 
     return opplysninger;
   }

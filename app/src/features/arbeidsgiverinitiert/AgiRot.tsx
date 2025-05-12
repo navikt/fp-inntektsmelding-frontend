@@ -4,9 +4,9 @@ import { AgiSkjemaStateProvider } from "~/features/arbeidsgiverinitiert/AgiSkjem
 import { useOptionalAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
 import { SkjemaRotLayout } from "~/features/rot-layout/SkjemaRotLayout.tsx";
 
-export const ARBEIDSGIVER_INITERT_ID = "agi";
-export const ARBEIDSGIVER_INITERT_RUTE_ID = "agi-id";
-export const ARBEIDSGIVER_INITERT_SKJEMA_ID = "skjemadata-agi";
+export const AGI_OPPLYSNINGER_UUID = "agi-opplysninger-uuid";
+export const AGI_UREGISTRERT_RUTE_ID = "agi-uregistrert";
+export const AGI_NYANSATT_SKJEMA_ID = "agi-nyansatt-skjema-id";
 
 const route = getRouteApi("/agi");
 
