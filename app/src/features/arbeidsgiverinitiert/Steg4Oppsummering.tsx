@@ -94,8 +94,7 @@ function SendInnInntektsmelding() {
         opplysninger,
       );
       const forespørselUuid = opplysninger.forespørselUuid;
-      const erEndring =
-        opplysninger.forespørselUuid !== AGI_OPPLYSNINGER_UUID;
+      const erEndring = opplysninger.forespørselUuid !== AGI_OPPLYSNINGER_UUID;
 
       if (erEndring && forespørselUuid) {
         // TODO: uoptimalt å hente dette on-demand her. Burde ta ibruk query-cachen.

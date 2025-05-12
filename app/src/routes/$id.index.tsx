@@ -2,8 +2,8 @@ import { createFileRoute, getRouteApi, Navigate } from "@tanstack/react-router";
 
 import { mapInntektsmeldingResponseTilValidAgiState } from "~/api/queries.ts";
 import {
-  AGI_OPPLYSNINGER_UUID,
   AGI_NYANSATT_SKJEMA_ID,
+  AGI_OPPLYSNINGER_UUID,
 } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 
 const route = getRouteApi("/$id");

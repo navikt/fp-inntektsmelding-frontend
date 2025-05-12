@@ -11,7 +11,10 @@ import {
   enkeltOpplysningerResponse,
   opplysningerMedAnsettelsePerioder,
 } from "../mocks/opplysninger.ts";
-import { enkelSendInntektsmeldingResponse, sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
+import {
+  enkelSendInntektsmeldingResponse,
+  sendAgiInntektsmeldingResponse,
+} from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
 

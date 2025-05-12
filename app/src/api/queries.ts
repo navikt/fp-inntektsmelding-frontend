@@ -55,10 +55,7 @@ async function hentGrunnbeløp() {
 }
 
 export async function hentEksisterendeInntektsmeldinger(uuid: string) {
-  if (
-    uuid === AGI_OPPLYSNINGER_UUID ||
-    uuid === AGI_UREGISTRERT_RUTE_ID
-  ) {
+  if (uuid === AGI_OPPLYSNINGER_UUID || uuid === AGI_UREGISTRERT_RUTE_ID) {
     return [];
   }
   const response = await fetch(
