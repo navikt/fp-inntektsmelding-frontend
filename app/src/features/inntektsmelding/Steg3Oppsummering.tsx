@@ -191,7 +191,7 @@ function lagSendInntektsmeldingRequest(
   // Unntaket er dersom id er for agi-uregistrert. I alle andre tilfeller skal id være forespørselUuid.
   const foresporselUuid = id === AGI_UREGISTRERT_RUTE_ID ? undefined : id;
   const årsak =
-    id === AGI_UREGISTRERT_RUTE_ID ? "UNNTATT_AAREGISTER" : undefined;
+    id === AGI_UREGISTRERT_RUTE_ID ? "UREGISTRERT" : undefined;
 
   return {
     foresporselUuid,
