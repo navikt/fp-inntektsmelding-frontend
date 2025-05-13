@@ -10,7 +10,7 @@ import { beløpSchema, logDev } from "~/utils.ts";
 
 export const AgiÅrsakSchema = z.enum([
   "NYANSATT",
-  "UNNTATT_AAREGISTER",
+  "UREGISTRERT",
   "ANNEN_ÅRSAK",
 ]);
 
