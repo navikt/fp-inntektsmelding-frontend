@@ -82,20 +82,14 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysninger(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      if (
-        opplysninger.forespørselUuid === undefined ||
-        opplysninger.forespørselUuid === AGI_OPPLYSNINGER_UUID
-      ) {
+      if (opplysninger.forespørselUuid === undefined) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
         // 3. AGI-løypa leser opplysninger fra sessionstorage istedetfor backend
-        const opplysningerMedId = {
-          ...opplysninger,
-          forespørselUuid: AGI_OPPLYSNINGER_UUID,
-        };
+
         sessionStorage.setItem(
           AGI_OPPLYSNINGER_UUID,
-          JSON.stringify(opplysningerMedId),
+          JSON.stringify(opplysninger),
         );
         const arbeidsgiverinitiertÅrsak = formMethods.watch(
           "arbeidsgiverinitiertÅrsak",
@@ -129,22 +123,14 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysningerUregistrert(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      // TODO: hmm, i hvilke case kan forespørselUuid være "AGI_OPPLYSNINGER_UUID" her egentlig
-      if (
-        opplysninger.forespørselUuid === undefined ||
-        opplysninger.forespørselUuid === AGI_OPPLYSNINGER_UUID
-      ) {
+      if (opplysninger.forespørselUuid === undefined) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
         // 3. redirecter til samme sti som før
         // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
-        const opplysningerMedId = {
-          ...opplysninger,
-          forespørselUuid: AGI_OPPLYSNINGER_UUID,
-        };
         sessionStorage.setItem(
           AGI_OPPLYSNINGER_UUID,
-          JSON.stringify(opplysningerMedId),
+          JSON.stringify(opplysninger),
         );
 
         return navigate({
