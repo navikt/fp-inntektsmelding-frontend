@@ -22,6 +22,7 @@ import {
 
 import { Skjemaoppsummering } from "./Skjemaoppsummering";
 import { useOpplysninger } from "./useOpplysninger";
+import { AGI_UREGISTRERT_RUTE_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 
 const route = getRouteApi("/$id");
 
@@ -187,8 +188,11 @@ function lagSendInntektsmeldingRequest(
     }),
   );
 
+  // Unntaket er dersom id er for agi-uregistrert. I alle andre tilfeller skal id være forespørselUuid.
+  const foresporselUuid = id === AGI_UREGISTRERT_RUTE_ID ? undefined : id;
+
   return {
-    foresporselUuid: id,
+    foresporselUuid,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,

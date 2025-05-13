@@ -73,7 +73,7 @@ export type SlåOppArbeidstakerResponseDto = z.infer<
  * Denne brukes for de aller fleste inntektsmeldinger.
  */
 export const SendInntektsmeldingRequestDtoSchema = z.object({
-  foresporselUuid: z.string(),
+  foresporselUuid: z.string().optional(),
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),
