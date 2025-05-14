@@ -276,10 +276,12 @@ export const Steg1HentOpplysninger = () => {
             )}
             {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
               "ANNEN_ÅRSAK" && <AnnenÅrsak />}
-            <HentPersonError
+            <ApiError
               error={
                 hentPersonMutation.error ??
-                hentPersonUregistrertArbeidMutation.error
+                hentPersonUregistrertArbeidMutation.error ??
+                opprettOpplysningerMutation.error ??
+                opprettOpplysningerUregistrertMutation.error
               }
             />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (
@@ -331,7 +333,7 @@ export const Steg1HentOpplysninger = () => {
   );
 };
 
-function HentPersonError({ error }: { error: Error | null }) {
+function ApiError({ error }: { error: Error | null }) {
   if (!error) {
     return null;
   }
