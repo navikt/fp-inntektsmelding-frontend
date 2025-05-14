@@ -253,6 +253,8 @@ export const feilmeldingSchema = z.object({
     "GENERELL_FEIL",
     "TOMT_RESULTAT_FEIL",
     "MANGLER_TILGANG_FEIL",
+    "SENDT_FOR_TIDLIG",
+    "ORGNR_FINNES_I_AAREG",
   ]),
 });
 

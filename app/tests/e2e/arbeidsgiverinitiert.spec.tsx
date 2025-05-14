@@ -8,6 +8,10 @@ import {
 } from "tests/mocks/utils";
 
 import {
+  arbeidsforholdForTidlig,
+  arbeidsforholdOrgNrFinnerIAreg,
+} from "../mocks/arbeidsforhold.ts";
+import {
   enkeltOpplysningerResponse,
   opplysningerMedAnsettelsePerioder,
 } from "../mocks/opplysninger.ts";
@@ -117,14 +121,61 @@ test("Ingen sak funnet", async ({ page }) => {
   await expect(page.getByTestId("ingen-sak-funnet")).toBeVisible();
 });
 
-test("Valgt: Unntatt registrering i Aa-registeret.", async ({ page }) => {
+test("Valgt: Uregistrert Unntatt registrering. Sendt for tidlig feil", async ({
+  page,
+}) => {
+  await page.route(
+    `**/*/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    async (route) => {
+      await route.fulfill({ status: 403, json: arbeidsforholdForTidlig });
+    },
+  );
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
+    .click();
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByTestId("sendt-for-tidlig")).toBeVisible();
+});
+
+test("Valgt: Uregistrert Unntatt registrering. Orgnr finnes i aareg", async ({
+  page,
+}) => {
+  await page.route(
+    `**/*/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    async (route) => {
+      await route.fulfill({
+        status: 403,
+        json: arbeidsforholdOrgNrFinnerIAreg,
+      });
+    },
+  );
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
+    .click();
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByTestId("orgnr-finnes-i-aareg")).toBeVisible();
+});
+
+test("Valgt: Unntatt registrering i Aa-registeret full løype", async ({
+  page,
+}) => {
   await mockHentUregistrertPersonOgArbeidsforhold({ page });
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
   await page
-    .locator(
-      'input[name="arbeidsgiverinitiertÅrsak"][value="UNNTATT_AAREGISTER"]',
-    )
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
     .click();
 
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));

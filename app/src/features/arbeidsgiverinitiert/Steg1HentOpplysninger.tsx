@@ -204,11 +204,10 @@ export const Steg1HentOpplysninger = () => {
           onSubmit={formMethods.handleSubmit((values) => {
             if (values.arbeidsgiverinitiertÅrsak === "NYANSATT") {
               return hentPersonMutation.mutate(values);
-            } else if (
-              values.arbeidsgiverinitiertÅrsak === "UNNTATT_AAREGISTER"
-            ) {
+            } else if (values.arbeidsgiverinitiertÅrsak === "UREGISTRERT") {
               return hentPersonUregistrertArbeidMutation.mutate(values);
             } else {
+              // TODO: sjekk om dette tryner hvis "Annen årsak" + ENTER
               throw new Error(
                 "Ikke gyldig årsak ved submit: " +
                   values.arbeidsgiverinitiertÅrsak,
@@ -233,7 +232,7 @@ export const Steg1HentOpplysninger = () => {
               </Radio>
               <Radio
                 description="(Ambassadepersonell, fiskere og utenlandske arbeidstakere)"
-                value="UNNTATT_AAREGISTER"
+                value="UREGISTRERT"
                 {...radioGroupProps}
               >
                 Unntatt registrering i Aa-registeret
@@ -257,7 +256,7 @@ export const Steg1HentOpplysninger = () => {
               </>
             )}
             {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
-              "UNNTATT_AAREGISTER" && (
+              "UREGISTRERT" && (
               <>
                 <UregistrertForm
                   data={hentPersonUregistrertArbeidMutation.data}
@@ -277,7 +276,12 @@ export const Steg1HentOpplysninger = () => {
             )}
             {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
               "ANNEN_ÅRSAK" && <AnnenÅrsak />}
-            <HentPersonError error={hentPersonMutation.error} />
+            <HentPersonError
+              error={
+                hentPersonMutation.error ??
+                hentPersonUregistrertArbeidMutation.error
+              }
+            />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (
               <Button
                 className="w-fit"
@@ -358,7 +362,31 @@ function HentPersonError({ error }: { error: Error | null }) {
           Kan ikke opprette inntektsmelding
         </Heading>
         Du kan ikke sende inn inntektsmelding på {formatYtelsesnavn(ytelseType)}{" "}
-        på denne personen
+        på denne personen.
+      </Alert>
+    );
+  }
+
+  if (error?.message === "SENDT_FOR_TIDLIG") {
+    return (
+      <Alert data-testid="sendt-for-tidlig" variant="warning">
+        <Heading level="3" size="small">
+          Kan ikke opprette inntektsmelding
+        </Heading>
+        Du kan ikke sende inn inntektsmelding før fire uker før personen starter{" "}
+        {formatYtelsesnavn(ytelseType)}.
+      </Alert>
+    );
+  }
+
+  if (error?.message === "ORGNR_FINNES_I_AAREG") {
+    return (
+      <Alert data-testid="orgnr-finnes-i-aareg" variant="warning">
+        <Heading level="3" size="small">
+          Kan ikke opprette inntektsmelding
+        </Heading>
+        Det finnes rapportering i aa-registeret på organisasjonsnummeret. Nav
+        vil be om inntektsmelding når vi trenger det.
       </Alert>
     );
   }

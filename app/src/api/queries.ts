@@ -203,7 +203,7 @@ export async function hentPersonUregistrertArbeidFraFnr(
       logDev("error", parsedFeil.error);
       throw new Error("Kunne ikke hente opplysninger");
     }
-    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
+    if (parsedFeil.data?.type !== undefined) {
       throw new Error(parsedFeil.data?.type);
     }
     throw new Error("Kunne ikke hente personopplysninger.");
