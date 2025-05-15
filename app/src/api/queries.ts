@@ -196,20 +196,12 @@ export async function hentPersonUregistrertArbeidFraFnr(
   if (response.status === 404) {
     throw new Error("Fant ikke person");
   }
-  if (!response.ok) {
-    const json = await response.json();
-    const parsedFeil = feilmeldingSchema.safeParse(json);
-    if (!parsedFeil.success) {
-      logDev("error", parsedFeil.error);
-      throw new Error("Kunne ikke hente opplysninger");
-    }
-    if (parsedFeil.data?.type !== undefined) {
-      throw new Error(parsedFeil.data?.type);
-    }
-    throw new Error("Kunne ikke hente personopplysninger.");
-  }
 
   const json = await response.json();
+  if (!response.ok) {
+    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+  }
+
   const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
 
   if (!parsedJson.success) {
@@ -244,20 +236,11 @@ export async function hentPersonFraFnr(
   if (response.status === 404) {
     throw new Error("Fant ikke person");
   }
+  const json = await response.json();
   if (!response.ok) {
-    const json = await response.json();
-    const parsedFeil = feilmeldingSchema.safeParse(json);
-    if (!parsedFeil.success) {
-      logDev("error", parsedFeil.error);
-      throw new Error("Kunne ikke hente opplysninger");
-    }
-    if (parsedFeil.data?.type === "INGEN_SAK_FUNNET") {
-      throw new Error(parsedFeil.data?.type);
-    }
-    throw new Error("Kunne ikke hente personopplysninger.");
+    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
   }
 
-  const json = await response.json();
   const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
 
   if (!parsedJson.success) {
@@ -282,11 +265,11 @@ export async function hentOpplysninger(
       body: JSON.stringify(opplysningerRequest),
     },
   );
+  const json = await response.json();
   if (!response.ok) {
-    throw new Error("Kunne ikke hente opplysninger");
+    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
   }
 
-  const json = await response.json();
   const parsedJson = opplysningerSchema.safeParse(json);
 
   if (!parsedJson.success) {
@@ -311,11 +294,12 @@ export async function hentOpplysningerUregistrert(
       body: JSON.stringify(opplysningerRequest),
     },
   );
-  if (!response.ok) {
-    throw new Error("Kunne ikke hente opplysninger");
-  }
 
   const json = await response.json();
+  if (!response.ok) {
+    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+  }
+
   const parsedJson = opplysningerSchema.safeParse(json);
 
   if (!parsedJson.success) {
@@ -326,3 +310,15 @@ export async function hentOpplysningerUregistrert(
 
   return parsedJson.data;
 }
+
+const parseFeilmelding = (json: unknown, feilmelding: string) => {
+  const parsedFeil = feilmeldingSchema.safeParse(json);
+  if (!parsedFeil.success) {
+    logDev("error", parsedFeil.error);
+    throw new Error(feilmelding);
+  }
+  if (parsedFeil.data?.type !== undefined) {
+    throw new Error(parsedFeil.data?.type);
+  }
+  throw new Error(feilmelding);
+};
