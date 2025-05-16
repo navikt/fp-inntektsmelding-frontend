@@ -381,7 +381,7 @@ function ApiError({ error }: { error: Error | null }) {
     );
   }
 
-  if (error?.message === "ORGNR_FINNES_I_AAREG") {
+  if (error?.message === "FINNES_I_AAREG") {
     return (
       <Alert data-testid="orgnr-finnes-i-aareg" variant="warning">
         <Heading level="3" size="small">

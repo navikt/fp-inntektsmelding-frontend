@@ -36,7 +36,7 @@ export const arbeidsforholdForTidlig = {
 
 export const arbeidsforholdOrgNrFinnerIAreg = {
   callId: "123",
-  type: "ORGNR_FINNES_I_AAREG",
+  type: "FINNES_I_AAREG",
   feilmelding:
     "Det finnes rapportering i aa-registeret på organisasjonsnummeret. Nav vil be om inntektsmelding når vi trenger det",
 } satisfies z.infer<typeof feilmeldingSchema>;
