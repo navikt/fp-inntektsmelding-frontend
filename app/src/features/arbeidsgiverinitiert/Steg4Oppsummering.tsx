@@ -10,7 +10,7 @@ import {
   mapInntektsmeldingResponseTilValidAgiState,
 } from "~/api/queries.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import { AGI_OPPLYSNINGER_UUID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import {
   AgiSkjemaStateValid,
@@ -94,8 +94,7 @@ function SendInnInntektsmelding() {
         opplysninger,
       );
       const forespørselUuid = opplysninger.forespørselUuid;
-      const erEndring =
-        opplysninger.forespørselUuid !== ARBEIDSGIVER_INITERT_ID;
+      const erEndring = opplysninger.forespørselUuid !== AGI_OPPLYSNINGER_UUID;
 
       if (erEndring && forespørselUuid) {
         // TODO: uoptimalt å hente dette on-demand her. Burde ta ibruk query-cachen.
@@ -174,7 +173,7 @@ function lagSendInntektsmeldingRequest(
 
   // Send kun med forespørselUuid ved endring. Ved opprinnelig innsendelse skal den være undefined.
   const forespørselUuid =
-    opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
+    opplysninger.forespørselUuid === AGI_OPPLYSNINGER_UUID
       ? undefined
       : opplysninger.forespørselUuid;
 

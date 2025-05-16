@@ -21,9 +21,17 @@ import {
 } from "@tanstack/react-router";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
-import { hentOpplysninger, hentPersonFraFnr } from "~/api/queries.ts";
+import {
+  hentOpplysninger,
+  hentOpplysningerUregistrert,
+  hentPersonFraFnr,
+  hentPersonUregistrertArbeidFraFnr,
+} from "~/api/queries.ts";
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
-import { ARBEIDSGIVER_INITERT_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
+import {
+  AGI_OPPLYSNINGER_UUID,
+  AGI_UREGISTRERT_RUTE_ID,
+} from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import {
   AgiSkjemaState,
   useAgiSkjema,
@@ -32,6 +40,7 @@ import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePicke
 import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import {
   OpplysningerRequest,
+  OpplysningerUregistrertRequest,
   SlåOppArbeidstakerResponseDto,
 } from "~/types/api-models.ts";
 import { formatYtelsesnavn } from "~/utils.ts";
@@ -73,21 +82,14 @@ export const Steg1HentOpplysninger = () => {
       return hentOpplysninger(opplysningerRequest);
     },
     onSuccess: (opplysninger) => {
-      if (
-        opplysninger.forespørselUuid === undefined ||
-        opplysninger.forespørselUuid === ARBEIDSGIVER_INITERT_ID
-      ) {
+      if (opplysninger.forespørselUuid === undefined) {
         // 1. Finner på en ID
         // 2. lagrer opplysningene i sessionStorage
-        // 3. redirecter til samme sti som før
-        // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
-        const opplysningerMedId = {
-          ...opplysninger,
-          forespørselUuid: ARBEIDSGIVER_INITERT_ID,
-        };
+        // 3. AGI-løypa leser opplysninger fra sessionstorage istedetfor backend
+
         sessionStorage.setItem(
-          ARBEIDSGIVER_INITERT_ID,
-          JSON.stringify(opplysningerMedId),
+          AGI_OPPLYSNINGER_UUID,
+          JSON.stringify(opplysninger),
         );
         const arbeidsgiverinitiertÅrsak = formMethods.watch(
           "arbeidsgiverinitiertÅrsak",
@@ -113,6 +115,57 @@ export const Steg1HentOpplysninger = () => {
         to: "/$id",
         params: { id: opplysninger.forespørselUuid },
       });
+    },
+  });
+
+  const opprettOpplysningerUregistrertMutation = useMutation({
+    mutationFn: async (opplysningerRequest: OpplysningerUregistrertRequest) => {
+      return hentOpplysningerUregistrert(opplysningerRequest);
+    },
+    onSuccess: (opplysninger) => {
+      if (opplysninger.forespørselUuid === undefined) {
+        // 1. Finner på en ID
+        // 2. lagrer opplysningene i sessionStorage
+        // 3. redirecter til samme sti som før
+        // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
+        sessionStorage.setItem(
+          AGI_OPPLYSNINGER_UUID,
+          JSON.stringify(opplysninger),
+        );
+
+        return navigate({
+          to: "/$id",
+          params: { id: AGI_UREGISTRERT_RUTE_ID },
+        });
+      }
+
+      // Hvis forespørsel finnes navigerer vi deg ut av AGI-flyten
+      return navigate({
+        to: "/$id",
+        params: { id: opplysninger.forespørselUuid },
+      });
+    },
+  });
+
+  const hentPersonUregistrertArbeidMutation = useMutation({
+    mutationFn: async ({ fødselsnummer }: FormType) => {
+      const personinfo = await hentPersonUregistrertArbeidFraFnr(
+        fødselsnummer,
+        ytelseType,
+      );
+      if (ytelseType === "SVANGERSKAPSPENGER" && personinfo.kjønn === "MANN") {
+        throw new Error("MENN_KAN_IKKE_SØKE_SVP");
+      }
+      return personinfo;
+    },
+    onSuccess: (data, { fødselsnummer }) => {
+      if (data.arbeidsforhold.length === 1) {
+        return opprettOpplysningerUregistrertMutation.mutate({
+          fødselsnummer,
+          ytelseType,
+          organisasjonsnummer: data.arbeidsforhold[0].organisasjonsnummer,
+        });
+      }
     },
   });
 
@@ -148,9 +201,19 @@ export const Steg1HentOpplysninger = () => {
     <FormProvider {...formMethods}>
       <section className="mt-2">
         <form
-          onSubmit={formMethods.handleSubmit((values) =>
-            hentPersonMutation.mutate(values),
-          )}
+          onSubmit={formMethods.handleSubmit((values) => {
+            if (values.arbeidsgiverinitiertÅrsak === "NYANSATT") {
+              return hentPersonMutation.mutate(values);
+            } else if (values.arbeidsgiverinitiertÅrsak === "UREGISTRERT") {
+              return hentPersonUregistrertArbeidMutation.mutate(values);
+            } else {
+              // TODO: sjekk om dette tryner hvis "Annen årsak" + ENTER
+              throw new Error(
+                "Ikke gyldig årsak ved submit: " +
+                  values.arbeidsgiverinitiertÅrsak,
+              );
+            }
+          })}
         >
           <div className="bg-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
             <Heading level="3" size="large">
@@ -169,7 +232,7 @@ export const Steg1HentOpplysninger = () => {
               </Radio>
               <Radio
                 description="(Ambassadepersonell, fiskere og utenlandske arbeidstakere)"
-                value="UNNTATT_AAREGISTER"
+                value="UREGISTRERT"
                 {...radioGroupProps}
               >
                 Unntatt registrering i Aa-registeret
@@ -193,10 +256,34 @@ export const Steg1HentOpplysninger = () => {
               </>
             )}
             {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
-              "UNNTATT_AAREGISTER" && <UnntattAaregRegistrering />}
+              "UREGISTRERT" && (
+              <>
+                <UregistrertForm
+                  data={hentPersonUregistrertArbeidMutation.data}
+                />
+                <Button
+                  className="w-fit"
+                  loading={isPending}
+                  type="submit"
+                  variant="secondary"
+                >
+                  Hent opplysninger
+                </Button>
+                <VelgArbeidsgiver
+                  data={hentPersonUregistrertArbeidMutation.data}
+                />
+              </>
+            )}
             {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
               "ANNEN_ÅRSAK" && <AnnenÅrsak />}
-            <HentPersonError error={hentPersonMutation.error} />
+            <ApiError
+              error={
+                hentPersonMutation.error ??
+                hentPersonUregistrertArbeidMutation.error ??
+                opprettOpplysningerMutation.error ??
+                opprettOpplysningerUregistrertMutation.error
+              }
+            />
             {(hentPersonMutation.data?.arbeidsforhold.length ?? 0) > 1 && (
               <Button
                 className="w-fit"
@@ -218,6 +305,27 @@ export const Steg1HentOpplysninger = () => {
                 Opprett inntektsmelding
               </Button>
             )}
+            {(hentPersonUregistrertArbeidMutation.data?.arbeidsforhold.length ??
+              0) > 1 && (
+              <Button
+                className="w-fit"
+                icon={<ArrowRightIcon />}
+                iconPosition="right"
+                loading={opprettOpplysningerUregistrertMutation.isPending}
+                onClick={() =>
+                  opprettOpplysningerUregistrertMutation.mutate({
+                    organisasjonsnummer: formMethods.watch(
+                      "organisasjonsnummer",
+                    ),
+                    fødselsnummer: formMethods.watch("fødselsnummer"),
+                    ytelseType,
+                  })
+                }
+                type="button"
+              >
+                Opprett inntektsmelding
+              </Button>
+            )}
           </div>
         </form>
       </section>
@@ -225,7 +333,7 @@ export const Steg1HentOpplysninger = () => {
   );
 };
 
-function HentPersonError({ error }: { error: Error | null }) {
+function ApiError({ error }: { error: Error | null }) {
   if (!error) {
     return null;
   }
@@ -256,7 +364,31 @@ function HentPersonError({ error }: { error: Error | null }) {
           Kan ikke opprette inntektsmelding
         </Heading>
         Du kan ikke sende inn inntektsmelding på {formatYtelsesnavn(ytelseType)}{" "}
-        på denne personen
+        på denne personen.
+      </Alert>
+    );
+  }
+
+  if (error?.message === "SENDT_FOR_TIDLIG") {
+    return (
+      <Alert data-testid="sendt-for-tidlig" variant="warning">
+        <Heading level="3" size="small">
+          Kan ikke opprette inntektsmelding
+        </Heading>
+        Du kan ikke sende inn inntektsmelding før fire uker før personen starter{" "}
+        {formatYtelsesnavn(ytelseType)}.
+      </Alert>
+    );
+  }
+
+  if (error?.message === "FINNES_I_AAREG") {
+    return (
+      <Alert data-testid="orgnr-finnes-i-aareg" variant="warning">
+        <Heading level="3" size="small">
+          Kan ikke opprette inntektsmelding
+        </Heading>
+        Det finnes rapportering i aa-registeret på organisasjonsnummeret. Nav
+        vil be om inntektsmelding når vi trenger det.
       </Alert>
     );
   }
@@ -277,21 +409,6 @@ function HentPersonError({ error }: { error: Error | null }) {
   }
 
   return <Alert variant="error">{error.message}</Alert>;
-}
-
-function UnntattAaregRegistrering() {
-  return (
-    <Alert data-testid="unntatt-aareg-registrering-alert" variant="info">
-      <Heading level="3" size="small">
-        Du må sende inn inntektsmelding via Altinn
-      </Heading>
-      <BodyShort>
-        Skal du sende inn inntektsmelding for en ansatt som er unntatt for
-        registrering i Aa-registeret, må du enn så lenge sende inn
-        inntektsmelding i Altinn.
-      </BodyShort>
-    </Alert>
-  );
 }
 
 function VelgArbeidsgiver({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
@@ -354,6 +471,35 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
         name="førsteFraværsdag"
         rules={{ required: "Må oppgis" }}
       />
+    </VStack>
+  );
+}
+
+function UregistrertForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
+  const formMethods = useFormContext<FormType>();
+
+  return (
+    <VStack gap="8">
+      <HStack gap="10">
+        <TextField
+          {...formMethods.register("fødselsnummer", {
+            required: "Må oppgis",
+            validate: (value) =>
+              (value && fnr(value).status === "valid") ||
+              "Du må fylle ut et gyldig fødselsnummer",
+          })}
+          error={formMethods.formState.errors.fødselsnummer?.message}
+          label="Ansattes fødselsnummer"
+        />
+        <VStack gap="4">
+          <Label>Navn</Label>
+          {data && (
+            <BodyShort>
+              {data.fornavn} {data.etternavn}
+            </BodyShort>
+          )}
+        </VStack>
+      </HStack>
     </VStack>
   );
 }

@@ -6,6 +6,7 @@ import isEqual from "lodash/isEqual";
 
 import { sendInntektsmelding } from "~/api/mutations.ts";
 import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
+import { AGI_UREGISTRERT_RUTE_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import {
   InntektsmeldingSkjemaStateValid,
@@ -187,8 +188,13 @@ function lagSendInntektsmeldingRequest(
     }),
   );
 
+  // Unntaket er dersom id er for agi-uregistrert. I alle andre tilfeller skal id være forespørselUuid.
+  const foresporselUuid = id === AGI_UREGISTRERT_RUTE_ID ? undefined : id;
+  const årsak = id === AGI_UREGISTRERT_RUTE_ID ? "UREGISTRERT" : undefined;
+
   return {
-    foresporselUuid: id,
+    foresporselUuid,
+    arbeidsgiverinitiertÅrsak: årsak,
     aktorId: opplysninger.person.aktørId,
     ytelse: opplysninger.ytelse,
     arbeidsgiverIdent: opplysninger.arbeidsgiver.organisasjonNummer,
