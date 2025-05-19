@@ -73,7 +73,8 @@ export type SlåOppArbeidstakerResponseDto = z.infer<
  * Denne brukes for de aller fleste inntektsmeldinger.
  */
 export const SendInntektsmeldingRequestDtoSchema = z.object({
-  foresporselUuid: z.string(),
+  foresporselUuid: z.string().optional(),
+  arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
   aktorId: z.string(),
   ytelse: YtelsetypeSchema,
   arbeidsgiverIdent: z.string(),
@@ -247,12 +248,16 @@ export const grunnbeløpSchema = z.object({
 export const feilmeldingSchema = z.object({
   callId: z.string(),
   feilmelding: z.string(),
-  type: z.enum([
-    "INGEN_SAK_FUNNET",
-    "GENERELL_FEIL",
-    "TOMT_RESULTAT_FEIL",
-    "MANGLER_TILGANG_FEIL",
-  ]),
+  type: z
+    .enum([
+      "INGEN_SAK_FUNNET",
+      "GENERELL_FEIL",
+      "TOMT_RESULTAT_FEIL",
+      "MANGLER_TILGANG_FEIL",
+      "SENDT_FOR_TIDLIG",
+      "FINNES_I_AAREG",
+    ])
+    .optional(),
 });
 
 export const OpplysningerRequestSchema = z.object({
@@ -262,4 +267,14 @@ export const OpplysningerRequestSchema = z.object({
   organisasjonsnummer: z.string(),
 });
 
+export const OpplysningerUregistrertRequestSchema = z.object({
+  fødselsnummer: z.string(),
+  ytelseType: YtelsetypeSchema,
+  organisasjonsnummer: z.string(),
+});
+
 export type OpplysningerRequest = z.infer<typeof OpplysningerRequestSchema>;
+
+export type OpplysningerUregistrertRequest = z.infer<
+  typeof OpplysningerUregistrertRequestSchema
+>;

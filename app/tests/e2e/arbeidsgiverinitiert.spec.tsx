@@ -4,10 +4,21 @@ import {
   finnInputFraLabel,
   mockHentPersonOgArbeidsforhold,
   mockHentPersonOgArbeidsforholdIngenSakFunnet,
+  mockHentUregistrertPersonOgArbeidsforhold,
 } from "tests/mocks/utils";
 
-import { opplysningerMedAnsettelsePerioder } from "../mocks/opplysninger.ts";
-import { sendAgiInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
+import {
+  arbeidsforholdForTidlig,
+  arbeidsforholdOrgNrFinnerIAreg,
+} from "../mocks/arbeidsforhold.ts";
+import {
+  enkeltOpplysningerResponse,
+  opplysningerMedAnsettelsePerioder,
+} from "../mocks/opplysninger.ts";
+import {
+  enkelSendInntektsmeldingResponse,
+  sendAgiInntektsmeldingResponse,
+} from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
 
@@ -110,19 +121,109 @@ test("Ingen sak funnet", async ({ page }) => {
   await expect(page.getByTestId("ingen-sak-funnet")).toBeVisible();
 });
 
-test("Valgt: Unntatt registrering i Aa-registeret. Skal vise info alert", async ({
+test("Valgt: Uregistrert Unntatt registrering. Sendt for tidlig feil", async ({
   page,
 }) => {
-  await mockHentPersonOgArbeidsforhold({ page });
+  await page.route(
+    `**/*/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    async (route) => {
+      await route.fulfill({ status: 403, json: arbeidsforholdForTidlig });
+    },
+  );
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
+    .click();
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByTestId("sendt-for-tidlig")).toBeVisible();
+});
+
+test("Valgt: Uregistrert Unntatt registrering. Orgnr finnes i aareg", async ({
+  page,
+}) => {
+  await page.route(
+    `**/*/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
+    async (route) => {
+      await route.fulfill({
+        status: 403,
+        json: arbeidsforholdOrgNrFinnerIAreg,
+      });
+    },
+  );
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
+    .click();
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByTestId("orgnr-finnes-i-aareg")).toBeVisible();
+});
+
+test("Valgt: Unntatt registrering i Aa-registeret full løype", async ({
+  page,
+}) => {
+  await mockHentUregistrertPersonOgArbeidsforhold({ page });
 
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
   await page
-    .locator(
-      'input[name="arbeidsgiverinitiertÅrsak"][value="UNNTATT_AAREGISTER"]',
-    )
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="UREGISTRERT"]')
     .click();
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR.slice(2));
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expectError({
+    page,
+    error: "Du må fylle ut et gyldig fødselsnummer",
+    label: "Ansattes fødselsnummer",
+  });
+
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await page.route(
+    `**/*/arbeidsgiverinitiert/opplysningerUregistrert`,
+    async (route) => {
+      await route.fulfill({ json: enkeltOpplysningerResponse });
+    },
+  );
+
+  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  await page.getByLabel("Telefon").fill("13371337");
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+
+  // Nå er vi på "inntekt og refusjon" steget
+  await page.locator('input[name="skalRefunderes"][value="NEI"]').click();
+
+  await page.locator('input[name="misterNaturalytelser"][value="nei"]').click();
+
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  // Nå er vi på "oppsummering"-steget.
   await expect(
-    page.getByTestId("unntatt-aareg-registrering-alert"),
+    page.getByRole("heading", { name: "Oppsummering" }),
+  ).toBeVisible();
+  // TODO: Legg til noen assertions på at valgene man tar er med i oppsummeringen?
+
+  await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
+    await route.fulfill({ json: enkelSendInntektsmeldingResponse });
+  });
+  await page.getByRole("button", { name: "Send inn" }).click();
+
+  await expect(
+    page.getByText("Vi har mottatt inntektsmeldingen"),
   ).toBeVisible();
 });
 
