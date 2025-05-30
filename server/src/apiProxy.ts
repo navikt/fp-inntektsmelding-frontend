@@ -3,6 +3,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 import config from "./config.js";
+import logger from "./logger.js";
 
 type ProxyOptions = {
   ingoingUrl: string;
@@ -34,7 +35,7 @@ export function addProxyHandler(
         request.headers["obo-token"] = obo.token;
         return next();
       } else {
-        console.log("OBO-exchange failed", obo.error);
+        logger.error("OBO-veksling feilet", obo.error);
         response.status(403).send();
         return;
       }
@@ -42,7 +43,7 @@ export function addProxyHandler(
     createProxyMiddleware({
       target: outgoingUrl,
       changeOrigin: true,
-      logger: console,
+      logger: logger,
       on: {
         proxyReq: (proxyRequest, request) => {
           const obo = request.headers["obo-token"];
@@ -55,7 +56,7 @@ export function addProxyHandler(
               "fpinntektsmelding-frontend",
             );
           } else {
-            console.log(
+            logger.warning(
               `Access token var not present in session for scope ${scope}`,
             );
           }
