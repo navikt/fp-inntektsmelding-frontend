@@ -5,9 +5,12 @@ import { setupApiProxy } from "./apiProxy.js";
 import config from "./config.js";
 import { errorHandling } from "./errorHandler.js";
 import { setupStaticRoutes } from "./frontendRoute.js";
+import logger from "./logger.js";
 import { verifyToken } from "./tokenValidation.js";
 
 const app = express();
+// Logging i json format
+app.use(logger.morganMiddleware);
 
 // Restricts the server to only accept UTF-8 encoding of bodies
 app.use(express.urlencoded({ extended: true }));
