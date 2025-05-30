@@ -9,13 +9,14 @@ import logger from "./logger.js";
 import { verifyToken } from "./tokenValidation.js";
 
 const app = express();
-// Logging i json format
-app.use(logger.morganMiddleware);
 
 // Restricts the server to only accept UTF-8 encoding of bodies
 app.use(express.urlencoded({ extended: true }));
 
 setupActuators(app);
+
+// Logging i json format
+app.use(logger.morganMiddleware);
 
 const protectedRouter = express.Router();
 app.set("trust proxy", 1);
