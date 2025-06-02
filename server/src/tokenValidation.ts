@@ -1,6 +1,8 @@
 import { getToken, validateToken } from "@navikt/oasis";
 import { NextFunction, Request, Response } from "express";
 
+import logger from "./logger.js";
+
 export const verifyToken = async (
   request: Request,
   response: Response,
@@ -14,7 +16,10 @@ export const verifyToken = async (
 
   const validation = await validateToken(token);
   if (!validation.ok) {
-    console.log("Invalid token validation", validation);
+    logger.error(
+      `Validering av token feilet. ${validation.errorType}`,
+      validation.error,
+    );
     response.status(403).send();
     return;
   }

@@ -5,6 +5,7 @@ import { setupApiProxy } from "./apiProxy.js";
 import config from "./config.js";
 import { errorHandling } from "./errorHandler.js";
 import { setupStaticRoutes } from "./frontendRoute.js";
+import logger from "./logger.js";
 import { verifyToken } from "./tokenValidation.js";
 
 const app = express();
@@ -13,6 +14,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 setupActuators(app);
+
+// Logging i json format
+app.use(logger.morganMiddleware);
 
 const protectedRouter = express.Router();
 app.set("trust proxy", 1);
