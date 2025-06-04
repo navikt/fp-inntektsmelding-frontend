@@ -43,7 +43,7 @@ import {
   OpplysningerUregistrertRequest,
   SlåOppArbeidstakerResponseDto,
 } from "~/types/api-models.ts";
-import { formatYtelsesnavn } from "~/utils.ts";
+import { formatYtelsesnavn, lagFulltNavn } from "~/utils.ts";
 
 const route = getRouteApi("/agi/opprett");
 
@@ -420,7 +420,7 @@ function VelgArbeidsgiver({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
 
   return (
     <Select
-      description="Den ansatte har flere arbeidsforhold hos samme arbeidsgiver.  Velg hvilken underenhet inntektsmeldingen gjelder for. "
+      description={`Velg hvilken organisasjon du vil sende inn inntektsmelding på for ${lagFulltNavn(data)}`}
       error={formMethods.formState.errors.organisasjonsnummer?.message}
       label="Arbeidsgiver"
       {...formMethods.register(`organisasjonsnummer`, {
