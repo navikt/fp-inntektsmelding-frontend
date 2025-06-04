@@ -420,7 +420,7 @@ function VelgArbeidsgiver({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
 
   return (
     <Select
-      description={`Velg hvilken organisasjon du vil sende inn inntektsmelding på for ${lagFulltNavn(data)}`}
+      description={`Velg hvilken underenhet du vil sende inn inntektsmelding for ${lagFulltNavn(data)}`}
       error={formMethods.formState.errors.organisasjonsnummer?.message}
       label="Arbeidsgiver"
       {...formMethods.register(`organisasjonsnummer`, {
