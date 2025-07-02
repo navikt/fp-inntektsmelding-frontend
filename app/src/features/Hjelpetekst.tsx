@@ -1,6 +1,5 @@
 import { AlertProps, Page, ReadMoreProps } from "@navikt/ds-react";
 import { Alert, ReadMore, Switch } from "@navikt/ds-react";
-import { type ReactNode } from "@tanstack/react-router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { createContext, useContext } from "react";
 import { z } from "zod";
@@ -23,7 +22,7 @@ const VisHjelpeteksterStateContext =
 export const VisHjelpeteksterStateProvider = ({
   children,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
 }) => {
   const [visHjelpetekster, setVisHjelpetekster] =
     useLocalStorageState<VisHjelpetekser>(

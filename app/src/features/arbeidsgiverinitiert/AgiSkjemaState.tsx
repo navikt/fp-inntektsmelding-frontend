@@ -1,4 +1,3 @@
-import { type ReactNode } from "@tanstack/react-router";
 import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext } from "react";
 import { z, ZodError } from "zod";
@@ -75,7 +74,7 @@ const AgiSkjemaStateContext = createContext<AgiSkjemaStateContextType | null>(
 );
 
 type AgiSkjemaStateProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 const defaultSkjemaState = {

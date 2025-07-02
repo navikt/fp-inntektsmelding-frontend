@@ -1,4 +1,3 @@
-import { type ReactNode } from "@tanstack/react-router";
 import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext } from "react";
 import { z, ZodError } from "zod";
@@ -113,7 +112,7 @@ const InntektsmeldingSkjemaStateContext =
 
 type InntektsmeldingSkjemaStateProviderProps = {
   skjemaId: string;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 const defaultSkjemaState = {
