@@ -28,6 +28,7 @@ export const InntektsmeldingSkjemaStateSchema = z.object({
       årsak: z.union([EndringAvInntektÅrsakerSchema, z.literal("")]),
       fom: z.string().optional(),
       tom: z.string().optional(),
+      ignorerTom: z.boolean(),
       bleKjentFom: z.string().optional(),
     }),
   ),
