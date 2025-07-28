@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { AgiÅrsakSchema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
 import { formatNavn } from "~/utils.ts";

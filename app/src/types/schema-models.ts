@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const SkalRefunderesSchema = z.enum([
   "JA_LIK_REFUSJON",

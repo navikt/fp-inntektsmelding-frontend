@@ -11,7 +11,7 @@ export const useAgiOpplysninger = () => {
   if (!opplysninger) {
     throw new Error("Finner ikke arbeidsgiverinitierte opplysninger");
   }
-  return opplysninger as OpplysningerDto;
+  return opplysninger satisfies OpplysningerDto;
 };
 
 export const useOptionalAgiOpplysninger = () => {
@@ -23,5 +23,5 @@ export const useOptionalAgiOpplysninger = () => {
   if (!opplysninger) {
     return;
   }
-  return opplysninger as OpplysningerDto;
+  return opplysninger satisfies OpplysningerDto;
 };

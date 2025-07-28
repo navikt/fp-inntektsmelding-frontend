@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import {
   AGI_OPPLYSNINGER_UUID,
@@ -153,6 +153,9 @@ export async function hentOpplysningerData(uuid: string) {
       AGI_OPPLYSNINGER_UUID,
       opplysningerSchema,
     );
+    if (opplysninger === undefined) {
+      throw new Error("Kunne ikke hente opplysninger for uregistrert");
+    }
 
     return opplysninger;
   }

@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext } from "react";
-import { z, ZodError } from "zod";
+import { z, ZodError } from "zod/v4";
 
 import { AGI_NYANSATT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { useSessionStorageState } from "~/features/usePersistedState.tsx";
@@ -84,11 +84,11 @@ const defaultSkjemaState = {
 export const AgiSkjemaStateProvider = ({
   children,
 }: AgiSkjemaStateProviderProps) => {
-  const [state, setState] = useSessionStorageState<AgiSkjemaState>(
-    AGI_NYANSATT_SKJEMA_ID,
-    defaultSkjemaState,
-    AgiSkjemaStateSchema,
-  );
+  const [state, setState] = useSessionStorageState({
+    key: AGI_NYANSATT_SKJEMA_ID,
+    defaultValue: defaultSkjemaState,
+    schema: AgiSkjemaStateSchema,
+  });
 
   const gyldigAgiSkjemaState = AgiSkjemaStateSchemaValidated.safeParse(state);
 

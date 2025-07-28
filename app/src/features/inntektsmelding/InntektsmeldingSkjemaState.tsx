@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import { createContext, useContext } from "react";
-import { z, ZodError } from "zod";
+import { z, ZodError } from "zod/v4";
 
 import {
   EndringAvInntektÅrsakerSchema,
@@ -127,11 +127,11 @@ export const InntektsmeldingSkjemaStateProvider = ({
   skjemaId,
   children,
 }: InntektsmeldingSkjemaStateProviderProps) => {
-  const [state, setState] = useSessionStorageState<InntektsmeldingSkjemaState>(
-    `skjemadata-${skjemaId}`,
-    defaultSkjemaState,
-    InntektsmeldingSkjemaStateSchema,
-  );
+  const [state, setState] = useSessionStorageState({
+    key: `skjemadata-${skjemaId}`,
+    defaultValue: defaultSkjemaState,
+    schema: InntektsmeldingSkjemaStateSchema,
+  });
 
   const gyldigInntektsmeldingSkjemaState =
     InntektsmeldingSkjemaStateSchemaValidated.safeParse(state);
