@@ -2,7 +2,7 @@ import { AlertProps, Page, ReadMoreProps } from "@navikt/ds-react";
 import { Alert, ReadMore, Switch } from "@navikt/ds-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { createContext, useContext } from "react";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { loggAmplitudeEvent } from "~/api/amplitude.ts";
 import { useLocalStorageState } from "~/features/usePersistedState.tsx";
@@ -24,14 +24,15 @@ export const VisHjelpeteksterStateProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [visHjelpetekster, setVisHjelpetekster] =
-    useLocalStorageState<VisHjelpetekser>(
-      VIS_HJELPETEKSTER_KEY,
-      { vis: true },
-      z.object({
-        vis: z.boolean(),
-      }),
-    );
+  const [visHjelpetekster, setVisHjelpetekster] = useLocalStorageState({
+    key: VIS_HJELPETEKSTER_KEY,
+    defaultValue: {
+      vis: true,
+    },
+    schema: z.object({
+      vis: z.boolean(),
+    }),
+  });
   return (
     <VisHjelpeteksterStateContext.Provider
       value={{
