@@ -201,7 +201,6 @@ function InntektSummary({
   const harEndretInntekt = skjemaState.endringAvInntektÅrsaker.length > 0;
   const estimertInntekt = opplysninger.inntektsopplysninger.gjennomsnittLønn;
   const gjeldendeInntekt = skjemaState.korrigertInntekt ?? skjemaState.inntekt;
-  console.log(skjemaState.inntekt, gjeldendeInntekt);
   const kanEndres = opplysninger.forespørselStatus !== "UTGÅTT";
 
   return (
