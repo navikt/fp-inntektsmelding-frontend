@@ -10,6 +10,7 @@ import { EndringAvInntektÅrsaker, Naturalytelsetype } from "~/types/api-models"
 import {
   capitalize,
   capitalizeSetning,
+  finnSenesteInntektsmelding,
   formatDatoLang,
   formatYtelsesnavn,
   leggTilGenitiv,
@@ -67,13 +68,9 @@ export function Steg2InntektOgRefusjon() {
   const harEksisterendeInntektsmeldinger =
     eksisterendeInntektsmeldinger.length > 0;
 
-  const defaultInntekt =
-    inntektsmeldingSkjemaState.inntekt ||
-    opplysninger.inntektsopplysninger.gjennomsnittLønn;
-
   const formMethods = useForm<InntektOgRefusjonForm>({
     defaultValues: {
-      inntekt: defaultInntekt,
+      inntekt: inntektsmeldingSkjemaState.inntekt,
       korrigertInntekt:
         inntektsmeldingSkjemaState.korrigertInntekt ??
         (inntektsmeldingSkjemaState.endringAvInntektÅrsaker.length > 0
@@ -99,7 +96,10 @@ export function Steg2InntektOgRefusjon() {
       refusjon:
         inntektsmeldingSkjemaState.refusjon.length === 0
           ? [
-              { fom: opplysninger.førsteUttaksdato, beløp: defaultInntekt },
+              {
+                fom: opplysninger.førsteUttaksdato,
+                beløp: inntektsmeldingSkjemaState.inntekt,
+              },
               { fom: undefined, beløp: 0 },
             ]
           : inntektsmeldingSkjemaState.refusjon.length === 1
