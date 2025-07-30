@@ -2,6 +2,26 @@ import { SendInntektsmeldingResponseDto } from "~/types/api-models.ts";
 
 export const ingenEksisterendeInntektsmeldingerResponse = [];
 
+export const inntektsmeldingUtenEndretInntekt = [
+  {
+    id: 1_001_705,
+    foresporselUuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
+    aktorId: "2715347149890",
+    ytelse: "FORELDREPENGER",
+    arbeidsgiverIdent: "810007842",
+    kontaktperson: {
+      navn: "Berømt Flyttelass",
+      telefonnummer: "12312312",
+    },
+    startdato: "2024-05-30",
+    inntekt: 500,
+    opprettetTidspunkt: "2024-10-08T13:34:23.086",
+    bortfaltNaturalytelsePerioder: [],
+    refusjon: [],
+    endringAvInntektÅrsaker: [],
+  },
+] satisfies SendInntektsmeldingResponseDto[];
+
 export const mangeEksisterendeInntektsmeldingerResponse = [
   {
     id: 1_001_706,

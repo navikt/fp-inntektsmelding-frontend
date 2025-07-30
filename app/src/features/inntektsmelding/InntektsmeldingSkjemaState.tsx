@@ -87,7 +87,6 @@ export const InntektsmeldingSkjemaStateSchemaValidated = z.object({
       inkluderTom: z.boolean(),
     }),
   ),
-  // TODO: Disse burde flyttes til en egen schema for eksisterende inntektsmeldinger
   opprettetTidspunkt: z.string().optional(),
   id: z.number().optional(),
 });

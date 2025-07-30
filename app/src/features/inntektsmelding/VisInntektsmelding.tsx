@@ -34,9 +34,18 @@ export const VisInntektsmelding = () => {
   // Sett IM i skjemaStaten hvis den finnes
   useEffect(() => {
     if (sisteInntektsmelding) {
-      setInntektsmeldingSkjemaState(
-        mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
-      );
+      const state =
+        mapInntektsmeldingResponseTilValidState(sisteInntektsmelding);
+
+      const forrigeInntektsmeldingHarIkkeEndretInntekt =
+        sisteInntektsmelding.endringAvInntektÅrsaker.length === 0;
+      const rapportertLønn = opplysninger.inntektsopplysninger.gjennomsnittLønn;
+      if (forrigeInntektsmeldingHarIkkeEndretInntekt && rapportertLønn) {
+        setInntektsmeldingSkjemaState({ ...state, inntekt: rapportertLønn });
+        return;
+      }
+
+      setInntektsmeldingSkjemaState(state);
     }
   }, [sisteInntektsmelding]);
 
