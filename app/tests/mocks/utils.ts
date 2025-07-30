@@ -1,15 +1,15 @@
 import { expect, Locator, Page } from "@playwright/test";
 
-import type { OpplysningerDto } from "~/types/api-models.ts";
+import {
+  OpplysningerDto,
+  SendInntektsmeldingResponseDto,
+} from "~/types/api-models.ts";
 
 import {
   arbeidsforholdIngenSakFunnet,
   arbeidsforholdResponse,
 } from "./arbeidsforhold.ts";
-import {
-  ingenEksisterendeInntektsmeldingerResponse,
-  mangeEksisterendeInntektsmeldingerResponse,
-} from "./eksisterende-inntektsmeldinger";
+import { ingenEksisterendeInntektsmeldingerResponse } from "./eksisterende-inntektsmeldinger";
 import { grunnbeløpResponse } from "./grunnbeløp";
 import { enkeltOpplysningerResponse } from "./opplysninger.ts";
 
@@ -106,7 +106,7 @@ export const mockGrunnbeløp = ({
 
 type MockInntektsmeldingerParams = {
   page: Page;
-  json?: typeof mangeEksisterendeInntektsmeldingerResponse;
+  json?: SendInntektsmeldingResponseDto[];
   uuid?: string;
 };
 
