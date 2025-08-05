@@ -40,7 +40,7 @@ const AgiSkjemaStateSchema = z.object({
 /**
  * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
  */
-export const AgiSkjemaStateSchemaValidated = z.object({
+const AgiSkjemaStateSchemaValidated = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
   førsteFraværsdag: z.string(),
   kontaktperson: z.object({

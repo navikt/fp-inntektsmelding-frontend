@@ -7,7 +7,7 @@ import { z } from "zod/v4";
 import { loggAmplitudeEvent } from "~/api/amplitude.ts";
 import { useLocalStorageState } from "~/features/usePersistedState.tsx";
 
-export const VIS_HJELPETEKSTER_KEY = "vis-hjelpetekster";
+const VIS_HJELPETEKSTER_KEY = "vis-hjelpetekster";
 
 type VisHjelpetekser = {
   vis: boolean;

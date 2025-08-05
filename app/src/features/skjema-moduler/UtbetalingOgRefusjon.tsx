@@ -37,7 +37,7 @@ export const REFUSJON_RADIO_VALG = {
   NEI: "Nei",
 } satisfies Record<SkalRefunderesType, string>;
 
-export const ENDRING_I_REFUSJON_TEMPLATE = {
+const ENDRING_I_REFUSJON_TEMPLATE = {
   fom: undefined,
   beløp: 0,
 };
@@ -152,7 +152,7 @@ export function VarierendeRefusjon({ opplysninger }: OpplysningerProps) {
   );
 }
 
-export function Refusjonsperioder() {
+function Refusjonsperioder() {
   const { control, watch } = useFormContext<InntektOgRefusjonForm>();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -229,7 +229,7 @@ export function Refusjonsperioder() {
   );
 }
 
-export function DelvisFraværHjelpetekst({ opplysninger }: OpplysningerProps) {
+function DelvisFraværHjelpetekst({ opplysninger }: OpplysningerProps) {
   return (
     <HjelpetekstReadMore header="Har den ansatte delvis fravær i perioden?">
       <BodyLong>
