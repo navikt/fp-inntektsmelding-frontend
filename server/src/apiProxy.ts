@@ -18,7 +18,7 @@ export const setupApiProxy = (router: Router) =>
     scope: config.proxy.apiScope,
   });
 
-export function addProxyHandler(
+function addProxyHandler(
   router: Router,
   { ingoingUrl, outgoingUrl, scope }: ProxyOptions,
 ) {
