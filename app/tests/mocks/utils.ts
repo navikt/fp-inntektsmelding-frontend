@@ -60,18 +60,6 @@ export const mockHentUregistrertPersonOgArbeidsforhold = ({
   );
 };
 
-export const mockHentUregistrertForTidlig = ({
-  page,
-  json = arbeidsforholdResponse,
-}: MockHentPersonOgArbeidsforholdParams) => {
-  return page.route(
-    `**/*/arbeidsgiverinitiert/arbeidsgivereForUregistrert`,
-    async (route) => {
-      await route.fulfill({ json });
-    },
-  );
-};
-
 type MockHentPersonOgArbeidsforholdIngenSakFunnet = {
   page: Page;
   json?: typeof arbeidsforholdIngenSakFunnet;

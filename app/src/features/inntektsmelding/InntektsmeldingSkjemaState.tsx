@@ -14,7 +14,7 @@ import { useSessionStorageState } from "../usePersistedState.tsx";
 /**
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
  */
-export const InntektsmeldingSkjemaStateSchema = z.object({
+const InntektsmeldingSkjemaStateSchema = z.object({
   kontaktperson: z
     .object({
       navn: z.string(),
@@ -54,7 +54,7 @@ export const InntektsmeldingSkjemaStateSchema = z.object({
 /**
  * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
  */
-export const InntektsmeldingSkjemaStateSchemaValidated = z.object({
+const InntektsmeldingSkjemaStateSchemaValidated = z.object({
   kontaktperson: z.object({
     navn: z.string(),
     telefonnummer: z.string(),

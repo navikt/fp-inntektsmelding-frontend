@@ -31,8 +31,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
+      - name: Run Knip
+        run: npm run knip
+
       - name: Run ESLint
         run: npm run lint
 
       - name: Check for typescript errors
-        run: npm run check:types
+        run: npm run lint:tsc
