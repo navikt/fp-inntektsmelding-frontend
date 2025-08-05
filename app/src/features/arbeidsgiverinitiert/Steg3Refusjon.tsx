@@ -30,7 +30,7 @@ import { useDocumentTitle } from "~/features/useDocumentTitle.tsx";
 import { OpplysningerDto } from "~/types/api-models.ts";
 import { formatDatoKort, formatYtelsesnavn } from "~/utils.ts";
 
-export type RefusjonForm = Pick<
+type RefusjonForm = Pick<
   InntektsmeldingSkjemaState,
   "refusjon" | "skalRefunderes"
 > & { førsteFraværsdag: string };

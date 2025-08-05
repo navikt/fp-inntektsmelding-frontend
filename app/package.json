@@ -11,6 +11,7 @@
     "check:types": "tsc --noemit",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "knip": "knip",
     "bundle-visualizer": "npx vite-bundle-visualizer"
   },
   "dependencies": {
@@ -53,6 +54,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-unicorn": "60.0.0",
+    "knip": "5.62.0",
     "prettier": "3.6.2",
     "tailwindcss": "4.1.11",
     "typescript": "5.8.3",

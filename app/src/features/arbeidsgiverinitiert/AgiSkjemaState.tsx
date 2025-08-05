@@ -16,7 +16,7 @@ export const AgiÅrsakSchema = z.enum([
 /**
  * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
  */
-export const AgiSkjemaStateSchema = z.object({
+const AgiSkjemaStateSchema = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
   førsteFraværsdag: z.string().optional(),
   kontaktperson: z
