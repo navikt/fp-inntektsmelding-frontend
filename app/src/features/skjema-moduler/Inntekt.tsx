@@ -89,7 +89,7 @@ export function Inntekt({
       >
         <HGrid columns={{ md: "max-content 1fr" }} gap="4">
           {inntektsopplysninger.månedsinntekter
-            ?.sort((a, b) => a.fom.localeCompare(b.fom))
+            ?.toSorted((a, b) => a.fom.localeCompare(b.fom))
             .map((inntekt) => (
               <Fragment key={inntekt.fom}>
                 <span>{navnPåMåned(inntekt.fom)}:</span>
