@@ -11,6 +11,7 @@ on:
       - ".editorconfig"
       - "LICENCE"
       - "CODEOWNERS"
+      - ".github/dependabot.yml"
 
 jobs:
   build-app:
