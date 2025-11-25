@@ -27,7 +27,7 @@ jobs:
       build-version: ${{ steps.generate-build-version.outputs.build-version }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # ratchet:actions/checkout@v5
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # ratchet:actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Set up NODE
