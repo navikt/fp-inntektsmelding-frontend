@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { createContext, useContext } from "react";
 import { z } from "zod/v4";
 
-import { loggAmplitudeEvent } from "~/api/amplitude.ts";
+import { loggUmamiEvent } from "~/api/umami.ts";
 import { useLocalStorageState } from "~/features/usePersistedState.tsx";
 
 const VIS_HJELPETEKSTER_KEY = "vis-hjelpetekster";
@@ -66,7 +66,7 @@ export function HjelpetekstToggle() {
         onChange={(e) => {
           const bleSjekket = e.target.checked;
           setVisHjelpetekster({ vis: bleSjekket });
-          loggAmplitudeEvent({
+          loggUmamiEvent({
             eventName: bleSjekket ? "switch åpnet" : "switch lukket",
             eventData: { tittel: "HjelpetekstToggle" },
           });
@@ -93,7 +93,7 @@ export function HjelpetekstReadMore({
       header={header}
       onOpenChange={(open) => {
         setÅpen(open);
-        loggAmplitudeEvent({
+        loggUmamiEvent({
           eventName: open ? "readmore åpnet" : "readmore lukket",
           eventData: { tittel: header },
         });
