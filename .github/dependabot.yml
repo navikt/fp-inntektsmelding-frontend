@@ -13,6 +13,8 @@ updates:
       - npm-github
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     ignore:
       - dependency-name: "*"
@@ -34,6 +36,10 @@ updates:
       - npm-github
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     ignore:
       - dependency-name: "*"
@@ -53,4 +59,6 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
