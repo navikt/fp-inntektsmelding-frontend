@@ -148,16 +148,16 @@ export function Inntekt({
           Endre månedslønn
         </Button>
       )}
-
       <HjelpetekstAlert>
         <Heading level="4" size="xsmall">
           Er månedslønnen riktig?
         </Heading>
         <BodyLong>
           Har den ansatte i løpet av de siste tre månedene fått varig
-          lønnsendring, endret stillingsprosent eller hatt lovlig fravær som
-          påvirker lønnsutbetalingen, skal månedslønnen korrigeres. Overtid skal
-          ikke inkluderes. Beregningen skal gjøres etter{" "}
+          lønnsendring, startet i nytt arbeidsforhold, endret stillingsprosent
+          eller hatt lovlig fravær som påvirker lønnsutbetalingen, skal
+          månedslønnen korrigeres. Overtid skal ikke inkluderes. Beregningen
+          skal gjøres etter{" "}
           <Link
             href="https://lovdata.no/nav/folketrygdloven/kap8/%C2%A78-28"
             target="_blank"
@@ -249,6 +249,9 @@ const RapportertInntekt = ({
   if (inntekt.status === "IKKE_RAPPORTERT_MEN_BRUKT_I_GJENNOMSNITT") {
     return "Ikke rapportert (0kr)";
   }
+  if (inntekt.status === "IKKE_RAPPORTERT_NYANSATT") {
+    return "Ikke rapportert";
+  }
   if (inntekt.status === "NEDETID_AINNTEKT") {
     return "-";
   }
@@ -268,6 +271,10 @@ const AlertOmRapportertLønn = ({
 
   const harIkkeRapportertOgFristErPassert = månedsinntekter.some(
     (inntekt) => inntekt.status === "IKKE_RAPPORTERT_MEN_BRUKT_I_GJENNOMSNITT",
+  );
+
+  const harIkkeRapportertNyansatt = månedsinntekter.some(
+    (inntekt) => inntekt.status === "IKKE_RAPPORTERT_NYANSATT",
   );
 
   const harIkkeRapportertMenFristIkkePassert = månedsinntekter.some(
@@ -340,6 +347,21 @@ const AlertOmRapportertLønn = ({
           Det er ikke rapportert lønn for alle tre månedene før første
           fraværsdag. Vi har derfor estimert månedslønn basert på gjennomsnittet
           av de tre siste månedene med rapportert lønn.
+        </BodyShort>
+      </Alert>
+    );
+  }
+
+  if (harIkkeRapportertNyansatt) {
+    return (
+      <Alert
+        className="col-span-2"
+        data-testid="alert-ikke-rapportert-frist-ikke-passert"
+        variant="warning"
+      >
+        <BodyShort>
+          Arbeidstakeren er nylig innmeldt i nytt arbeidsforhold. Skal inntekten
+          korrigeres?
         </BodyShort>
       </Alert>
     );
