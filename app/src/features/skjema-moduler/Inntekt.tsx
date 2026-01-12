@@ -354,11 +354,7 @@ const AlertOmRapportertLønn = ({
 
   if (harIkkeRapportertNyansatt) {
     return (
-      <Alert
-        className="col-span-2"
-        data-testid="alert-ikke-rapportert-frist-ikke-passert"
-        variant="warning"
-      >
+      <Alert className="col-span-2" variant="warning">
         <BodyShort>
           Arbeidstakeren er nylig innmeldt i nytt arbeidsforhold. Skal inntekten
           korrigeres?
