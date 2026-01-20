@@ -50,7 +50,7 @@ export const Kvittering = ({
         </BodyLong>
       </Alert>
 
-      <VStack className="mb-12" gap="4">
+      <VStack className="mb-12" gap="space-16">
         <Heading size="medium">Ofte stilte spørsmål</Heading>
         {ofteStilteSpørsmål.map((spørsmål) => (
           <ExpansionCard

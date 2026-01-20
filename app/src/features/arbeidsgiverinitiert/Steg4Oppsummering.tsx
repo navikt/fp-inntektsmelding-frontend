@@ -51,12 +51,13 @@ export const Steg4Oppsummering = () => {
             dessverre begynne på nytt.
           </BodyLong>
           <Button
-            data-color="neutral"
             as={Link}
+            data-color="neutral"
             search
             size="small"
             to="/agi"
-            variant="secondary">
+            variant="secondary"
+          >
             Start på nytt
           </Button>
         </Stack>

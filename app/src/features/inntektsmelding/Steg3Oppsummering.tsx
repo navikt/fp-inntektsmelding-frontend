@@ -55,11 +55,12 @@ export const Steg3Oppsummering = () => {
             dessverre begynne på nytt.
           </BodyLong>
           <Button
-            data-color="neutral"
             as={Link}
+            data-color="neutral"
             size="small"
             to={`/${id}`}
-            variant="secondary">
+            variant="secondary"
+          >
             Start på nytt
           </Button>
         </Stack>
