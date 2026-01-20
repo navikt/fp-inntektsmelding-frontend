@@ -197,7 +197,7 @@ function Ytelsesperiode() {
   const førsteDag = capitalize(formatDatoLang(new Date(førsteUttaksdato)));
 
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       <hr />
       <Heading level="4" size="medium">
         Periode med {formatYtelsesnavn(ytelse)}

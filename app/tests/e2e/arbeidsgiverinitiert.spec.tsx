@@ -245,7 +245,7 @@ test("Verifiser fremgangsindikator", async ({ page }) => {
   await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
 
   await page.getByRole("button", { name: "Vis alle steg" }).click();
-  const formprogress = await page.locator(".navds-stepper");
+  const formprogress = await page.locator(".aksel-stepper");
   // Verfiser at den ikke er interaktiv
   await expect(formprogress.locator("a")).toHaveCount(0);
   await expect(formprogress).toContainText("Opprett");

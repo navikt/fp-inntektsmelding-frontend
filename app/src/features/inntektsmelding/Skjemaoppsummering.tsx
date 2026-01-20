@@ -1,4 +1,4 @@
-import { FormSummary, List, VStack } from "@navikt/ds-react";
+import { Box, FormSummary, List, VStack } from "@navikt/ds-react";
 import { Link } from "@tanstack/react-router";
 
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
@@ -27,7 +27,7 @@ export const Skjemaoppsummering = ({
 }: SkjemaoppsummeringProps) => {
   const kanEndres = opplysninger.forespørselStatus !== "UTGÅTT";
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       <FormSummary>
         <FormSummary.Header>
           <FormSummary.Heading level="3">
@@ -220,17 +220,19 @@ function InntektSummary({
           <FormSummary.Label>Beregnet månedslønn</FormSummary.Label>
           <FormSummary.Value>
             {harEndretInntekt ? (
-              <List>
-                <List.Item>
-                  Estimert:{" "}
-                  <span className="line-through">
-                    {formatKroner(estimertInntekt)}
-                  </span>
-                </List.Item>
-                <List.Item>
-                  Endret til: {formatKroner(gjeldendeInntekt)}
-                </List.Item>
-              </List>
+              <Box asChild marginBlock="space-16">
+                <List>
+                  <List.Item>
+                    Estimert:{" "}
+                    <span className="line-through">
+                      {formatKroner(estimertInntekt)}
+                    </span>
+                  </List.Item>
+                  <List.Item>
+                    Endret til: {formatKroner(gjeldendeInntekt)}
+                  </List.Item>
+                </List>
+              </Box>
             ) : (
               formatKroner(gjeldendeInntekt)
             )}

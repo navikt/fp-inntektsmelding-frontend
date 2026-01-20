@@ -25,7 +25,7 @@ export const AgiSkjemaoppsummering = ({
   const kanEndres = opplysninger.forespørselStatus !== "UTGÅTT";
 
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       <FormSummary>
         <FormSummary.Header>
           <FormSummary.Heading level="3">
