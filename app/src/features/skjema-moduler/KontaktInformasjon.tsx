@@ -37,7 +37,7 @@ export const KontaktInformasjon = () => {
         kilde="Fra Altinn og Folkeregisteret"
         tittel="Kontaktinformasjon for arbeidsgiver"
       >
-        <HGrid align="start" columns={{ sm: 1, md: 2 }} gap="5">
+        <HGrid align="start" columns={{ sm: 1, md: 2 }} gap="space-20">
           <TextField
             className="w-full"
             {...register("navn", {

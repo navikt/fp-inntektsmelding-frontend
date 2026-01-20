@@ -138,7 +138,7 @@ const AgiRefusjon = ({ opplysninger }: { opplysninger: OpplysningerDto }) => {
   const skalRefunderes = watch("skalRefunderes");
 
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       <RadioGroup
         description={<HvaVilDetSiÅHaRefusjon opplysninger={opplysninger} />}
         error={formState.errors.skalRefunderes?.message}
@@ -165,8 +165,8 @@ const AgiRefusjon = ({ opplysninger }: { opplysninger: OpplysningerDto }) => {
 
 const LikRefusjon = () => {
   return (
-    <Stack gap="4">
-      <HStack gap="4">
+    <Stack gap="space-16">
+      <HStack gap="space-16">
         <FormattertTallTextField
           autoFocus
           label="Refusjonsbeløp per måned"

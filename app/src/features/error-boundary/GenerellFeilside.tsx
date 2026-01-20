@@ -15,10 +15,10 @@ export const GenerellFeilside = () => {
   return (
     <Page>
       <PageBlock as="main" gutters width="xl">
-        <Box paddingBlock="20 8">
+        <Box paddingBlock="space-80 space-32">
           <HGrid columns="minmax(auto,600px)" data-aksel-template="500-v2">
-            <VStack gap="16">
-              <VStack align="start" gap="12">
+            <VStack gap="space-64">
+              <VStack align="start" gap="space-48">
                 <div>
                   <Heading level="1" size="large" spacing>
                     Beklager, noe gikk galt.
@@ -28,21 +28,23 @@ export const GenerellFeilside = () => {
                     utilgjengelig. Dette skyldes ikke noe du gjorde.
                   </BodyShort>
                   <BodyShort>Du kan prøve å</BodyShort>
-                  <List>
-                    <List.Item>
-                      vente noen minutter og{" "}
-                      <Link href="#" onClick={() => location.reload()}>
-                        laste siden på nytt
-                      </Link>
-                    </List.Item>
-                    <List.Item>
-                      {globalThis.history.length > 1 && (
-                        <Link href="#" onClick={() => history.back()}>
-                          gå tilbake til forrige side
+                  <Box asChild marginBlock="space-16">
+                    <List>
+                      <List.Item>
+                        vente noen minutter og{" "}
+                        <Link href="#" onClick={() => location.reload()}>
+                          laste siden på nytt
                         </Link>
-                      )}
-                    </List.Item>
-                  </List>
+                      </List.Item>
+                      <List.Item>
+                        {globalThis.history.length > 1 && (
+                          <Link href="#" onClick={() => history.back()}>
+                            gå tilbake til forrige side
+                          </Link>
+                        )}
+                      </List.Item>
+                    </List>
+                  </Box>
                   <BodyShort>
                     Hvis problemet vedvarer, kan du{" "}
                     <Link href="https://nav.no/kontaktoss" target="_blank">

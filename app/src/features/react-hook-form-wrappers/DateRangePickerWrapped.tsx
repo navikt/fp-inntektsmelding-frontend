@@ -61,7 +61,7 @@ export const DateRangePickerWrapped = forwardRef<
   });
   return (
     <DatePicker {...useRangeDatepickerProps}>
-      <HStack align="baseline" gap="4" ref={ref}>
+      <HStack align="baseline" gap="space-16" ref={ref}>
         <DatePicker.Input
           {...fromInputProps}
           error={fromFieldState.isTouched && fromFieldState.error?.message}

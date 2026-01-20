@@ -40,7 +40,7 @@ export const ImRefusjon = ({ opplysninger }: ImRefusjonProps) => {
   const skalRefunderes = watch("skalRefunderes");
 
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       <hr />
       <Heading id="refusjon" level="4" size="medium">
         Utbetaling og refusjon

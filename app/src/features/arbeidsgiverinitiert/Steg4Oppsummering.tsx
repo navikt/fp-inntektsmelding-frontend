@@ -45,18 +45,18 @@ export const Steg4Oppsummering = () => {
     );
     return (
       <Alert className="mt-4 mx-4 md:mx-0" variant="error">
-        <Stack gap="4">
+        <Stack gap="space-16">
           <BodyLong>
             Noe gikk galt med utfyllingen av inntektsmeldingen din. Du må
             dessverre begynne på nytt.
           </BodyLong>
           <Button
+            data-color="neutral"
             as={Link}
             search
             size="small"
             to="/agi"
-            variant="secondary-neutral"
-          >
+            variant="secondary">
             Start på nytt
           </Button>
         </Stack>

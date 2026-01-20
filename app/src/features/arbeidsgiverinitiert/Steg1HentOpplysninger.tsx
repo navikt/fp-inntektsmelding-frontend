@@ -445,8 +445,8 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
   const formMethods = useFormContext<FormType>();
 
   return (
-    <VStack gap="8">
-      <HStack gap="10">
+    <VStack gap="space-32">
+      <HStack gap="space-40">
         <TextField
           {...formMethods.register("fødselsnummer", {
             required: "Må oppgis",
@@ -457,7 +457,7 @@ function NyAnsattForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
           error={formMethods.formState.errors.fødselsnummer?.message}
           label="Ansattes fødselsnummer"
         />
-        <VStack gap="4">
+        <VStack gap="space-16">
           <Label>Navn</Label>
           {data && (
             <BodyShort>
@@ -479,8 +479,8 @@ function UregistrertForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
   const formMethods = useFormContext<FormType>();
 
   return (
-    <VStack gap="8">
-      <HStack gap="10">
+    <VStack gap="space-32">
+      <HStack gap="space-40">
         <TextField
           {...formMethods.register("fødselsnummer", {
             required: "Må oppgis",
@@ -491,7 +491,7 @@ function UregistrertForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
           error={formMethods.formState.errors.fødselsnummer?.message}
           label="Ansattes fødselsnummer"
         />
-        <VStack gap="4">
+        <VStack gap="space-16">
           <Label>Navn</Label>
           {data && (
             <BodyShort>

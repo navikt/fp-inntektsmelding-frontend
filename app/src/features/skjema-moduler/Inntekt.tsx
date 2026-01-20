@@ -8,6 +8,7 @@ import {
   Alert,
   BodyLong,
   BodyShort,
+  Box,
   Button,
   Checkbox,
   Heading,
@@ -87,7 +88,7 @@ export function Inntekt({
         kilde="Fra A-Ordningen"
         tittel={`${capitalizeSetning(leggTilGenitiv(person.fornavn))} lønn før ${førsteDag}`}
       >
-        <HGrid columns={{ md: "max-content 1fr" }} gap="4">
+        <HGrid columns={{ md: "max-content 1fr" }} gap="space-16">
           {inntektsopplysninger.månedsinntekter
             ?.toSorted((a, b) => a.fom.localeCompare(b.fom))
             .map((inntekt) => (
@@ -105,7 +106,7 @@ export function Inntekt({
       </Informasjonsseksjon>
 
       {!erAInntektNede && (
-        <VStack data-testid="gjennomsnittinntekt-block" gap="1">
+        <VStack data-testid="gjennomsnittinntekt-block" gap="space-4">
           <BodyShort>Beregnet månedslønn</BodyShort>
           <strong
             className={clsx(
@@ -168,7 +169,7 @@ export function Inntekt({
       </HjelpetekstAlert>
       <div className="flex flex-col gap-2">
         <HjelpetekstReadMore header="Har den ansatte hatt ferie eller fravær de siste tre månedene?">
-          <Stack gap="2">
+          <Stack gap="space-8">
             <BodyLong>
               Hvis den ansatte har hatt ferietrekk i en lønnsutbetaling skal
               dette inngå som en del av gjennomsnittet for tre måneder. Du må da
@@ -182,47 +183,51 @@ export function Inntekt({
               regnes arbeidsforholdet som avbrutt. Hvilken inntekt du oppgir
               avhenger av om den ansatte var tilbake fra jobb etter fraværet:
             </BodyLong>
-            <List>
-              <ListItem>
-                Hvis den ansatte ikke har vært tilbake på jobb, skal du oppgi
-                0,- i inntekt. Nav vurderer da søknaden ut fra opplysninger i
-                A-meldingen.
-              </ListItem>
-              <ListItem>
-                Hvis den ansatte har vært tilbake i mindre enn 3 måneder, må du
-                fastsette månedsinntekten ut fra perioden den ansatte var
-                tilbake:
-                <List>
-                  <ListItem>
-                    Hvis den ansatte har fast månedslønn, er det denne du skal
-                    bruke
-                  </ListItem>
-                  <ListItem>
-                    Hvis den ansatte har hatt lovlig fravær, skal du bruke
-                    inntekten som den ansatte ville hatt hvis han eller hun var
-                    på jobb. Lovlig fravær kan for eksempel være på grunn av
-                    ferie, sykefravær, foreldrepermisjon eller perioder med
-                    pleiepenger.
-                  </ListItem>
-                  <ListItem>
-                    Hvis den ansatte har varierende lønn, og ikke rakk å jobbe
-                    tre hele måneder, må du fastsette inntekten for delvise
-                    måneder slik: Utbetalt lønn / utførte arbeidsdager x avtalte
-                    arbeidsdager for måneden.
-                    <br />
-                    <em>
-                      Eks: Den ansatte skal ha stønad fra 17. november. Det var
-                      avtalt 22 arbeidsdager for hele november, og den ansatte
-                      jobbet 12 dager frem til første fraværsdag. På disse 12
-                      dagene tjente den ansatte 22 000,-. Beregnet inntekt: 22
-                      000 / 12 x 22 = 40 333,- månedslønn i november. Denne
-                      inntekten tas med i snittet av tre måneder, sammen med
-                      september og oktober.
-                    </em>
-                  </ListItem>
-                </List>
-              </ListItem>
-            </List>
+            <Box asChild marginBlock="space-16">
+              <List>
+                <ListItem>
+                  Hvis den ansatte ikke har vært tilbake på jobb, skal du oppgi
+                  0,- i inntekt. Nav vurderer da søknaden ut fra opplysninger i
+                  A-meldingen.
+                </ListItem>
+                <ListItem>
+                  Hvis den ansatte har vært tilbake i mindre enn 3 måneder, må
+                  du fastsette månedsinntekten ut fra perioden den ansatte var
+                  tilbake:
+                  <Box asChild marginBlock="space-16">
+                    <List>
+                      <ListItem>
+                        Hvis den ansatte har fast månedslønn, er det denne du
+                        skal bruke
+                      </ListItem>
+                      <ListItem>
+                        Hvis den ansatte har hatt lovlig fravær, skal du bruke
+                        inntekten som den ansatte ville hatt hvis han eller hun
+                        var på jobb. Lovlig fravær kan for eksempel være på
+                        grunn av ferie, sykefravær, foreldrepermisjon eller
+                        perioder med pleiepenger.
+                      </ListItem>
+                      <ListItem>
+                        Hvis den ansatte har varierende lønn, og ikke rakk å
+                        jobbe tre hele måneder, må du fastsette inntekten for
+                        delvise måneder slik: Utbetalt lønn / utførte
+                        arbeidsdager x avtalte arbeidsdager for måneden.
+                        <br />
+                        <em>
+                          Eks: Den ansatte skal ha stønad fra 17. november. Det
+                          var avtalt 22 arbeidsdager for hele november, og den
+                          ansatte jobbet 12 dager frem til første fraværsdag. På
+                          disse 12 dagene tjente den ansatte 22 000,-. Beregnet
+                          inntekt: 22 000 / 12 x 22 = 40 333,- månedslønn i
+                          november. Denne inntekten tas med i snittet av tre
+                          måneder, sammen med september og oktober.
+                        </em>
+                      </ListItem>
+                    </List>
+                  </Box>
+                </ListItem>
+              </List>
+            </Box>
           </Stack>
         </HjelpetekstReadMore>
         <HjelpetekstReadMore header="Jobber den ansatte skift eller har timelønn?">
@@ -473,7 +478,7 @@ function Endringsårsaker({
       );
 
   return (
-    <VStack gap="4">
+    <VStack gap="space-16">
       {fields.map((field, index) => {
         return (
           <div
