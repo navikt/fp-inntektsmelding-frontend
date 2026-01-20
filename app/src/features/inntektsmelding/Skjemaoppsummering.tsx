@@ -92,7 +92,8 @@ export const Skjemaoppsummering = ({
             <FormSummary.EditLink
               aria-label="Endre utbetaling og refusjon"
               as={Link}
-              to="../inntekt-og-refusjon#refusjon"
+              hash="refusjon"
+              to="../inntekt-og-refusjon"
             />
           )}
         </FormSummary.Header>
@@ -145,7 +146,8 @@ export const Skjemaoppsummering = ({
             <FormSummary.EditLink
               aria-label="Endre naturalytelser"
               as={Link}
-              to="../inntekt-og-refusjon#naturalytelser"
+              hash="naturalytelser"
+              to="../inntekt-og-refusjon"
             />
           )}
         </FormSummary.Header>
@@ -211,7 +213,8 @@ function InntektSummary({
           <FormSummary.EditLink
             aria-label="Endre inntekt"
             as={Link}
-            to="../inntekt-og-refusjon#beregnet-manedslonn"
+            hash="beregnet-manedslonn"
+            to="../inntekt-og-refusjon"
           />
         )}
       </FormSummary.Header>
