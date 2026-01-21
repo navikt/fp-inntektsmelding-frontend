@@ -31,9 +31,9 @@
     "eslint-plugin-prettier": "5.5.4",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-unicorn": "62.0.0",
-    "knip": "5.80.0",
+    "knip": "5.80.2",
     "prettier": "3.7.4",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.52.0"
+    "typescript-eslint": "8.53.0"
   }
 }
