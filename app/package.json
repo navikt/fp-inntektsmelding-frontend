@@ -27,7 +27,7 @@
     "@tanstack/react-router": "1.153.2",
     "clsx": "2.1.1",
     "date-fns": "4.1.0",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "7.71.1",
