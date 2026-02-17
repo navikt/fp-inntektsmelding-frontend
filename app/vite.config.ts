@@ -4,10 +4,11 @@ import tailwindcss from "@tailwindcss/vite";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import compression from "vite-plugin-compression2";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), TanStackRouterVite(), tailwindcss()],
+  plugins: [compression(), react(), TanStackRouterVite(), tailwindcss()],
   resolve: {
     alias: {
       "~": fileURLToPath(new URL("src", import.meta.url)),
