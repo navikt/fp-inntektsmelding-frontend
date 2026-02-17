@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), TanStackRouterVite(), tailwindcss()],
+  plugins: [compression(), react(), TanStackRouterVite(), tailwindcss()],
   resolve: {
     alias: {
       "~": fileURLToPath(new URL("src", import.meta.url)),

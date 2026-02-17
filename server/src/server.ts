@@ -2,6 +2,7 @@ import express from "express";
 
 import { setupActuators } from "./actuators.js";
 import { setupApiProxy } from "./apiProxy.js";
+import { serveKomprimerteFilerHvisMulig } from "./compression.js";
 import config from "./config.js";
 import { errorHandling } from "./errorHandler.js";
 import { setupStaticRoutes } from "./frontendRoute.js";
@@ -24,6 +25,8 @@ app.set("trust proxy", 1);
 app.use(verifyToken);
 
 setupApiProxy(protectedRouter);
+
+protectedRouter.use(serveKomprimerteFilerHvisMulig);
 // Catch all route, må være sist
 setupStaticRoutes(protectedRouter);
 
