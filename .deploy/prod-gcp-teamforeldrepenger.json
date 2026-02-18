@@ -2,6 +2,13 @@
   "ingresses": ["https://arbeidsgiver.nav.no/fp-im-dialog"],
   "minReplicas": "2",
   "maxReplicas": "4",
+  "limits": {
+    "memory": "128Mi"
+  },
+  "requests": {
+    "cpu": "12m",
+    "memory": "128Mi"
+  },
   "API_SCOPE": "prod-gcp:teamforeldrepenger:fpinntektsmelding",
   "ENV": "prod"
 }
