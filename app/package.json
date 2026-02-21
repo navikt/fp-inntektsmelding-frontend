@@ -15,7 +15,7 @@
     "knip:fix": "knip --fix"
   },
   "dependencies": {
-    "@grafana/faro-web-sdk": "1.19.0",
+    "@grafana/faro-web-sdk": "2.2.4",
     "@navikt/aksel-icons": "8.5.2",
     "@navikt/ds-css": "8.5.2",
     "@navikt/ds-react": "8.5.2",
