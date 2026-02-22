@@ -5,6 +5,13 @@
   ],
   "minReplicas": "1",
   "maxReplicas": "2",
+  "limits": {
+    "memory": "128Mi"
+  },
+  "requests": {
+    "cpu": "14m",
+    "memory": "96Mi"
+  },
   "API_SCOPE": "dev-gcp:teamforeldrepenger:fpinntektsmelding",
   "ENV": "dev"
 }
