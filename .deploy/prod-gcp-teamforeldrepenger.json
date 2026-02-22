@@ -6,7 +6,7 @@
     "memory": "128Mi"
   },
   "requests": {
-    "cpu": "12m",
+    "cpu": "50m",
     "memory": "128Mi"
   },
   "API_SCOPE": "prod-gcp:teamforeldrepenger:fpinntektsmelding",
