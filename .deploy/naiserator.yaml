@@ -31,9 +31,9 @@ spec:
   resources:
     limits:
       memory: {{limits.memory}}
-      requests:
-        cpu: {{requests.cpu}}
-        memory: {{requests.memory}}
+    requests:
+      cpu: {{requests.cpu}}
+      memory: {{requests.memory}}
   observability:
     autoInstrumentation:
       enabled: true
