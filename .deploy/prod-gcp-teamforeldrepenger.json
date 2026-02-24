@@ -3,11 +3,11 @@
   "minReplicas": "2",
   "maxReplicas": "4",
   "limits": {
-    "memory": "128Mi"
+    "memory": "160Mi"
   },
   "requests": {
     "cpu": "50m",
-    "memory": "128Mi"
+    "memory": "160Mi"
   },
   "API_SCOPE": "prod-gcp:teamforeldrepenger:fpinntektsmelding",
   "ENV": "prod"
