@@ -53,19 +53,20 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
+      - name: Generate build version
+        id: generate-build-version
+        run: echo "build-version=fp-inntektsmelding-frontend-$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
+
       - name: Build webapp
         working-directory: app
         run: npm run build
+        env:
+          VITE_SENTRY_RELEASE: ${{ steps.generate-build-version.outputs.build-version }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: Copy webapp into public directory of server
         working-directory: app
         run: cp -r dist/ ../server/public
-
-      - name: Generate build version
-        id: generate-build-version
-        run: echo "build-version=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
-      - name: Print build version
-        run: echo "Generated build-version is ${{ steps.generate-build-version.outputs.build-version }}"
       - name: Bygg og push docker image teamforeldrepenger
         uses: navikt/fp-gha-workflows/.github/actions/build-push-docker-image@main # ratchet:exclude
         with:

@@ -15,13 +15,14 @@
     "knip:fix": "knip --fix"
   },
   "dependencies": {
-    "@grafana/faro-web-sdk": "2.2.4",
     "@navikt/aksel-icons": "8.6.0",
     "@navikt/ds-css": "8.6.0",
     "@navikt/ds-react": "8.6.0",
     "@navikt/ds-tailwind": "8.6.0",
     "@navikt/fnrvalidator": "2.2.1",
     "@navikt/nav-dekoratoren-moduler": "3.6.2",
+    "@sentry/browser": "10.38.0",
+    "@sentry/vite-plugin": "4.9.0",
     "@tailwindcss/vite": "4.2.1",
     "@tanstack/react-query": "5.90.21",
     "@tanstack/react-router": "1.162.9",
