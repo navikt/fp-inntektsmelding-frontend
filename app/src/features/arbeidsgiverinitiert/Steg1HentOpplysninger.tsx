@@ -215,7 +215,7 @@ export const Steg1HentOpplysninger = () => {
             }
           })}
         >
-          <div className="bg-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
+          <div className="bg-ax-bg-default px-5 py-6 rounded-md flex flex-col gap-6">
             <Heading level="3" size="large">
               Opprett manuell inntektsmelding
             </Heading>

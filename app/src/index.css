@@ -3,5 +3,5 @@
 @config "@navikt/ds-tailwind";
 
 hr {
-    color: var(--a-gray-300);
+    color: var(--ax-neutral-400);
 }

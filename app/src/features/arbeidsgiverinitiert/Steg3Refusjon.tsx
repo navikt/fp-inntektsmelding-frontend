@@ -85,7 +85,7 @@ export function Steg3Refusjon() {
     <FormProvider {...formMethods}>
       <section className="mt-2">
         <form
-          className="bg-bg-default px-5 py-6 rounded-md flex gap-6 flex-col"
+          className="bg-ax-bg-default px-5 py-6 rounded-md flex gap-6 flex-col"
           onSubmit={onSubmit}
         >
           <Heading level="3" size="large">
