@@ -33,7 +33,7 @@ export const SkjemaRotLayout = (props: SkjemaRotLayoutProps) => {
     props.organisasjonNavn && props.organisasjonNummer;
   return (
     <RotLayout
-      background={erPåKvitteringssiden ? "bg-default" : "bg-subtle"}
+      background={erPåKvitteringssiden ? "default" : "sunken"}
       tittel={`Inntektsmelding ${formatYtelsesnavn(props.ytelse)}`}
       undertittel={
         skalViseUndertittel && (

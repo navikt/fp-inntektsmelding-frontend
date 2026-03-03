@@ -1,4 +1,4 @@
-import { Detail, Heading, HStack, Page, PageProps } from "@navikt/ds-react";
+import { Box, BoxProps, Detail, Heading, HStack, Page } from "@navikt/ds-react";
 
 import illustrasjonUrl from "./illustrasjon.svg";
 
@@ -10,7 +10,7 @@ type RotLayoutProps = {
   /** Innholdet i viewet */
   children: React.ReactNode;
   /** Bakgrunnen til siden */
-  background?: PageProps["background"];
+  background?: BoxProps["background"];
   /** Flagg som wrapper innholdet i en hvit boks */
   medHvitBoks?: boolean;
 };
@@ -23,40 +23,43 @@ export const RotLayout = ({
   tittel,
   undertittel,
   children,
+  background,
   medHvitBoks = false,
 }: RotLayoutProps) => {
   return (
     <main id="maincontent">
-      <Page>
-        <Page.Block className="bg-ax-bg-default border-b-4 py-5">
-          <Page.Block width="md">
-            <HStack align="center">
-              <img
-                alt=""
-                className="hidden ax-md:block ml-3"
-                height="52"
-                src={illustrasjonUrl}
-                width="52"
-              />
-              <div className="ml-4">
-                <Heading level="1" size="large">
-                  {tittel}
-                </Heading>
-                {undertittel && <Detail as="div">{undertittel}</Detail>}
-              </div>
-            </HStack>
+      <Box asChild background={background}>
+        <Page>
+          <Page.Block className="bg-ax-bg-default border-ax-border-accent-subtle border-b-4 py-5">
+            <Page.Block width="md">
+              <HStack align="center">
+                <img
+                  alt=""
+                  className="hidden ax-md:block ml-3"
+                  height="52"
+                  src={illustrasjonUrl}
+                  width="52"
+                />
+                <div className="ml-4">
+                  <Heading level="1" size="large">
+                    {tittel}
+                  </Heading>
+                  {undertittel && <Detail as="div">{undertittel}</Detail>}
+                </div>
+              </HStack>
+            </Page.Block>
           </Page.Block>
-        </Page.Block>
-        <Page.Block width="md">
-          {medHvitBoks ? (
-            <div className="bg-ax-bg-default px-5 py-6 rounded-md flex gap-6 flex-col mt-2">
-              {children}
-            </div>
-          ) : (
-            children
-          )}
-        </Page.Block>
-      </Page>
+          <Page.Block width="md">
+            {medHvitBoks ? (
+              <div className="bg-ax-bg-default px-5 py-6 rounded-md flex gap-6 flex-col mt-2">
+                {children}
+              </div>
+            ) : (
+              children
+            )}
+          </Page.Block>
+        </Page>
+      </Box>
     </main>
   );
 };
