@@ -28,7 +28,7 @@ export const RotLayout = ({
   return (
     <main id="maincontent">
       <Page>
-        <Page.Block className="bg-ax-bg-default border-border-focus-on-inverted border-b-4 py-5">
+        <Page.Block className="bg-ax-bg-default border-b-4 py-5">
           <Page.Block width="md">
             <HStack align="center">
               <img
