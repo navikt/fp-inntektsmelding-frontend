@@ -44,7 +44,7 @@ export const VisAgiInntektsmelding = () => {
 
   return (
     <section className="mt-4">
-      <VStack className="bg-bg-default px-5 py-6 rounded-md" gap="space-24">
+      <VStack className="bg-ax-bg-default px-5 py-6 rounded-md" gap="space-24">
         <HStack gap="space-8" justify="space-between">
           <VStack>
             <Heading level="1" size="medium">
