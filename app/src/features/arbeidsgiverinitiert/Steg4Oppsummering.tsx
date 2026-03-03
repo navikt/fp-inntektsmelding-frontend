@@ -37,7 +37,7 @@ export const Steg4Oppsummering = () => {
   const { gyldigAgiSkjemaState, agiSkjemaStateError } = useAgiSkjema();
 
   if (!gyldigAgiSkjemaState) {
-    // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg error til Grafana for innsikt.
+    // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg error til Sentry for innsikt.
     // eslint-disable-next-line no-console
     console.error(
       "Ugyldig skjemaState på oppsummeringssiden for AGI",
