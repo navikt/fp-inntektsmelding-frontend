@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { z, ZodError } from "zod/v4";
 
 import { AGI_NYANSATT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
@@ -90,21 +90,27 @@ export const AgiSkjemaStateProvider = ({
     schema: AgiSkjemaStateSchema,
   });
 
-  const gyldigAgiSkjemaState = AgiSkjemaStateSchemaValidated.safeParse(state);
+  const gyldigAgiSkjemaState = useMemo(
+    () => AgiSkjemaStateSchemaValidated.safeParse(state),
+    [state],
+  );
 
   if (!gyldigAgiSkjemaState.success) {
     logDev("error", gyldigAgiSkjemaState.error);
   }
 
+  const value = useMemo(
+    () => ({
+      agiSkjemaState: state,
+      gyldigAgiSkjemaState: gyldigAgiSkjemaState.data,
+      agiSkjemaStateError: gyldigAgiSkjemaState.error,
+      setAgiSkjemaState: setState,
+    }),
+    [state, gyldigAgiSkjemaState, setState],
+  );
+
   return (
-    <AgiSkjemaStateContext.Provider
-      value={{
-        agiSkjemaState: state,
-        gyldigAgiSkjemaState: gyldigAgiSkjemaState.data,
-        agiSkjemaStateError: gyldigAgiSkjemaState.error,
-        setAgiSkjemaState: setState,
-      }}
-    >
+    <AgiSkjemaStateContext.Provider value={value}>
       {children}
     </AgiSkjemaStateContext.Provider>
   );

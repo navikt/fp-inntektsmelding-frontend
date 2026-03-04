@@ -173,9 +173,11 @@ function lagSendInntektsmeldingRequest(
 ) {
   const gjeldendeInntekt = skjemaState.korrigertInntekt ?? skjemaState.inntekt;
 
-  let refusjon: skjemaState.refusjon;
+  let refusjon: typeof skjemaState.refusjon = [];
   if (skjemaState.skalRefunderes === "JA_LIK_REFUSJON") {
     refusjon = skjemaState.refusjon.slice(0, 1);
+  } else if (skjemaState.skalRefunderes === "JA_VARIERENDE_REFUSJON") {
+    refusjon = skjemaState.refusjon;
   }
 
   const endringAvInntektÅrsaker = skjemaState.endringAvInntektÅrsaker.map(
