@@ -27,11 +27,12 @@ export default tseslint.config(
     },
   },
   eslintPluginUnicorn.configs["flat/recommended"],
+  eslintPluginPrettierRecommended,
   {
     rules: {
       eqeqeq: ["error", "always"],
+      curly: ["error", "all"],
       ...IGNORED_UNICORN_RULES,
     },
   },
-  eslintPluginPrettierRecommended,
 );

@@ -187,7 +187,10 @@ export function Steg2InntektOgRefusjon() {
 }
 
 function konverterTilRadioValg(verdi: boolean | undefined) {
-  return verdi === undefined ? undefined : verdi ? "ja" : "nei";
+  if (verdi === undefined) {
+    return;
+  }
+  return verdi ? "ja" : "nei";
 }
 
 function Ytelsesperiode() {
