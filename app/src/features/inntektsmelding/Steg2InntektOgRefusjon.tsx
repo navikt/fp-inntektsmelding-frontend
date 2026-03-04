@@ -39,6 +39,23 @@ export type InntektOgRefusjonForm = {
   "refusjon" | "inntekt" | "korrigertInntekt" | "skalRefunderes"
 >;
 
+function lagRefusjonDefaultValues(
+  refusjon: InntektOgRefusjonForm["refusjon"],
+  førsteUttaksdato: string,
+  defaultBeløp: number | string | undefined,
+) {
+  if (refusjon.length === 0) {
+    return [
+      { fom: førsteUttaksdato, beløp: defaultBeløp },
+      { fom: undefined, beløp: 0 },
+    ];
+  }
+  if (refusjon.length === 1) {
+    return [...refusjon, { fom: undefined, beløp: 0 }];
+  }
+  return refusjon;
+}
+
 type EndringsÅrsakerForm = {
   årsak: EndringAvInntektÅrsaker | "";
   fom?: string;
@@ -96,18 +113,11 @@ export function Steg2InntektOgRefusjon() {
                 inkluderTom: konverterTilRadioValg(naturalYtelse.inkluderTom),
               }),
             ),
-      refusjon:
-        inntektsmeldingSkjemaState.refusjon.length === 0
-          ? [
-              { fom: opplysninger.førsteUttaksdato, beløp: defaultInntekt },
-              { fom: undefined, beløp: 0 },
-            ]
-          : inntektsmeldingSkjemaState.refusjon.length === 1
-            ? [
-                ...inntektsmeldingSkjemaState.refusjon,
-                { fom: undefined, beløp: 0 },
-              ]
-            : inntektsmeldingSkjemaState.refusjon,
+      refusjon: lagRefusjonDefaultValues(
+        inntektsmeldingSkjemaState.refusjon,
+        opplysninger.førsteUttaksdato,
+        defaultInntekt,
+      ),
     },
   });
 

@@ -83,6 +83,16 @@ export async function hentEksisterendeInntektsmeldinger(uuid: string) {
   return parsedJson.data;
 }
 
+function mapIMRefusjonTilState(lengde: number) {
+  if (lengde > 1) {
+    return "JA_VARIERENDE_REFUSJON";
+  }
+  if (lengde === 1) {
+    return "JA_LIK_REFUSJON";
+  }
+  return "NEI";
+}
+
 export function mapInntektsmeldingResponseTilValidState(
   inntektsmelding: SendInntektsmeldingResponseDto,
 ) {
@@ -106,12 +116,9 @@ export function mapInntektsmeldingResponseTilValidState(
         PÅKREVDE_ENDRINGSÅRSAK_FELTER[endringÅrsak.årsak]?.tomErValgfritt,
     })),
     inntekt: inntektsmelding.inntekt,
-    skalRefunderes:
-      (inntektsmelding.refusjon ?? []).length > 1
-        ? "JA_VARIERENDE_REFUSJON"
-        : (inntektsmelding.refusjon ?? []).length === 1
-          ? "JA_LIK_REFUSJON"
-          : "NEI",
+    skalRefunderes: mapIMRefusjonTilState(
+      (inntektsmelding.refusjon ?? []).length,
+    ),
     misterNaturalytelser:
       (inntektsmelding.bortfaltNaturalytelsePerioder?.length ?? 0) > 0,
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
@@ -135,12 +142,9 @@ export function mapInntektsmeldingResponseTilValidAgiState(
     førsteFraværsdag: inntektsmelding.startdato,
     kontaktperson: inntektsmelding.kontaktperson,
     refusjon: inntektsmelding.refusjon ?? [],
-    skalRefunderes:
-      (inntektsmelding.refusjon ?? []).length > 1
-        ? "JA_VARIERENDE_REFUSJON"
-        : (inntektsmelding.refusjon ?? []).length === 1
-          ? "JA_LIK_REFUSJON"
-          : "NEI",
+    skalRefunderes: mapIMRefusjonTilState(
+      (inntektsmelding.refusjon ?? []).length,
+    ),
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
     id: inntektsmelding.id,
   } satisfies AgiSkjemaStateValid;
