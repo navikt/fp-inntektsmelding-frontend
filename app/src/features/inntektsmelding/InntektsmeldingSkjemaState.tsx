@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { z, ZodError } from "zod/v4";
 
 import {
@@ -132,22 +132,27 @@ export const InntektsmeldingSkjemaStateProvider = ({
     schema: InntektsmeldingSkjemaStateSchema,
   });
 
-  const gyldigInntektsmeldingSkjemaState =
-    InntektsmeldingSkjemaStateSchemaValidated.safeParse(state);
+  const gyldigInntektsmeldingSkjemaState = useMemo(
+    () => InntektsmeldingSkjemaStateSchemaValidated.safeParse(state),
+    [state],
+  );
 
   if (!gyldigInntektsmeldingSkjemaState.success) {
     logDev("error", gyldigInntektsmeldingSkjemaState.error);
   }
 
+  const value = useMemo(
+    () => ({
+      inntektsmeldingSkjemaState: state,
+      gyldigInntektsmeldingSkjemaState: gyldigInntektsmeldingSkjemaState.data,
+      inntektsmeldingSkjemaStateError: gyldigInntektsmeldingSkjemaState.error,
+      setInntektsmeldingSkjemaState: setState,
+    }),
+    [state, gyldigInntektsmeldingSkjemaState, setState],
+  );
+
   return (
-    <InntektsmeldingSkjemaStateContext.Provider
-      value={{
-        inntektsmeldingSkjemaState: state,
-        gyldigInntektsmeldingSkjemaState: gyldigInntektsmeldingSkjemaState.data,
-        inntektsmeldingSkjemaStateError: gyldigInntektsmeldingSkjemaState.error,
-        setInntektsmeldingSkjemaState: setState,
-      }}
-    >
+    <InntektsmeldingSkjemaStateContext.Provider value={value}>
       {children}
     </InntektsmeldingSkjemaStateContext.Provider>
   );

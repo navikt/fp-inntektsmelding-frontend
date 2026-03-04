@@ -1,7 +1,18 @@
-import { AlertProps, Page, ReadMoreProps } from "@navikt/ds-react";
-import { Alert, ReadMore, Switch } from "@navikt/ds-react";
-import { Dispatch, SetStateAction, useState } from "react";
-import { createContext, useContext } from "react";
+import {
+  Alert,
+  AlertProps,
+  Page,
+  ReadMore,
+  ReadMoreProps,
+  Switch,
+} from "@navikt/ds-react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { z } from "zod/v4";
 
 import { loggUmamiEvent } from "~/api/umami.ts";

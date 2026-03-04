@@ -53,9 +53,11 @@ export default tseslint.config(
   },
   ...pluginQuery.configs["flat/recommended"],
   eslintPluginUnicorn.configs["flat/recommended"],
+  eslintPluginPrettierRecommended,
   {
     rules: {
       eqeqeq: ["error", "always"],
+      curly: ["error", "all"],
       "react/jsx-key": "error",
       "react/jsx-sort-props": "error",
       "react/react-in-jsx-scope": "off", // Ikke lenger nødvendig i moderne React
@@ -63,5 +65,4 @@ export default tseslint.config(
       ...IGNORED_UNICORN_RULES,
     },
   },
-  eslintPluginPrettierRecommended,
 );

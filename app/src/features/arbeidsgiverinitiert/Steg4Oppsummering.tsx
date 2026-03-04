@@ -165,12 +165,12 @@ function lagSendInntektsmeldingRequest(
   skjemaState: AgiSkjemaStateValid,
   opplysninger: OpplysningerDto,
 ) {
-  const refusjon =
-    skjemaState.skalRefunderes === "JA_LIK_REFUSJON"
-      ? skjemaState.refusjon.slice(0, 1)
-      : skjemaState.skalRefunderes === "JA_VARIERENDE_REFUSJON"
-        ? skjemaState.refusjon
-        : [];
+  let refusjon: typeof skjemaState.refusjon = [];
+  if (skjemaState.skalRefunderes === "JA_LIK_REFUSJON") {
+    refusjon = skjemaState.refusjon.slice(0, 1);
+  } else if (skjemaState.skalRefunderes === "JA_VARIERENDE_REFUSJON") {
+    refusjon = skjemaState.refusjon;
+  }
 
   // Send kun med forespørselUuid ved endring. Ved opprinnelig innsendelse skal den være undefined.
   const forespørselUuid =

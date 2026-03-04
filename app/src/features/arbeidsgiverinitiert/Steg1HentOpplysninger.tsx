@@ -207,7 +207,6 @@ export const Steg1HentOpplysninger = () => {
             } else if (values.arbeidsgiverinitiertÅrsak === "UREGISTRERT") {
               return hentPersonUregistrertArbeidMutation.mutate(values);
             } else {
-              // TODO: sjekk om dette tryner hvis "Annen årsak" + ENTER
               throw new Error(
                 "Ikke gyldig årsak ved submit: " +
                   values.arbeidsgiverinitiertÅrsak,

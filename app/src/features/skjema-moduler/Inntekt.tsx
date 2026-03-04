@@ -120,7 +120,7 @@ export function Inntekt({
         </VStack>
       )}
       {/* Hvis A-inntekt må feltet fylles ut, og det er ingen tilbakestillingsknapp. */}
-      {erAInntektNede ? (
+      {erAInntektNede && (
         <FormattertTallTextField
           description={gjennomsnittAvMånederTekst}
           htmlSize={20}
@@ -130,14 +130,16 @@ export function Inntekt({
           name="inntekt"
           required
         />
-      ) : isOpen ? (
+      )}
+      {!erAInntektNede && isOpen && (
         <EndreMånedslønn
           gjennomsnittLønn={inntektsopplysninger.gjennomsnittLønn}
           harEksisterendeInntektsmeldinger={harEksisterendeInntektsmeldinger}
           onClose={onClose}
           skjæringstidspunkt={skjæringstidspunkt}
         />
-      ) : (
+      )}
+      {!erAInntektNede && !isOpen && (
         <Button
           className="w-max"
           icon={<PencilIcon />}

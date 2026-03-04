@@ -35,6 +35,23 @@ type RefusjonForm = Pick<
   "refusjon" | "skalRefunderes"
 > & { førsteFraværsdag: string };
 
+function lagRefusjonDefaultValues(
+  refusjon: RefusjonForm["refusjon"],
+  førsteUttaksdato: string,
+  defaultBeløp: number,
+): RefusjonForm["refusjon"] {
+  if (refusjon.length === 0) {
+    return [
+      { fom: førsteUttaksdato, beløp: defaultBeløp },
+      { fom: undefined, beløp: 0 },
+    ];
+  }
+  if (refusjon.length === 1) {
+    return [...refusjon, { fom: undefined, beløp: 0 }];
+  }
+  return refusjon;
+}
+
 export function Steg3Refusjon() {
   const opplysninger = useAgiOpplysninger();
   useDocumentTitle(
@@ -47,15 +64,11 @@ export function Steg3Refusjon() {
     defaultValues: {
       skalRefunderes: agiSkjemaState.skalRefunderes,
       førsteFraværsdag: agiSkjemaState.førsteFraværsdag,
-      refusjon:
-        agiSkjemaState.refusjon.length === 0
-          ? [
-              { fom: opplysninger.førsteUttaksdato, beløp: 0 },
-              { fom: undefined, beløp: 0 },
-            ]
-          : agiSkjemaState.refusjon.length === 1
-            ? [...agiSkjemaState.refusjon, { fom: undefined, beløp: 0 }]
-            : agiSkjemaState.refusjon,
+      refusjon: lagRefusjonDefaultValues(
+        agiSkjemaState.refusjon,
+        opplysninger.førsteUttaksdato,
+        0,
+      ),
     },
   });
 
