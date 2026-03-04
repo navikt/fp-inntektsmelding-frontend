@@ -20,11 +20,7 @@ export const VisAgiInntektsmelding = () => {
   const opplysninger = useAgiOpplysninger();
   const { gyldigAgiSkjemaState } = useAgiSkjema();
 
-  if (
-    !gyldigAgiSkjemaState ||
-    gyldigAgiSkjemaState.opprettetTidspunkt === undefined ||
-    gyldigAgiSkjemaState.id === undefined
-  ) {
+  if (!gyldigAgiSkjemaState?.opprettetTidspunkt || !gyldigAgiSkjemaState.id) {
     throw new Error("Ugyldig skjematilstand på visning av AGI inntektsmelding");
   }
 

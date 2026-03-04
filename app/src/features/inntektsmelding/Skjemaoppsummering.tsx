@@ -242,36 +242,31 @@ function InntektSummary({
           </FormSummary.Value>
         </FormSummary.Answer>
         {harEndretInntekt && (
-          <>
-            <FormSummary.Answer>
-              <FormSummary.Label>Årsaker</FormSummary.Label>
-              <FormSummary.Value>
-                <FormSummary.Answers>
-                  {skjemaState.endringAvInntektÅrsaker.map(
-                    ({ årsak, fom, tom, bleKjentFom, ignorerTom }) => {
-                      const periodeStreng = formaterPeriodeStreng({
-                        fom,
-                        tom: ignorerTom ? undefined : bleKjentFom || tom,
-                      });
-                      return (
-                        <FormSummary.Answer key={[årsak, fom, tom].join("-")}>
-                          <FormSummary.Label>
-                            {
-                              endringsårsak.find((a) => a.value === årsak)
-                                ?.label
-                            }
-                          </FormSummary.Label>
-                          <FormSummary.Value>
-                            {capitalize(periodeStreng)}
-                          </FormSummary.Value>
-                        </FormSummary.Answer>
-                      );
-                    },
-                  )}
-                </FormSummary.Answers>
-              </FormSummary.Value>
-            </FormSummary.Answer>
-          </>
+          <FormSummary.Answer>
+            <FormSummary.Label>Årsaker</FormSummary.Label>
+            <FormSummary.Value>
+              <FormSummary.Answers>
+                {skjemaState.endringAvInntektÅrsaker.map(
+                  ({ årsak, fom, tom, bleKjentFom, ignorerTom }) => {
+                    const periodeStreng = formaterPeriodeStreng({
+                      fom,
+                      tom: ignorerTom ? undefined : bleKjentFom || tom,
+                    });
+                    return (
+                      <FormSummary.Answer key={[årsak, fom, tom].join("-")}>
+                        <FormSummary.Label>
+                          {endringsårsak.find((a) => a.value === årsak)?.label}
+                        </FormSummary.Label>
+                        <FormSummary.Value>
+                          {capitalize(periodeStreng)}
+                        </FormSummary.Value>
+                      </FormSummary.Answer>
+                    );
+                  },
+                )}
+              </FormSummary.Answers>
+            </FormSummary.Value>
+          </FormSummary.Answer>
         )}
       </FormSummary.Answers>
     </FormSummary>
