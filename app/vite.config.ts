@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
-import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
+import { tanstackRouter } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import compression from "vite-plugin-compression2";
@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [
     compression(),
     react(),
-    TanStackRouterVite(),
+    tanstackRouter(),
     tailwindcss(),
     // Put the Sentry vite plugin after all other plugins
     sentryVitePlugin({
