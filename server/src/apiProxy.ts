@@ -37,7 +37,6 @@ function addProxyHandler(
       } else {
         logger.error("OBO-veksling feilet", obo.error);
         response.status(403).send();
-        return;
       }
     },
     createProxyMiddleware({
