@@ -20,7 +20,6 @@ export const Route = createFileRoute("/$id/")({
       eksisterendeInntektsmeldinger[0].arbeidsgiverinitiertÅrsak === "NYANSATT";
 
     if (erAgiNyansattInntektsmelding) {
-      // TODO: forklar
       sessionStorage.setItem(
         AGI_OPPLYSNINGER_UUID,
         JSON.stringify(opplysninger),

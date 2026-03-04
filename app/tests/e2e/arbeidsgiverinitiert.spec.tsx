@@ -91,7 +91,6 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Oppsummering", exact: true }),
   ).toBeVisible();
-  // TODO: test at oppsummeringsside ser rett ut
   await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
     await route.fulfill({ json: sendAgiInntektsmeldingResponse });
   });
@@ -215,7 +214,6 @@ test("Valgt: Unntatt registrering i Aa-registeret full løype", async ({
   await expect(
     page.getByRole("heading", { name: "Oppsummering" }),
   ).toBeVisible();
-  // TODO: Legg til noen assertions på at valgene man tar er med i oppsummeringen?
 
   await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
     await route.fulfill({ json: enkelSendInntektsmeldingResponse });
