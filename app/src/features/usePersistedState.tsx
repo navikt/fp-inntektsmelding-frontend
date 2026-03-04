@@ -61,5 +61,4 @@ export function parseStorageItem<Z extends ZodType>(
     const { success, data } = schema.safeParse(JSON.parse(item));
     return success ? data : undefined;
   }
-  return;
 }

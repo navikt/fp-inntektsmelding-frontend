@@ -11,6 +11,7 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { z } from "zod/v4";
@@ -44,13 +45,16 @@ export const VisHjelpeteksterStateProvider = ({
       vis: z.boolean(),
     }),
   });
+  const value = useMemo(
+    () => ({
+      visHjelpetekster,
+      setVisHjelpetekster,
+    }),
+    [visHjelpetekster, setVisHjelpetekster],
+  );
+
   return (
-    <VisHjelpeteksterStateContext.Provider
-      value={{
-        visHjelpetekster,
-        setVisHjelpetekster,
-      }}
-    >
+    <VisHjelpeteksterStateContext.Provider value={value}>
       {children}
     </VisHjelpeteksterStateContext.Provider>
   );
