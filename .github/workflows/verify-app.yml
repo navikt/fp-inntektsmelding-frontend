@@ -32,8 +32,8 @@ jobs:
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run browser tests
+        run: npm run test:browser
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # ratchet:actions/upload-artifact@v5
         if: ${{ !cancelled() }}
         with:
@@ -61,7 +61,7 @@ jobs:
         run: npm run knip
 
       - name: Run ESLint
-        run: npm run lint
+        run: npm run eslint
 
       - name: Check for typescript errors
-        run: npm run lint:tsc
+        run: npm run tsc
