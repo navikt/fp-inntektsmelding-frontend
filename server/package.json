@@ -6,9 +6,10 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "lint:tsc": "tsc --noemit",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "eslint": "eslint",
+    "eslint:fix": "eslint --fix",
+    "prettier:fix": "prettier --write .",
+    "tsc": "tsc --noemit",
     "knip": "knip",
     "knip:fix": "knip --fix"
   },
