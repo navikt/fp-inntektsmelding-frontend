@@ -4,7 +4,7 @@ export const ingenEksisterendeInntektsmeldingerResponse = [];
 
 export const inntektsmeldingUtenEndretInntekt = [
   {
-    id: 1_001_705,
+    inntektsmeldingUuid: "uuid-1001705",
     foresporselUuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
     aktorId: "2715347149890",
     ytelse: "FORELDREPENGER",
@@ -24,7 +24,7 @@ export const inntektsmeldingUtenEndretInntekt = [
 
 export const mangeEksisterendeInntektsmeldingerResponse = [
   {
-    id: 1_001_706,
+    inntektsmeldingUuid: "uuid-1001706",
     foresporselUuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
     aktorId: "2715347149890",
     ytelse: "FORELDREPENGER",
@@ -66,7 +66,7 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
     ],
   },
   {
-    id: 1_001_705,
+    inntektsmeldingUuid: "uuid-1001705",
     foresporselUuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
     aktorId: "2715347149890",
     ytelse: "FORELDREPENGER",
@@ -112,7 +112,7 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
 
 export const agiInntektsmeldingResponse = [
   {
-    id: 1_001_706,
+    inntektsmeldingUuid: "uuid-1001706",
     foresporselUuid: "e29dcea7-febe-4a76-911c-ad8f6d3e8858",
     arbeidsgiverinitiertÅrsak: "NYANSATT",
     aktorId: "2715347149890",

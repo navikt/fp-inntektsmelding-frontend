@@ -174,7 +174,7 @@ export const InntektsmeldingResponseDtoSchema = z.object({
     }),
   ),
   opprettetTidspunkt: z.string(),
-  id: z.number(),
+  inntektsmeldingUuid: z.string(),
 });
 
 export type SendInntektsmeldingResponseDto = z.infer<

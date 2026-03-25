@@ -34,7 +34,7 @@ const AgiSkjemaStateSchema = z.object({
   ),
   // Injectes når IM er blitt sendt inn og fått id
   opprettetTidspunkt: z.string().optional(),
-  id: z.number().optional(),
+  inntektsmeldingUuid: z.string().optional(),
 });
 
 /**
@@ -57,7 +57,7 @@ const AgiSkjemaStateSchemaValidated = z.object({
   ),
   // Injectes når IM er blitt sendt inn og fått id
   opprettetTidspunkt: z.string().optional(),
-  id: z.number().optional(),
+  inntektsmeldingUuid: z.string().optional(),
 });
 
 export type AgiSkjemaState = z.infer<typeof AgiSkjemaStateSchema>;

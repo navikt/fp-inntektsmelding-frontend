@@ -20,7 +20,10 @@ export const VisAgiInntektsmelding = () => {
   const opplysninger = useAgiOpplysninger();
   const { gyldigAgiSkjemaState } = useAgiSkjema();
 
-  if (!gyldigAgiSkjemaState?.opprettetTidspunkt || !gyldigAgiSkjemaState.id) {
+  if (
+    !gyldigAgiSkjemaState?.opprettetTidspunkt ||
+    !gyldigAgiSkjemaState.inntektsmeldingUuid
+  ) {
     throw new Error("Ugyldig skjematilstand på visning av AGI inntektsmelding");
   }
 
@@ -78,8 +81,10 @@ export const VisAgiInntektsmelding = () => {
           </HStack>
           <Button
             as="a"
-            download={`inntektsmelding-${gyldigAgiSkjemaState.id}.pdf`}
-            href={hentInntektsmeldingPdfUrl(gyldigAgiSkjemaState.id)}
+            download={`inntektsmelding-${gyldigAgiSkjemaState.inntektsmeldingUuid}.pdf`}
+            href={hentInntektsmeldingPdfUrl(
+              gyldigAgiSkjemaState.inntektsmeldingUuid,
+            )}
             icon={<DownloadIcon />}
             variant="tertiary"
           >

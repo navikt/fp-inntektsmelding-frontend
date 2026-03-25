@@ -1,7 +1,7 @@
 import { SendInntektsmeldingResponseDto } from "~/types/api-models.ts";
 
 export const enkelSendInntektsmeldingResponse = {
-  id: 1_000_801,
+  inntektsmeldingUuid: "uuid-1000801",
   foresporselUuid: "1",
   aktorId: "2715347149890",
   ytelse: "FORELDREPENGER",
@@ -19,7 +19,7 @@ export const enkelSendInntektsmeldingResponse = {
 } satisfies SendInntektsmeldingResponseDto;
 
 export const sendAgiInntektsmeldingResponse = {
-  id: 1_000_801,
+  inntektsmeldingUuid: "uuid-1000801",
   arbeidsgiverinitiertÅrsak: "NYANSATT",
   foresporselUuid: "1",
   aktorId: "2715347149890",
