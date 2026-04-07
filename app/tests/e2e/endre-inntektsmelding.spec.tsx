@@ -1,20 +1,19 @@
 import { expect, test } from "@playwright/test";
 import {
+  agiInntektsmeldingResponse,
+  inntektsmeldingUtenEndretInntekt,
+  mangeEksisterendeInntektsmeldingerResponse,
+} from "tests/mocks/eksisterende-inntektsmeldinger";
+import {
+  agiOpplysninger,
+  enkeltOpplysningerResponse,
+} from "tests/mocks/opplysninger.ts";
+import {
   finnInputFraLabel,
   mockGrunnbeløp,
   mockInntektsmeldinger,
   mockOpplysninger,
 } from "tests/mocks/utils";
-
-import {
-  agiInntektsmeldingResponse,
-  inntektsmeldingUtenEndretInntekt,
-  mangeEksisterendeInntektsmeldingerResponse,
-} from "../mocks/eksisterende-inntektsmeldinger";
-import {
-  agiOpplysninger,
-  enkeltOpplysningerResponse,
-} from "../mocks/opplysninger.ts";
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
   await mockOpplysninger({

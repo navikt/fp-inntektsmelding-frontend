@@ -1,24 +1,23 @@
 import { expect, test } from "@playwright/test";
 import {
+  arbeidsforholdForTidlig,
+  arbeidsforholdOrgNrFinnerIAreg,
+} from "tests/mocks/arbeidsforhold.ts";
+import {
+  enkeltOpplysningerResponse,
+  opplysningerMedAnsettelsePerioder,
+} from "tests/mocks/opplysninger.ts";
+import {
+  enkelSendInntektsmeldingResponse,
+  sendAgiInntektsmeldingResponse,
+} from "tests/mocks/send-inntektsmelding.ts";
+import {
   expectError,
   finnInputFraLabel,
   mockHentPersonOgArbeidsforhold,
   mockHentPersonOgArbeidsforholdIngenSakFunnet,
   mockHentUregistrertPersonOgArbeidsforhold,
 } from "tests/mocks/utils";
-
-import {
-  arbeidsforholdForTidlig,
-  arbeidsforholdOrgNrFinnerIAreg,
-} from "../mocks/arbeidsforhold.ts";
-import {
-  enkeltOpplysningerResponse,
-  opplysningerMedAnsettelsePerioder,
-} from "../mocks/opplysninger.ts";
-import {
-  enkelSendInntektsmeldingResponse,
-  sendAgiInntektsmeldingResponse,
-} from "../mocks/send-inntektsmelding.ts";
 
 const FAKE_FNR = "09810198874";
 

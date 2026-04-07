@@ -1,11 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { utgåttOpplysningerResponse } from "tests/mocks/opplysninger.ts";
 import {
   mockGrunnbeløp,
   mockInntektsmeldinger,
   mockOpplysninger,
 } from "tests/mocks/utils";
-
-import { utgåttOpplysningerResponse } from "../mocks/opplysninger.ts";
 
 test("utgått oppgave skal vise egen side og hindre innsending av IM", async ({
   page,

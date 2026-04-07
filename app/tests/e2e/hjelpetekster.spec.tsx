@@ -1,11 +1,10 @@
 import { expect, test } from "@playwright/test";
-
-import { svpOpplysninger } from "../mocks/opplysninger.ts";
+import { svpOpplysninger } from "tests/mocks/opplysninger.ts";
 import {
   mockGrunnbeløp,
   mockInntektsmeldinger,
   mockOpplysninger,
-} from "../mocks/utils.ts";
+} from "tests/mocks/utils.ts";
 
 test("Skal toggle hjelpetekster med switch", async ({ page }) => {
   await mockOpplysninger({ page });

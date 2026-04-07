@@ -1,11 +1,10 @@
 import { expect, Page, test } from "@playwright/test";
-
 import {
   expectError,
   mockGrunnbeløp,
   mockInntektsmeldinger,
   mockOpplysninger,
-} from "../mocks/utils.ts";
+} from "tests/mocks/utils.ts";
 
 test("endringsårsaker uten ekstra felter", async ({ page }) => {
   await mockOpplysninger({ page });
