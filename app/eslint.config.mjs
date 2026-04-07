@@ -1,5 +1,4 @@
 import eslint from "@eslint/js";
-import pluginQuery from "@tanstack/eslint-plugin-query";
 import lodashPlugin from "eslint-plugin-lodash";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import reactLint from "eslint-plugin-react";
@@ -51,7 +50,6 @@ export default tseslint.config(
       "simple-import-sort/exports": "error",
     },
   },
-  ...pluginQuery.configs["flat/recommended"],
   eslintPluginUnicorn.configs["flat/recommended"],
   eslintPluginPrettierRecommended,
   {
