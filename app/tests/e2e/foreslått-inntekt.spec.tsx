@@ -1,19 +1,18 @@
 import { expect, test } from "@playwright/test";
 import {
-  mockGrunnbeløp,
-  mockInntektsmeldinger,
-  mockOpplysninger,
-} from "tests/mocks/utils";
-
-import {
   enkeltOpplysningerResponse,
   opplysningerMedAInntektNede,
   opplysningerMedBådeRapportertOgIkkePassert,
   opplysningerMedFlereEnn3Måneder,
   opplysningerMedSisteMånedIkkeRapportertFørRapporteringsfrist,
   opplysningerMedSisteMånedRapportert0,
-} from "../mocks/opplysninger.ts";
-import { enkelSendInntektsmeldingResponse } from "../mocks/send-inntektsmelding.ts";
+} from "tests/mocks/opplysninger.ts";
+import { enkelSendInntektsmeldingResponse } from "tests/mocks/send-inntektsmelding.ts";
+import {
+  mockGrunnbeløp,
+  mockInntektsmeldinger,
+  mockOpplysninger,
+} from "tests/mocks/utils";
 
 test("[08.05] Alle 3 måneder har rapportert inntekt", async ({ page }) => {
   await mockOpplysninger({ page, json: enkeltOpplysningerResponse });

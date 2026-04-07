@@ -1,15 +1,14 @@
 import { expect, test } from "@playwright/test";
+import { mangeEksisterendeInntektsmeldingerResponse } from "tests/mocks/eksisterende-inntektsmeldinger.ts";
+import {
+  enkeltOpplysningerResponse,
+  fullførtOppgaveResponse,
+} from "tests/mocks/opplysninger.ts";
 import {
   mockGrunnbeløp,
   mockInntektsmeldinger,
   mockOpplysninger,
 } from "tests/mocks/utils";
-
-import { mangeEksisterendeInntektsmeldingerResponse } from "../mocks/eksisterende-inntektsmeldinger.ts";
-import {
-  enkeltOpplysningerResponse,
-  fullførtOppgaveResponse,
-} from "../mocks/opplysninger.ts";
 
 test("burde vise alert dersom vi kan anta at IM er sendt inn tidligere fra LPS/Altinn", async ({
   page,
