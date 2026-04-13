@@ -42,7 +42,7 @@
     "@tanstack/react-router-devtools": "1.166.11",
     "@tanstack/router-vite-plugin": "1.166.27",
     "@types/lodash": "4.17.24",
-    "@types/node": "24.12.0",
+    "@types/node": "24.12.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.1",
