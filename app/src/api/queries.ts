@@ -25,7 +25,7 @@ import { logDev } from "~/utils.ts";
 const SERVER_URL = `${import.meta.env.BASE_URL}/server/api`;
 
 export const hentInntektsmeldingPdfUrl = (uuid: string) =>
-  `${SERVER_URL}/bekreftelse/inntektsmelding/${uuid}`;
+  `${SERVER_URL}/pdf/inntektsmelding/${uuid}`;
 
 export function hentGrunnbeløpOptions() {
   return queryOptions({
