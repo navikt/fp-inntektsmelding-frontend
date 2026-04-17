@@ -1,7 +1,7 @@
 import { getRouteApi } from "@tanstack/react-router";
 
 import { AgiSkjemaStateProvider } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useOptionalAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { getOptionalAgiOpplysninger } from "~/features/arbeidsgiverinitiert/getAgiOpplysninger.tsx";
 import { SkjemaRotLayout } from "~/features/rot-layout/SkjemaRotLayout.tsx";
 
 export const AGI_OPPLYSNINGER_UUID = "agi-opplysninger-uuid";
@@ -20,7 +20,7 @@ export const AgiRot = () => {
 
 const AgiRotComponent = () => {
   const { ytelseType } = route.useSearch();
-  const opplysninger = useOptionalAgiOpplysninger();
+  const opplysninger = getOptionalAgiOpplysninger();
   return (
     <AgiSkjemaStateProvider>
       <SkjemaRotLayout

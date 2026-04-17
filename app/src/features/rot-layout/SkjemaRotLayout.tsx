@@ -26,7 +26,7 @@ export const SkjemaRotLayout = (props: SkjemaRotLayoutProps) => {
         url: location.pathname,
       },
     ]);
-  }, []);
+  }, [location.pathname]);
 
   const erPåKvitteringssiden = location.pathname.includes("kvittering");
   const skalViseUndertittel =

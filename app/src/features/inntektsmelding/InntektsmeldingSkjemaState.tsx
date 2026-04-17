@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useMemo } from "react";
 import { z, ZodError } from "zod/v4";
 
 import {
@@ -152,15 +152,15 @@ export const InntektsmeldingSkjemaStateProvider = ({
   );
 
   return (
-    <InntektsmeldingSkjemaStateContext.Provider value={value}>
+    <InntektsmeldingSkjemaStateContext value={value}>
       {children}
-    </InntektsmeldingSkjemaStateContext.Provider>
+    </InntektsmeldingSkjemaStateContext>
   );
 };
 
 /** Henter ut global skjematilstand, og lar deg manipulere den */
 export const useInntektsmeldingSkjema = () => {
-  const context = useContext(InntektsmeldingSkjemaStateContext);
+  const context = use(InntektsmeldingSkjemaStateContext);
   if (!context) {
     throw new Error(
       "useInntektsmeldingSkjema må brukes inne i en InntektsmeldingSkjemaStateProvider",

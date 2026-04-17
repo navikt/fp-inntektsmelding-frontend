@@ -2,7 +2,7 @@ import { AGI_OPPLYSNINGER_UUID } from "~/features/arbeidsgiverinitiert/AgiRot.ts
 import { parseStorageItem } from "~/features/usePersistedState.tsx";
 import { OpplysningerDto, opplysningerSchema } from "~/types/api-models.ts";
 
-export const useAgiOpplysninger = () => {
+export const getAgiOpplysninger = () => {
   const opplysninger = parseStorageItem(
     sessionStorage,
     AGI_OPPLYSNINGER_UUID,
@@ -14,7 +14,7 @@ export const useAgiOpplysninger = () => {
   return opplysninger satisfies OpplysningerDto;
 };
 
-export const useOptionalAgiOpplysninger = () => {
+export const getOptionalAgiOpplysninger = () => {
   const opplysninger = parseStorageItem(
     sessionStorage,
     AGI_OPPLYSNINGER_UUID,

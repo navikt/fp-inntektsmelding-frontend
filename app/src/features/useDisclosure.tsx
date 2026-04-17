@@ -8,9 +8,9 @@ import { useCallback, useState } from "react";
  * ```
  */
 export function useDisclosure(defaultOpen = false) {
-  const [isOpen, setOpen] = useState(defaultOpen);
-  const onOpen = useCallback(() => setOpen(true), []);
-  const onClose = useCallback(() => setOpen(false), []);
-  const onToggle = useCallback(() => setOpen((prev) => !prev), []);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const onOpen = useCallback(() => setIsOpen(true), []);
+  const onClose = useCallback(() => setIsOpen(false), []);
+  const onToggle = useCallback(() => setIsOpen((prev) => !prev), []);
   return { isOpen, onOpen, onClose, onToggle };
 }

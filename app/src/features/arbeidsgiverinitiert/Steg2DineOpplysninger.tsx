@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { getAgiOpplysninger } from "~/features/arbeidsgiverinitiert/getAgiOpplysninger.tsx";
 import {
   KontaktInformasjon,
   PersonOgSelskapsInformasjonForm,
@@ -14,7 +14,7 @@ import { useDocumentTitle } from "../useDocumentTitle";
 import { AgiFremgangsindikator } from "./AgiFremgangsindikator";
 
 export const Steg2DineOpplysninger = () => {
-  const opplysninger = useAgiOpplysninger();
+  const opplysninger = getAgiOpplysninger();
   useDocumentTitle(
     `Dine opplysninger – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );

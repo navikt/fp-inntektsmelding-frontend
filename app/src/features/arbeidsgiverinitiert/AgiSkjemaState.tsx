@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useMemo } from "react";
 import { z, ZodError } from "zod/v4";
 
 import { AGI_NYANSATT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
@@ -110,15 +110,13 @@ export const AgiSkjemaStateProvider = ({
   );
 
   return (
-    <AgiSkjemaStateContext.Provider value={value}>
-      {children}
-    </AgiSkjemaStateContext.Provider>
+    <AgiSkjemaStateContext value={value}>{children}</AgiSkjemaStateContext>
   );
 };
 
 /** Henter ut global skjematilstand, og lar deg manipulere den */
 export const useAgiSkjema = () => {
-  const context = useContext(AgiSkjemaStateContext);
+  const context = use(AgiSkjemaStateContext);
   if (!context) {
     throw new Error("useAgiSkjema må brukes inne i en AgiSkjemaStateProvider");
   }

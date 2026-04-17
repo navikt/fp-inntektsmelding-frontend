@@ -50,8 +50,6 @@ export default tseslint.config(
       eqeqeq: ["error", "always"],
       curly: ["error", "all"],
       "no-console": "error",
-      "@eslint-react/exhaustive-deps": "off",
-      "@eslint-react/unsupported-syntax": "off",
       ...IGNORED_UNICORN_RULES,
     },
   },
