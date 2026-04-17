@@ -548,6 +548,7 @@ type ÅrsaksperioderProps = {
 };
 
 function Årsaksperioder({ index, skjæringstidspunkt }: ÅrsaksperioderProps) {
+  // eslint-disable-next-line @eslint-react/rules-of-hooks -- Å is uppercase (non-ASCII)
   const { watch, register } = useFormContext<InntektOgRefusjonForm>();
   const årsak = watch(`endringAvInntektÅrsaker.${index}.årsak`);
   const ignorerTom = watch(`endringAvInntektÅrsaker.${index}.ignorerTom`);

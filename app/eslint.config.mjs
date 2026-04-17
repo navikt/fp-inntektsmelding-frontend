@@ -1,7 +1,7 @@
 import eslint from "@eslint/js";
+import eslintReact from "@eslint-react/eslint-plugin";
 import lodashPlugin from "eslint-plugin-lodash";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import reactLint from "eslint-plugin-react";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
@@ -25,14 +25,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  {
-    ...reactLint.configs.flat.recommended,
-    settings: {
-      react: {
-        version: "detect", // Fjerner warning om at React version ikke er satt i eslint-plugin-react
-      },
-    },
-  },
+  eslintReact.configs["recommended-typescript"],
   {
     plugins: {
       lodash: lodashPlugin,
@@ -56,10 +49,9 @@ export default tseslint.config(
     rules: {
       eqeqeq: ["error", "always"],
       curly: ["error", "all"],
-      "react/jsx-key": "error",
-      "react/jsx-sort-props": "error",
-      "react/react-in-jsx-scope": "off", // Ikke lenger nødvendig i moderne React
       "no-console": "error",
+      "@eslint-react/exhaustive-deps": "off",
+      "@eslint-react/unsupported-syntax": "off",
       ...IGNORED_UNICORN_RULES,
     },
   },
