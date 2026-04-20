@@ -257,6 +257,10 @@ export const feilmeldingSchema = z.object({
       "MANGLER_TILGANG_FEIL",
       "SENDT_FOR_TIDLIG",
       "FINNES_I_AAREG",
+      "GENERELL",
+      "IKKE_TILGANG",
+      "IKKE_FUNNET",
+      "VALIDERING",
     ])
     .optional(),
 });
