@@ -88,7 +88,7 @@ const InntektsmeldingSkjemaStateSchemaValidated = z.object({
     }),
   ),
   opprettetTidspunkt: z.string().optional(),
-  id: z.number().optional(),
+  inntektsmeldingUuid: z.string().optional(),
 });
 
 export type InntektsmeldingSkjemaState = z.infer<

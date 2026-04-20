@@ -24,8 +24,8 @@ import { logDev } from "~/utils.ts";
 
 const SERVER_URL = `${import.meta.env.BASE_URL}/server/api`;
 
-export const hentInntektsmeldingPdfUrl = (id: number) =>
-  `${SERVER_URL}/imdialog/last-ned-pdf?id=${id}`;
+export const hentInntektsmeldingPdfUrl = (uuid: string) =>
+  `${SERVER_URL}/pdf/inntektsmelding/${uuid}`;
 
 export function hentGrunnbeløpOptions() {
   return queryOptions({
@@ -122,7 +122,7 @@ export function mapInntektsmeldingResponseTilValidState(
     misterNaturalytelser:
       (inntektsmelding.bortfaltNaturalytelsePerioder?.length ?? 0) > 0,
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
-    id: inntektsmelding.id,
+    inntektsmeldingUuid: inntektsmelding.inntektsmeldingUuid,
   } satisfies InntektsmeldingSkjemaStateValid;
 }
 
@@ -146,7 +146,7 @@ export function mapInntektsmeldingResponseTilValidAgiState(
       (inntektsmelding.refusjon ?? []).length,
     ),
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
-    id: inntektsmelding.id,
+    inntektsmeldingUuid: inntektsmelding.inntektsmeldingUuid,
   } satisfies AgiSkjemaStateValid;
 }
 

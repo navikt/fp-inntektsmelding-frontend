@@ -12,12 +12,13 @@ export const Steg4Kvittering = () => {
     `Kvittering – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
   const erRefusjon = gyldigInntektsmeldingSkjemaState?.skalRefunderes !== "NEI";
-  const inntektsmeldingsId = gyldigInntektsmeldingSkjemaState?.id;
+  const inntektsmeldingUuid =
+    gyldigInntektsmeldingSkjemaState?.inntektsmeldingUuid;
 
   return (
     <Kvittering
       erRefusjon={erRefusjon}
-      inntektsmeldingId={inntektsmeldingsId}
+      inntektsmeldingUuid={inntektsmeldingUuid}
       opplysninger={opplysninger}
     />
   );
