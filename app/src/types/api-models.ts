@@ -249,7 +249,7 @@ export const grunnbeløpSchema = z.object({
 export const feilmeldingSchema = z.object({
   callId: z.string(),
   feilmelding: z.string(),
-  type: z
+  feilkode: z
     .enum([
       "INGEN_SAK_FUNNET",
       "GENERELL_FEIL",
