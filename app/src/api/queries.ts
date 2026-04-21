@@ -324,8 +324,8 @@ const parseFeilmelding = (json: unknown, feilmelding: string) => {
     logDev("error", parsedFeil.error);
     throw new Error(feilmelding);
   }
-  if (parsedFeil.data?.type !== undefined) {
-    throw new Error(parsedFeil.data?.type);
+  if (parsedFeil.data?.feilkode !== undefined) {
+    throw new Error(parsedFeil.data?.feilkode);
   }
   throw new Error(feilmelding);
 };
