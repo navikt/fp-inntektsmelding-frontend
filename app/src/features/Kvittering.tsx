@@ -24,12 +24,12 @@ import { lagFulltNavn, slugify } from "~/utils";
 type KvitteringProps = {
   erRefusjon: boolean;
   opplysninger: OpplysningerDto;
-  inntektsmeldingId?: number;
+  inntektsmeldingUuid?: string;
 };
 export const Kvittering = ({
   erRefusjon,
   opplysninger,
-  inntektsmeldingId,
+  inntektsmeldingUuid,
 }: KvitteringProps) => {
   const ofteStilteSpørsmål = erRefusjon
     ? ofteStilteSpørsmålRefusjon
@@ -79,11 +79,11 @@ export const Kvittering = ({
         <Button as="a" href="/min-side-arbeidsgiver" variant="primary">
           Gå til min side – arbeidsgiver
         </Button>
-        {inntektsmeldingId && (
+        {inntektsmeldingUuid && (
           <Button
             as="a"
-            download={`inntektsmelding-${inntektsmeldingId}.pdf`}
-            href={hentInntektsmeldingPdfUrl(inntektsmeldingId)}
+            download={`inntektsmelding-${inntektsmeldingUuid}.pdf`}
+            href={hentInntektsmeldingPdfUrl(inntektsmeldingUuid)}
             icon={<DownloadIcon />}
             iconPosition="left"
             variant="secondary"

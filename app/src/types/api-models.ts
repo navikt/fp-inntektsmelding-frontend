@@ -174,7 +174,7 @@ export const InntektsmeldingResponseDtoSchema = z.object({
     }),
   ),
   opprettetTidspunkt: z.string(),
-  id: z.number(),
+  inntektsmeldingUuid: z.string(),
 });
 
 export type SendInntektsmeldingResponseDto = z.infer<
@@ -249,7 +249,7 @@ export const grunnbeløpSchema = z.object({
 export const feilmeldingSchema = z.object({
   callId: z.string(),
   feilmelding: z.string(),
-  type: z
+  feilkode: z
     .enum([
       "INGEN_SAK_FUNNET",
       "GENERELL_FEIL",
@@ -257,6 +257,10 @@ export const feilmeldingSchema = z.object({
       "MANGLER_TILGANG_FEIL",
       "SENDT_FOR_TIDLIG",
       "FINNES_I_AAREG",
+      "GENERELL",
+      "IKKE_TILGANG",
+      "IKKE_FUNNET",
+      "VALIDERING",
     ])
     .optional(),
 });
