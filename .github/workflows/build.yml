@@ -37,19 +37,20 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@navikt"
 
+
       - name: Install server dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
         working-directory: server
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - name: Build server
-        run: npm run build
+        run: pnpm run build
         working-directory: server
 
       - name: Install webapp dependencies
         working-directory: app
-        run: npm install
+        run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
@@ -59,7 +60,7 @@ jobs:
 
       - name: Build webapp
         working-directory: app
-        run: npm run build
+        run: pnpm run build
         env:
           VITE_SENTRY_RELEASE: ${{ steps.generate-build-version.outputs.build-version }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

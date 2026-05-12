@@ -21,21 +21,20 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # ratchet:actions/setup-node@v6
         with:
           node-version: '24'
-          cache: 'npm'
           registry-url: https://npm.pkg.github.com/
           scope: '@navikt'
-          cache-dependency-path: server
+
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - name: Run Knip
-        run: npm run knip
+        run: pnpm run knip
 
       - name: Run ESLint
-        run: npm run eslint
+        run: pnpm run eslint
 
       - name: Check for typescript errors
-        run: npm run tsc
+        run: pnpm run tsc
