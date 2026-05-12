@@ -10,7 +10,7 @@ import {
   createContext,
   Dispatch,
   SetStateAction,
-  useContext,
+  use,
   useMemo,
   useState,
 } from "react";
@@ -54,14 +54,14 @@ export const VisHjelpeteksterStateProvider = ({
   );
 
   return (
-    <VisHjelpeteksterStateContext.Provider value={value}>
+    <VisHjelpeteksterStateContext value={value}>
       {children}
-    </VisHjelpeteksterStateContext.Provider>
+    </VisHjelpeteksterStateContext>
   );
 };
 
 export const useHjelpetekst = () => {
-  const context = useContext(VisHjelpeteksterStateContext);
+  const context = use(VisHjelpeteksterStateContext);
   if (!context) {
     throw new Error(
       "useHjelpetekst må brukes inne i en VisHjelpeteksterStateProvider",

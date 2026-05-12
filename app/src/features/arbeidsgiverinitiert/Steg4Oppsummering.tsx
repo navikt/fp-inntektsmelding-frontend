@@ -16,7 +16,7 @@ import {
   AgiSkjemaStateValid,
   useAgiSkjema,
 } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { getAgiOpplysninger } from "~/features/arbeidsgiverinitiert/getAgiOpplysninger.tsx";
 import { useDocumentTitle } from "~/features/useDocumentTitle";
 import {
   OpplysningerDto,
@@ -29,7 +29,7 @@ import {
 } from "~/utils";
 
 export const Steg4Oppsummering = () => {
-  const opplysninger = useAgiOpplysninger();
+  const opplysninger = getAgiOpplysninger();
   useDocumentTitle(
     `Oppsummering – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
@@ -84,7 +84,7 @@ export const Steg4Oppsummering = () => {
 
 function SendInnInntektsmelding() {
   const navigate = useNavigate();
-  const opplysninger = useAgiOpplysninger();
+  const opplysninger = getAgiOpplysninger();
 
   const { gyldigAgiSkjemaState, setAgiSkjemaState } = useAgiSkjema();
 

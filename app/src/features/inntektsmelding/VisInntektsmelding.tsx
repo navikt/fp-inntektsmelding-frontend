@@ -46,7 +46,11 @@ export const VisInntektsmelding = () => {
 
       setInntektsmeldingSkjemaState(state);
     }
-  }, [sisteInntektsmelding]);
+  }, [
+    opplysninger.inntektsopplysninger.gjennomsnittLønn,
+    setInntektsmeldingSkjemaState,
+    sisteInntektsmelding,
+  ]);
 
   if (!sisteInntektsmelding) {
     return null;

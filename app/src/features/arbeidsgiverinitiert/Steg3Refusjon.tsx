@@ -16,7 +16,7 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { AgiFremgangsindikator } from "~/features/arbeidsgiverinitiert/AgiFremgangsindikator.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { getAgiOpplysninger } from "~/features/arbeidsgiverinitiert/getAgiOpplysninger.tsx";
 import { InntektsmeldingSkjemaState } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { DatePickerWrapped } from "~/features/react-hook-form-wrappers/DatePickerWrapped.tsx";
 import { FormattertTallTextField } from "~/features/react-hook-form-wrappers/FormattertTallTextField.tsx";
@@ -53,7 +53,7 @@ function lagRefusjonDefaultValues(
 }
 
 export function Steg3Refusjon() {
-  const opplysninger = useAgiOpplysninger();
+  const opplysninger = getAgiOpplysninger();
   useDocumentTitle(
     `Refusjon – inntektsmelding for ${formatYtelsesnavn(opplysninger.ytelse)}`,
   );
@@ -194,7 +194,7 @@ const LikRefusjon = () => {
 
 const FørsteFraværsdag = () => {
   const { watch, setValue, formState } = useFormContext<RefusjonForm>();
-  const { ansettelsePerioder, arbeidsgiver } = useAgiOpplysninger();
+  const { ansettelsePerioder, arbeidsgiver } = getAgiOpplysninger();
   const førsteFraværsdag = watch("førsteFraværsdag");
   // Hvis dato endres må vi oppdatere dato for første periode og vi wiper allerede utfylte verdier for refusjon
   useEffect(() => {
@@ -206,7 +206,7 @@ const FørsteFraværsdag = () => {
         { fom: undefined, beløp: 0 },
       ]);
     }
-  }, [førsteFraværsdag]);
+  }, [formState.dirtyFields.førsteFraværsdag, førsteFraværsdag, setValue]);
 
   return (
     <DatePickerWrapped

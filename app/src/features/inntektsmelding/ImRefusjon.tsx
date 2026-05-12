@@ -25,7 +25,7 @@ export const ImRefusjon = ({ opplysninger }: ImRefusjonProps) => {
     if (korrigertInntekt) {
       setValue("refusjon.0.beløp", korrigertInntekt);
     }
-  }, [korrigertInntekt]);
+  }, [korrigertInntekt, setValue]);
 
   // Denne bolken er kun relevant hvis A-inntekt er nede. Da vil bruker endre på inntekts-feltet.
   // I alle andre tilfeller er det korrigertInntekt de vil endre.
@@ -35,7 +35,7 @@ export const ImRefusjon = ({ opplysninger }: ImRefusjonProps) => {
     if (inntekt) {
       setValue("refusjon.0.beløp", inntekt);
     }
-  }, [inntekt]);
+  }, [inntekt, setValue]);
 
   const skalRefunderes = watch("skalRefunderes");
 

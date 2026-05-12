@@ -4,7 +4,6 @@ import {
   HStack,
   useRangeDatepicker,
 } from "@navikt/ds-react";
-import { forwardRef } from "react";
 import { RegisterOptions, useController } from "react-hook-form";
 
 import { formatIsoDatostempel } from "~/utils";
@@ -20,10 +19,16 @@ type DateRangePickerWrappedProps = {
   datepickerProps?: DatePickerProps;
 };
 
-export const DateRangePickerWrapped = forwardRef<
-  HTMLDivElement,
-  DateRangePickerWrappedProps
->(({ name, minDato, maxDato, rules, datepickerProps }, ref) => {
+export const DateRangePickerWrapped = ({
+  ref,
+  name,
+  minDato,
+  maxDato,
+  rules,
+  datepickerProps,
+}: DateRangePickerWrappedProps & {
+  ref?: React.RefObject<HTMLDivElement | null>;
+}) => {
   const { field: fromField, fieldState: fromFieldState } = useController({
     name: `${name}.fom`,
     rules: rules?.fom,
@@ -79,6 +84,6 @@ export const DateRangePickerWrapped = forwardRef<
       </HStack>
     </DatePicker>
   );
-});
+};
 
 DateRangePickerWrapped.displayName = "DateRangePickerWrapped";

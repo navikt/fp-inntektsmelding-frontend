@@ -13,11 +13,11 @@ import { Link } from "@tanstack/react-router";
 import { hentInntektsmeldingPdfUrl } from "~/api/queries";
 import { AgiSkjemaoppsummering } from "~/features/arbeidsgiverinitiert/AgiSkjemaoppsummering.tsx";
 import { useAgiSkjema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
-import { useAgiOpplysninger } from "~/features/arbeidsgiverinitiert/useAgiOpplysninger.tsx";
+import { getAgiOpplysninger } from "~/features/arbeidsgiverinitiert/getAgiOpplysninger.tsx";
 import { formatDatoTidKort } from "~/utils.ts";
 
 export const VisAgiInntektsmelding = () => {
-  const opplysninger = useAgiOpplysninger();
+  const opplysninger = getAgiOpplysninger();
   const { gyldigAgiSkjemaState } = useAgiSkjema();
 
   if (
