@@ -39,7 +39,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@navikt"
 
-
       - name: Install server dependencies
         run: pnpm install --frozen-lockfile
         working-directory: server

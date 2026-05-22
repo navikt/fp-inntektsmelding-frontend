@@ -1,7 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "@navikt/ds-css" layer(components);
 @config "@navikt/ds-tailwind";
 
 hr {
-    color: var(--ax-neutral-400);
+  color: var(--ax-neutral-400);
 }

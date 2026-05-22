@@ -3,10 +3,10 @@ name: "verify: server"
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
     paths:
-      - 'server/**'
-      - '.github/workflows/verify-server.yml'
+      - "server/**"
+      - ".github/workflows/verify-server.yml"
 
 defaults:
   run:
@@ -21,10 +21,9 @@ jobs:
       - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # ratchet:pnpm/action-setup@v6
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # ratchet:actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version: "24"
           registry-url: https://npm.pkg.github.com/
-          scope: '@navikt'
-
+          scope: "@navikt"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -17,13 +17,13 @@ npx playwright install
 Når du har installert playwright, kan du kjøre tester med:
 
 ```bash
-npm run test:e2e
+pnpm run test
 ```
 
 For å kjøre tester med et brukergrensesnitt, kjør:
 
 ```bash
-npm run test:e2e:ui
+pnpm run test
 ```
 
 ## Mocking av data
