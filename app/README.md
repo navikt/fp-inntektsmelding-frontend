@@ -7,8 +7,8 @@ Vi anbefaler at du bruker [asdf](https://asdf-vm.com/) slik at du automatisk kj�
 Etter at Node er installert kjører du følgende kommandoer for å starte:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev:vite
 ```
 
 ## Logge inn med idporten i dev

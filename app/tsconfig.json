@@ -24,8 +24,8 @@
       "~/*": ["./src/*"],
       "tests/*": ["./tests/*"]
     },
-    "types": ["vite/client"],
+    "types": ["vite/client"]
   },
   "include": ["src", "tests"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
