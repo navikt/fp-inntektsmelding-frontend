@@ -22,12 +22,16 @@ spec:
     path: /internal/health/isReady
     initialDelay: 10
     timeout: 1
+  startup:
+    path: /internal/health/isReady
+    initialDelay: 10
+    timeout: 1
   replicas:
     min: {{minReplicas}}
     max: {{maxReplicas}}
     scalingStrategy:
       cpu:
-        thresholdPercentage: 80
+        thresholdPercentage: 50
   resources:
     limits:
       memory: {{limits.memory}}
