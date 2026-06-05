@@ -13,10 +13,12 @@ Employer-facing frontend for submitting inntektsmelding.
 |--------------------|--------------------------------------------------------------------------------------------|
 | Role               | React and Vite SPA served through an Express BFF for employer-facing inntektsmelding flows |
 | Main areas         | `app/` for the SPA, `server/` for the BFF and reverse proxy                                |
+| Package manager    | `pnpm` (use exact versions for installs)                                                   |
 | Frontend stack     | React, Vite, TanStack Query and Router, Aksel, Tailwind                                    |
 | Server stack       | Express 5 and `@navikt/oasis` for Entra token exchange                                     |
 | Special constraint | Browser traffic goes through the BFF; do not add direct backend calls from the SPA         |
 | Integrations       | `fp-inntektsmelding` for inntektsmelding data and submission                               |
+| API validation     | Validate API objects at the boundary with `zod` before using them in app code             |
 
 ## Verification
 
