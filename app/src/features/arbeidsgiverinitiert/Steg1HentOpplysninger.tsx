@@ -289,16 +289,23 @@ export const Steg1HentOpplysninger = () => {
                 icon={<ArrowRightIcon />}
                 iconPosition="right"
                 loading={opprettOpplysningerMutation.isPending}
-                onClick={() =>
+                onClick={async () => {
+                  const erGyldig = await formMethods.trigger([
+                    "organisasjonsnummer",
+                    "fødselsnummer",
+                  ]);
+                  if (!erGyldig) {
+                    return;
+                  }
                   opprettOpplysningerMutation.mutate({
-                    organisasjonsnummer: formMethods.watch(
+                    organisasjonsnummer: formMethods.getValues(
                       "organisasjonsnummer",
                     ),
-                    fødselsnummer: formMethods.watch("fødselsnummer"),
-                    førsteFraværsdag: formMethods.watch("førsteFraværsdag"),
+                    fødselsnummer: formMethods.getValues("fødselsnummer"),
+                    førsteFraværsdag: formMethods.getValues("førsteFraværsdag"),
                     ytelseType,
-                  })
-                }
+                  });
+                }}
                 type="button"
               >
                 Opprett inntektsmelding
@@ -311,15 +318,22 @@ export const Steg1HentOpplysninger = () => {
                 icon={<ArrowRightIcon />}
                 iconPosition="right"
                 loading={opprettOpplysningerUregistrertMutation.isPending}
-                onClick={() =>
+                onClick={async () => {
+                  const erGyldig = await formMethods.trigger([
+                    "organisasjonsnummer",
+                    "fødselsnummer",
+                  ]);
+                  if (!erGyldig) {
+                    return;
+                  }
                   opprettOpplysningerUregistrertMutation.mutate({
-                    organisasjonsnummer: formMethods.watch(
+                    organisasjonsnummer: formMethods.getValues(
                       "organisasjonsnummer",
                     ),
-                    fødselsnummer: formMethods.watch("fødselsnummer"),
+                    fødselsnummer: formMethods.getValues("fødselsnummer"),
                     ytelseType,
-                  })
-                }
+                  });
+                }}
                 type="button"
               >
                 Opprett inntektsmelding
