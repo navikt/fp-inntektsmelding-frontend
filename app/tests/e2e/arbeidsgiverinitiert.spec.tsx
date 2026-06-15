@@ -103,6 +103,46 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("Må velge Arbeidsgiver før man kan opprette inntektsmelding", async ({
+  page,
+}) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  // Arbeidsgiver-feltet vises fordi personen har flere arbeidsforhold
+  await expect(page.getByLabel("Arbeidsgiver")).toBeVisible();
+
+  await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
+    await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
+  });
+
+  // Forsøk å opprette uten å ha valgt arbeidsgiver
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  // Skal få valideringsfeil og fortsatt stå på steg 1
+  await expectError({
+    page,
+    label: "Arbeidsgiver",
+    error: "Må oppgis",
+  });
+  await expect(page.getByText("Steg 1 av 4")).toBeVisible();
+  await expect(page.getByText("Steg 2 av 4")).toBeHidden();
+
+  // Når arbeidsgiver er valgt går man videre til steg 2
+  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  await expect(page.getByText("Steg 2 av 4")).toBeVisible();
+});
+
 test("Ingen sak funnet", async ({ page }) => {
   await mockHentPersonOgArbeidsforholdIngenSakFunnet({
     page,

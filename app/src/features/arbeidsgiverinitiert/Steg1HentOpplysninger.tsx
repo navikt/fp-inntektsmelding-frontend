@@ -289,7 +289,13 @@ export const Steg1HentOpplysninger = () => {
                 icon={<ArrowRightIcon />}
                 iconPosition="right"
                 loading={opprettOpplysningerMutation.isPending}
-                onClick={() =>
+                onClick={async () => {
+                  const erGyldig = await formMethods.trigger(
+                    "organisasjonsnummer",
+                  );
+                  if (!erGyldig) {
+                    return;
+                  }
                   opprettOpplysningerMutation.mutate({
                     organisasjonsnummer: formMethods.watch(
                       "organisasjonsnummer",
@@ -297,8 +303,8 @@ export const Steg1HentOpplysninger = () => {
                     fødselsnummer: formMethods.watch("fødselsnummer"),
                     førsteFraværsdag: formMethods.watch("førsteFraværsdag"),
                     ytelseType,
-                  })
-                }
+                  });
+                }}
                 type="button"
               >
                 Opprett inntektsmelding
@@ -311,15 +317,21 @@ export const Steg1HentOpplysninger = () => {
                 icon={<ArrowRightIcon />}
                 iconPosition="right"
                 loading={opprettOpplysningerUregistrertMutation.isPending}
-                onClick={() =>
+                onClick={async () => {
+                  const erGyldig = await formMethods.trigger(
+                    "organisasjonsnummer",
+                  );
+                  if (!erGyldig) {
+                    return;
+                  }
                   opprettOpplysningerUregistrertMutation.mutate({
                     organisasjonsnummer: formMethods.watch(
                       "organisasjonsnummer",
                     ),
                     fødselsnummer: formMethods.watch("fødselsnummer"),
                     ytelseType,
-                  })
-                }
+                  });
+                }}
                 type="button"
               >
                 Opprett inntektsmelding
