@@ -21,6 +21,66 @@ import {
 
 const FAKE_FNR = "09810198874";
 
+test("Gir feilmelding hvis organisasjon ikke er valgt ved Opprett inntektsmelding", async ({
+  page,
+}) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByLabel("Arbeidsgiver")).toBeVisible();
+
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  await expectError({
+    page,
+    label: "Arbeidsgiver",
+    error: "Må oppgis",
+  });
+});
+
+test("Gir feilmelding hvis fødselsnummer er ugyldig ved Opprett inntektsmelding", async ({
+  page,
+}) => {
+  await mockHentPersonOgArbeidsforhold({ page });
+
+  await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+
+  await page
+    .locator('input[name="arbeidsgiverinitiertÅrsak"][value="NYANSATT"]')
+    .click();
+  await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+  await page.getByLabel("Første fraværsdag").fill("24.05.2024");
+  await page.getByRole("button", { name: "Hent opplysninger" }).click();
+
+  await expect(page.getByLabel("Arbeidsgiver")).toBeVisible();
+
+  // Endre fødselsnummer til ugyldig etter henting
+  await page.getByLabel("Ansattes fødselsnummer").fill("ugyldig");
+
+  let opplysningerKaltAntallGanger = 0;
+  await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
+    opplysningerKaltAntallGanger++;
+    await route.fulfill({ status: 500 });
+  });
+
+  await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+
+  await expectError({
+    page,
+    label: "Ansattes fødselsnummer",
+    error: "Du må fylle ut et gyldig fødselsnummer",
+  });
+  expect(opplysningerKaltAntallGanger).toBe(0);
+});
+
 test("Valgt: Ny ansatt", async ({ page }) => {
   await mockHentPersonOgArbeidsforhold({ page });
 
