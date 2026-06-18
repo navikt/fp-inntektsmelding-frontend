@@ -55,7 +55,7 @@ function addProxyHandler(
               "fpinntektsmelding-frontend",
             );
           } else {
-            logger.warning(
+            logger.warn(
               `Access token var not present in session for scope ${scope}`,
             );
           }
