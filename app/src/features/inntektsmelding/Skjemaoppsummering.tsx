@@ -248,9 +248,11 @@ function InntektSummary({
               <FormSummary.Answers>
                 {skjemaState.endringAvInntektÅrsaker.map(
                   ({ årsak, fom, tom, bleKjentFom, ignorerTom }) => {
+                    const erTariffendring = årsak === "TARIFFENDRING";
                     const periodeStreng = formaterPeriodeStreng({
                       fom,
                       tom: ignorerTom ? undefined : bleKjentFom || tom,
+                      tomLabel: erTariffendring ? "ble kjent fra" : "til og med",
                     });
                     return (
                       <FormSummary.Answer key={[årsak, fom, tom].join("-")}>
@@ -274,17 +276,20 @@ function InntektSummary({
 }
 
 /**
- * Gir en streng på formatet "fra og med DATO, til og med DATO" hvis begge datoene er satt. Ellers kun den ene.
+ * Gir en streng på formatet "fra og med DATO, <tomLabel> DATO" hvis begge datoene er satt. Ellers kun den ene.
+ * tomLabel er "til og med" som standard, men kan overstyres (f.eks. "ble kjent fra" for Tariffendring).
  */
 function formaterPeriodeStreng({
   fom,
   tom,
+  tomLabel = "til og med",
 }: {
   fom?: Date | string;
   tom?: Date | string;
+  tomLabel?: string;
 }) {
   const fomStreng = fom ? `fra og med ${formatDatoKort(new Date(fom))}` : "";
-  const tomStreng = tom ? `til og med ${formatDatoKort(new Date(tom))}` : "";
+  const tomStreng = tom ? `${tomLabel} ${formatDatoKort(new Date(tom))}` : "";
 
   return [fomStreng, tomStreng].filter(Boolean).join(", ");
 }
