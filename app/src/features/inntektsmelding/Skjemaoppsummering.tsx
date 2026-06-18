@@ -252,7 +252,9 @@ function InntektSummary({
                     const periodeStreng = formaterPeriodeStreng({
                       fom,
                       tom: ignorerTom ? undefined : bleKjentFom || tom,
-                      tomLabel: erTariffendring ? "ble kjent fra" : "til og med",
+                      tomLabel: erTariffendring
+                        ? "ble kjent fra"
+                        : "til og med",
                     });
                     return (
                       <FormSummary.Answer key={[årsak, fom, tom].join("-")}>
