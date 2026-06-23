@@ -8,8 +8,8 @@ import {
   Label,
   Radio,
   RadioGroup,
-  Select,
   TextField,
+  UNSAFE_Combobox as Combobox,
   VStack,
 } from "@navikt/ds-react";
 import { fnr } from "@navikt/fnrvalidator";
@@ -19,7 +19,12 @@ import {
   Link as TanstackLink,
   useNavigate,
 } from "@tanstack/react-router";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  useFormContext,
+} from "react-hook-form";
 
 import {
   hentOpplysninger,
@@ -431,26 +436,38 @@ function VelgArbeidsgiver({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
     return null;
   }
 
+  const options = data.arbeidsforhold
+    .toSorted((a, b) => a.organisasjonsnavn.localeCompare(b.organisasjonsnavn))
+    .map((arbeidsforhold) => ({
+      label: `${arbeidsforhold.organisasjonsnavn} (${arbeidsforhold.organisasjonsnummer})`,
+      value: arbeidsforhold.organisasjonsnummer,
+    }));
+
   return (
-    <Select
-      description={`Velg hvilken underenhet du vil sende inn inntektsmelding for ${lagFulltNavn(data)}`}
-      error={formMethods.formState.errors.organisasjonsnummer?.message}
-      label="Arbeidsgiver"
-      {...formMethods.register(`organisasjonsnummer`, {
-        required: "Må oppgis",
-      })}
-    >
-      <option value="">Velg Organisasjon</option>
-      {data?.arbeidsforhold.map((arbeidsforhold) => (
-        <option
-          key={arbeidsforhold.organisasjonsnummer}
-          value={arbeidsforhold.organisasjonsnummer}
-        >
-          {arbeidsforhold.organisasjonsnavn} (
-          {arbeidsforhold.organisasjonsnummer})
-        </option>
-      ))}
-    </Select>
+    <Controller
+      control={formMethods.control}
+      rules={{ required: "Må oppgis" }}
+      name="organisasjonsnummer"
+      render={({ field, fieldState: { error } }) => (
+        <Combobox
+          label="Arbeidsgiver"
+          description={`Velg hvilken underenhet du vil sende inn inntektsmelding for ${lagFulltNavn(data)}`}
+          options={options}
+          error={error?.message}
+          shouldAutocomplete
+          onToggleSelected={(option, isSelected) => {
+            if (isSelected) {
+              field.onChange(option);
+            } else if (field.value === option) {
+              field.onChange("");
+            }
+          }}
+          ref={field.ref}
+          name={field.name}
+          onBlur={field.onBlur}
+        />
+      )}
+    />
   );
 }
 
@@ -501,6 +518,7 @@ function UregistrertForm({ data }: { data?: SlåOppArbeidstakerResponseDto }) {
               (value && fnr(value).status === "valid") ||
               "Du må fylle ut et gyldig fødselsnummer",
           })}
+          autoComplete="off"
           error={formMethods.formState.errors.fødselsnummer?.message}
           label="Ansattes fødselsnummer"
         />

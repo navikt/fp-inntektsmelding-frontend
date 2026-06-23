@@ -112,7 +112,8 @@ test("Valgt: Ny ansatt", async ({ page }) => {
     await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
 
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
 
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
 
@@ -255,7 +256,8 @@ test("Valgt: Unntatt registrering i Aa-registeret full løype", async ({
     },
   );
 
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
 
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
 
@@ -327,7 +329,10 @@ test("Sjekk at man kan gå frem og tilbake mellom alle steg", async ({
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
     await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
+
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
 
   await page.getByLabel("Telefon").fill("13371337");
@@ -367,7 +372,8 @@ test("Skal ikke kunne velge NEI på refusjon hvis AGI og nyansatt", async ({
     await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
 
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
 
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByLabel("Telefon").fill("13371337");
@@ -406,7 +412,8 @@ test("Kun kvinner kan søke SVP", async ({ page }) => {
 
   await page.getByRole("link", { name: "Klikk her" }).click();
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
 });
 
 test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
@@ -427,7 +434,10 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
     await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
+
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByLabel("Telefon").fill("13371337");
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
@@ -446,7 +456,10 @@ test("Påse at skjema tilstand nullstilles dersom man endrer person", async ({
   await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
   await page.getByLabel("Første fraværsdag").fill("24.05.2024");
   await page.getByRole("button", { name: "Hent opplysninger" }).click();
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
+
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
   await page.getByRole("button", { name: "Neste steg" }).click();
@@ -476,7 +489,9 @@ test("Verifiser at varierende refusjon samspiller med endre fraværsdag", async 
   await page.route(`**/*/arbeidsgiverinitiert/opplysninger`, async (route) => {
     await route.fulfill({ json: opplysningerMedAnsettelsePerioder });
   });
-  await page.getByLabel("Arbeidsgiver").selectOption("974652293");
+  await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+  await page.getByRole("option", { name: /974652293/ }).click();
+
   await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
   await page.getByLabel("Telefon").fill("13371337");
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
