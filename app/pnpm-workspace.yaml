@@ -2,4 +2,4 @@ allowBuilds:
   "@sentry/cli": false
   esbuild: false
 
-minReleaseAge: 3d
+minimumReleaseAge: 4320 # minutter
