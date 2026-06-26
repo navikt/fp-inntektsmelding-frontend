@@ -1,3 +1,5 @@
 allowBuilds:
   "@sentry/cli": false
   esbuild: false
+
+minReleaseAge: 3d
