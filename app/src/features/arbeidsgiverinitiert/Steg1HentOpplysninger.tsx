@@ -79,9 +79,15 @@ export const Steg1HentOpplysninger = () => {
     "arbeidsgiverinitiertÅrsak",
     {
       required: "Du må svare på dette spørsmålet",
+      onChange: () => {
+        hentPersonMutation.reset();
+        hentPersonUregistrertArbeidMutation.reset();
+        opprettOpplysningerMutation.reset();
+        opprettOpplysningerUregistrertMutation.reset();
+        formMethods.resetField("organisasjonsnummer");
+      },
     },
   );
-
   const opprettOpplysningerMutation = useMutation({
     mutationFn: async (opplysningerRequest: OpplysningerRequest) => {
       return hentOpplysninger(opplysningerRequest);
