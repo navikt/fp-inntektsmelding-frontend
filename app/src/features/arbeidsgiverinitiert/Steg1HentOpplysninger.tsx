@@ -102,10 +102,10 @@ export const Steg1HentOpplysninger = () => {
           AGI_OPPLYSNINGER_UUID,
           JSON.stringify(opplysninger),
         );
-        const arbeidsgiverinitiertÅrsak = formMethods.watch(
+        const arbeidsgiverinitiertÅrsak = formMethods.getValues(
           "arbeidsgiverinitiertÅrsak",
         );
-        const førsteFraværsdag = formMethods.watch("førsteFraværsdag");
+        const førsteFraværsdag = formMethods.getValues("førsteFraværsdag");
 
         // Det er med intensjon at vi ikke tar med eksisterende verdier. Fra dette punktet ønsker vi alltid et blankt skjema
         setAgiSkjemaState((prevState) => ({
@@ -208,6 +208,10 @@ export const Steg1HentOpplysninger = () => {
   const isPending =
     hentPersonMutation.isPending || opprettOpplysningerMutation.isPending;
 
+  const arbeidsgiverinitiertÅrsak = formMethods.watch(
+    "arbeidsgiverinitiertÅrsak",
+  );
+
   return (
     <FormProvider {...formMethods}>
       <section className="mt-2">
@@ -251,7 +255,7 @@ export const Steg1HentOpplysninger = () => {
                 Annen årsak
               </Radio>
             </RadioGroup>
-            {formMethods.watch("arbeidsgiverinitiertÅrsak") === "NYANSATT" && (
+            {arbeidsgiverinitiertÅrsak === "NYANSATT" && (
               <>
                 <NyAnsattForm data={hentPersonMutation.data} />
                 <Button
@@ -265,8 +269,7 @@ export const Steg1HentOpplysninger = () => {
                 <VelgArbeidsgiver data={hentPersonMutation.data} />
               </>
             )}
-            {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
-              "UREGISTRERT" && (
+            {arbeidsgiverinitiertÅrsak === "UREGISTRERT" && (
               <>
                 <UregistrertForm
                   data={hentPersonUregistrertArbeidMutation.data}
@@ -284,8 +287,7 @@ export const Steg1HentOpplysninger = () => {
                 />
               </>
             )}
-            {formMethods.watch("arbeidsgiverinitiertÅrsak") ===
-              "ANNEN_ÅRSAK" && <AnnenÅrsak />}
+            {arbeidsgiverinitiertÅrsak === "ANNEN_ÅRSAK" && <AnnenÅrsak />}
             <ApiError
               error={
                 hentPersonMutation.error ??
