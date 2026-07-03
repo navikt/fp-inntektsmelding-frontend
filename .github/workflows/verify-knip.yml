@@ -1,0 +1,28 @@
+name: "verify: knip"
+
+on:
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - "app/**"
+      - "server/**"
+      - "knip.ts"
+      - ".github/workflows/verify-knip.yml"
+
+jobs:
+  knip:
+    name: Kjør Knip
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Kjør Knip
+        uses: navikt/fp-gha-workflows/.github/actions/knip-it@main
+        with:
+          npm-auth-token: ${{ secrets.READER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          package-manager: "pnpm"
+          node-version: 26

@@ -1,4 +1,11 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "knip": "knip",
+    "knip:fix": "knip --fix"
+  },
+  "devDependencies": {
+    "knip": "6.20.0"
+  }
 }
