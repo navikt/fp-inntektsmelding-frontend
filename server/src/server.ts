@@ -7,6 +7,7 @@ import config from "./config.js";
 import { errorHandling } from "./errorHandler.js";
 import { setupStaticRoutes } from "./frontendRoute.js";
 import logger from "./logger.js";
+import { setupSkjermleserCssTilgang } from "./skjermdeling.js";
 import { verifyToken } from "./tokenValidation.js";
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(verifyToken);
 
 setupApiProxy(protectedRouter);
 
+setupSkjermleserCssTilgang(protectedRouter);
 protectedRouter.use(serveKomprimerteFilerHvisMulig);
 // Catch all route, må være sist
 setupStaticRoutes(protectedRouter);
