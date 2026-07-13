@@ -630,7 +630,7 @@ function Årsaksperioder({ index, skjæringstidspunkt }: ÅrsaksperioderProps) {
             className="md:mt-8"
             {...register(`endringAvInntektÅrsaker.${index}.ignorerTom`)}
           >
-            {/* eslint-disable-next-line @eslint-react/unsupported-syntax */}
+            {}
             {(() => {
               switch (årsak) {
                 case "SYKEFRAVÆR": {
