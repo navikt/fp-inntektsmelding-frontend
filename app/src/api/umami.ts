@@ -2,10 +2,7 @@
 import { isDev } from "~/utils.ts";
 
 type EventNamesTaksonomi =
-  | "readmore lukket"
-  | "readmore åpnet"
-  | "switch åpnet"
-  | "switch lukket";
+  "readmore lukket" | "readmore åpnet" | "switch åpnet" | "switch lukket";
 
 export const loggUmamiEvent = async ({
   eventName,
