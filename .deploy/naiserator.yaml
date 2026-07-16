@@ -46,6 +46,9 @@ spec:
       destinations:
         - id: loki
         - id: elastic
+  frontend:
+    generatedConfig:
+      mountPath: /app/public/nais.js
   idporten:
     enabled: true
     sidecar:

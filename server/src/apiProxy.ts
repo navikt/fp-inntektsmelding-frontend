@@ -34,10 +34,9 @@ function addProxyHandler(
       if (obo.ok) {
         request.headers["obo-token"] = obo.token;
         return next();
-      } else {
-        logger.error("OBO-veksling feilet", obo.error);
-        response.status(403).send();
       }
+      logger.error("OBO-veksling feilet", obo.error);
+      response.status(403).send();
     },
     createProxyMiddleware({
       target: outgoingUrl,

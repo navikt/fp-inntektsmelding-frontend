@@ -9,6 +9,14 @@ const IGNORED_UNICORN_RULES = {
   "unicorn/no-null": "off",
   "unicorn/prevent-abbreviations": "off",
   "unicorn/no-nested-ternary": "off",
+  // name-replacements is a subset of prevent-abbreviations; msg→message renames are too noisy in Express
+  "unicorn/name-replacements": "off",
+  // Norwegian boolean names (erEndring) don't match English is/are/has prefix requirements
+  "unicorn/consistent-boolean-name": "off",
+  // Deeply nested calls are common in functional chaining (Winston format pipelines, etc.)
+  "unicorn/max-nested-calls": "off",
+  // Express server entry files inherently use top-level side effects (app.use, app.listen)
+  "unicorn/no-top-level-side-effects": "off",
 };
 
 export default tseslint.config(

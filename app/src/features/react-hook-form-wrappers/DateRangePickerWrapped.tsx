@@ -54,7 +54,7 @@ export const DateRangePickerWrapped = ({
       );
     },
     onValidate: (dateRange) => {
-      if (dateRange?.from && dateRange?.to) {
+      if (dateRange?.from && dateRange.to) {
         return dateRange.from <= dateRange.to;
       }
       return true;

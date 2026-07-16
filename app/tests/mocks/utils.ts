@@ -142,5 +142,5 @@ export const expectError = async ({
 };
 
 export const brukNoBreakSpaces = (s: string) => {
-  return s.replaceAll(" ", "\u00A0");
+  return s.replaceAll(" ", "\u{00A0}");
 };

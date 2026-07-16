@@ -71,7 +71,7 @@ export function setupStaticRoutes(router: Router) {
       ...dekoratørProps,
     });
 
-    response.send(html);
+    response.send(replaceNaisMetaTags(html));
   });
 }
 
@@ -91,3 +91,20 @@ async function injectViteModeHtml(html: string) {
     DECORATOR_FOOTER,
   ].join("");
 }
+
+const replaceNaisMetaTags = (html: string) => {
+  const metaTags = [
+    { name: 'nais-telemetry-url', content: process.env.NAIS_FRONTEND_TELEMETRY_COLLECTOR_URL },
+    { name: 'nais-app', content: process.env.NAIS_APP_NAME },
+    { name: 'nais-team', content: process.env.NAIS_TEAM ?? process.env.NAIS_NAMESPACE },
+    { name: 'nais-cluster', content: process.env.NAIS_CLUSTER_NAME },
+    { name: 'nais-version', content: process.env.NAIS_APP_IMAGE?.split(':').at(-1) },
+  ];
+
+  const tags = metaTags
+    .filter((tag): tag is { name: string; content: string } => Boolean(tag.content))
+    .map((tag) => `<meta name="${tag.name}" content="${tag.content}" />`)
+    .join('\n    ');
+
+  return html.replaceAll('{{{NAIS_META_TAGS}}}', tags);
+};

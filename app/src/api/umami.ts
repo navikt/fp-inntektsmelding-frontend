@@ -13,7 +13,7 @@ export const loggUmamiEvent = async ({
 }) => {
   if (!isDev) {
     try {
-      // eslint-disable-next-line unicorn/prefer-global-this -- klarer ikke få TS til å bli riktig for globalThis
+      // eslint-disable-next-line unicorn/prefer-global-this, unicorn/no-optional-chaining-on-undeclared-variable -- klarer ikke få TS til å bli riktig for globalThis
       window.dekoratorenAnalytics?.({
         origin: "fp-inntektsmelding-frontend",
         eventName,

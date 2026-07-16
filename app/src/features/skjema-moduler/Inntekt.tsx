@@ -276,19 +276,6 @@ const AlertOmRapportertLønn = ({
     (inntekt) => inntekt.status === "NEDETID_AINNTEKT",
   );
 
-  const harIkkeRapportertOgFristErPassert = månedsinntekter.some(
-    (inntekt) => inntekt.status === "IKKE_RAPPORTERT_MEN_BRUKT_I_GJENNOMSNITT",
-  );
-
-  const harIkkeRapportertNyansatt = månedsinntekter.some(
-    (inntekt) => inntekt.status === "IKKE_RAPPORTERT_NYANSATT",
-  );
-
-  const harIkkeRapportertMenFristIkkePassert = månedsinntekter.some(
-    (inntekt) =>
-      inntekt.status === "IKKE_RAPPORTERT_RAPPORTERINGSFRIST_IKKE_PASSERT",
-  );
-
   if (AInntektErNede) {
     return (
       <Alert
@@ -304,6 +291,19 @@ const AlertOmRapportertLønn = ({
       </Alert>
     );
   }
+
+  const harIkkeRapportertOgFristErPassert = månedsinntekter.some(
+    (inntekt) => inntekt.status === "IKKE_RAPPORTERT_MEN_BRUKT_I_GJENNOMSNITT",
+  );
+
+  const harIkkeRapportertNyansatt = månedsinntekter.some(
+    (inntekt) => inntekt.status === "IKKE_RAPPORTERT_NYANSATT",
+  );
+
+  const harIkkeRapportertMenFristIkkePassert = månedsinntekter.some(
+    (inntekt) =>
+      inntekt.status === "IKKE_RAPPORTERT_RAPPORTERINGSFRIST_IKKE_PASSERT",
+  );
 
   if (
     harIkkeRapportertOgFristErPassert &&

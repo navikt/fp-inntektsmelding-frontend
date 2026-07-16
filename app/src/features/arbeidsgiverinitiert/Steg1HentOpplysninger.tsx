@@ -219,14 +219,14 @@ export const Steg1HentOpplysninger = () => {
           onSubmit={formMethods.handleSubmit((values) => {
             if (values.arbeidsgiverinitiertÅrsak === "NYANSATT") {
               return hentPersonMutation.mutate(values);
-            } else if (values.arbeidsgiverinitiertÅrsak === "UREGISTRERT") {
-              return hentPersonUregistrertArbeidMutation.mutate(values);
-            } else {
-              throw new Error(
-                "Ikke gyldig årsak ved submit: " +
-                  values.arbeidsgiverinitiertÅrsak,
-              );
             }
+            if (values.arbeidsgiverinitiertÅrsak === "UREGISTRERT") {
+              return hentPersonUregistrertArbeidMutation.mutate(values);
+            }
+            throw new Error(
+              "Ikke gyldig årsak ved submit: " +
+                values.arbeidsgiverinitiertÅrsak,
+            );
           })}
         >
           <div className="bg-ax-bg-default px-5 py-6 rounded-md flex flex-col gap-6">

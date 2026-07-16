@@ -11,6 +11,14 @@ const IGNORED_UNICORN_RULES = {
   "unicorn/no-null": "off",
   "unicorn/prevent-abbreviations": "off",
   "unicorn/no-nested-ternary": "off",
+  // name-replacements is a subset of prevent-abbreviations; Props→Properties is too invasive for React
+  "unicorn/name-replacements": "off",
+  // Norwegian boolean names (erEndring, harEndring) don't match English is/are/has prefix requirements
+  "unicorn/consistent-boolean-name": "off",
+  // Deeply nested calls are common in functional chaining (date-fns, zod, etc.)
+  "unicorn/max-nested-calls": "off",
+  // Entry files (main.tsx) and module-level setup inherently use top-level side effects
+  "unicorn/no-top-level-side-effects": "off",
 };
 
 export default tseslint.config(
