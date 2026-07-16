@@ -81,8 +81,11 @@ export function Steg2InntektOgRefusjon() {
     useInntektsmeldingSkjema();
 
   const { eksisterendeInntektsmeldinger } = useLoaderData({ from: "/$id" });
+  // Regn også LPS/Altinn-sendte IM-er som eksisterende (de vises ikke i API-listen,
+  // men forespørselStatus er "FERDIG" når en IM er mottatt fra eksternt system)
   const harEksisterendeInntektsmeldinger =
-    eksisterendeInntektsmeldinger.length > 0;
+    eksisterendeInntektsmeldinger.length > 0 ||
+    opplysninger.forespørselStatus === "FERDIG";
 
   const defaultInntekt =
     inntektsmeldingSkjemaState.inntekt ||
