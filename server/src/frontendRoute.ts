@@ -62,7 +62,9 @@ export function setupStaticRoutes(router: Router) {
     const viteModeHtml = response.viteModeHtml;
 
     if (viteModeHtml) {
-      response.send(replaceNaisMetaTags(await injectViteModeHtml(viteModeHtml)));
+      response.send(
+        replaceNaisMetaTags(await injectViteModeHtml(viteModeHtml)),
+      );
       return;
     }
 
@@ -87,11 +89,16 @@ function replaceNaisMetaTags(html: string) {
       content: process.env.NAIS_TEAM ?? process.env.NAIS_NAMESPACE,
     },
     { name: "nais-cluster", content: process.env.NAIS_CLUSTER_NAME },
-    { name: "nais-version", content: process.env.NAIS_APP_IMAGE?.split(":").at(-1) },
+    {
+      name: "nais-version",
+      content: process.env.NAIS_APP_IMAGE?.split(":").at(-1),
+    },
   ];
 
   const tags = metaTags
-    .filter((tag): tag is { name: string; content: string } => Boolean(tag.content))
+    .filter((tag): tag is { name: string; content: string } =>
+      Boolean(tag.content),
+    )
     .map((tag) => `<meta name="${tag.name}" content="${tag.content}" />`)
     .join("\n        ");
 
