@@ -65,6 +65,10 @@ jobs:
         env:
           VITE_SENTRY_RELEASE: ${{ steps.generate-build-version.outputs.build-version }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          # Bakes inn i asset-referansene (renderBuiltUrl) slik at appen laster assets fra CDN.
+          # Workflowen kjører kun på master-push eller workflow_dispatch, og i begge tilfeller
+          # laster upload-to-CDN opp assets. Derfor kan URL-en settes ubetinget.
+          VITE_CDN_URL: "https://cdn.nav.no/teamforeldrepenger/fp-im-dialog/"
 
       - name: Copy webapp into public directory of server
         working-directory: app
@@ -78,11 +82,23 @@ jobs:
           push-image: true
           namespace: teamforeldrepenger
 
+  upload-to-CDN:
+    name: Upload assets to CDN
+    needs: build-app
+    permissions:
+      contents: read
+      id-token: write
+    uses: navikt/fp-gha-workflows/.github/workflows/cdn-upload.yml@main
+    with:
+      image: ${{ needs.build-app.outputs.build-version }}
+      image_suffix: ""
+      destination: "/fp-im-dialog"
+
   deploy-dev:
     name: Deploy DEV
     permissions:
       id-token: write
-    needs: build-app
+    needs: [build-app, upload-to-CDN]
     uses: navikt/fp-gha-workflows/.github/workflows/deploy.yml@main
     with:
       gar: true

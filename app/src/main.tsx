@@ -15,6 +15,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import { initFaro } from "./initFaro";
 import { routeTree } from "./routeTree.gen";
 
 Sentry.init({
@@ -23,6 +24,8 @@ Sentry.init({
   environment: globalThis.location.hostname,
   integrations: [Sentry.breadcrumbsIntegration({ console: false })],
 });
+
+initFaro();
 
 export const queryClient = new QueryClient();
 
