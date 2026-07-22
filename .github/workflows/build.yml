@@ -66,9 +66,9 @@ jobs:
           VITE_SENTRY_RELEASE: ${{ steps.generate-build-version.outputs.build-version }}
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           # Bakes inn i asset-referansene (renderBuiltUrl) slik at appen laster assets fra CDN.
-          # Settes kun på master (der upload-to-CDN faktisk laster opp assets). På andre
-          # brancher serveres assets fra selve appen (tom verdi => renderBuiltUrl av).
-          VITE_CDN_URL: ${{ github.ref_name == 'master' && 'https://cdn.nav.no/teamforeldrepenger/fp-im-dialog/' || '' }}
+          # Workflowen kjører kun på master-push eller workflow_dispatch, og i begge tilfeller
+          # laster upload-to-CDN opp assets. Derfor kan URL-en settes ubetinget.
+          VITE_CDN_URL: "https://cdn.nav.no/teamforeldrepenger/fp-im-dialog/"
 
       - name: Copy webapp into public directory of server
         working-directory: app
@@ -84,7 +84,6 @@ jobs:
 
   upload-to-CDN:
     name: Upload assets to CDN
-    if: github.ref_name == 'master'
     needs: build-app
     permissions:
       contents: read
@@ -100,9 +99,6 @@ jobs:
     permissions:
       id-token: write
     needs: [build-app, upload-to-CDN]
-    # Kjør så lenge bygget lyktes. På ikke-master brancher hoppes upload-to-CDN over,
-    # og da beholder vi manuell dev-dispatch ved å tillate 'skipped'.
-    if: always() && needs.build-app.result == 'success' && (needs.upload-to-CDN.result == 'success' || needs.upload-to-CDN.result == 'skipped')
     uses: navikt/fp-gha-workflows/.github/workflows/deploy.yml@main
     with:
       gar: true
