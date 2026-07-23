@@ -29,15 +29,27 @@ const csp = await buildCspHeader(
   { env: config.app.env },
 );
 
-const dekoratørProps = {
-  env: config.app.env,
-  params: {
-    context: "arbeidsgiver",
-    simple: false,
-    logoutWarning: true,
-    chatbot: false,
-  },
-} satisfies DecoratorFetchProps;
+function byggDekoratørProps(pathname: string) {
+  return {
+    env: config.app.env,
+    params: {
+      context: "arbeidsgiver",
+      simple: false,
+      logoutWarning: true,
+      chatbot: false,
+      breadcrumbs: [
+        {
+          title: "Min side – Arbeidsgiver",
+          url: "/min-side-arbeidsgiver",
+        },
+        {
+          title: "Inntektsmelding",
+          url: pathname,
+        },
+      ],
+    },
+  } satisfies DecoratorFetchProps;
+}
 
 export function setupStaticRoutes(router: Router) {
   router.use(express.static("./public", { index: false }));
@@ -60,10 +72,13 @@ export function setupStaticRoutes(router: Router) {
   // Fra Express 5 er wildcard ruten erstattet med *splat: https://expressjs.com/en/guide/migrating-5.html
   router.get("/*splat", async (request, response) => {
     const viteModeHtml = response.viteModeHtml;
+    const dekoratørProps = byggDekoratørProps(request.originalUrl);
 
     if (viteModeHtml) {
       response.send(
-        replaceNaisMetaTags(await injectViteModeHtml(viteModeHtml)),
+        replaceNaisMetaTags(
+          await injectViteModeHtml(viteModeHtml, dekoratørProps),
+        ),
       );
       return;
     }
@@ -105,7 +120,10 @@ function replaceNaisMetaTags(html: string) {
   return html.replaceAll("{{{NAIS_META_TAGS}}}", tags);
 }
 
-async function injectViteModeHtml(html: string) {
+async function injectViteModeHtml(
+  html: string,
+  dekoratørProps: DecoratorFetchProps,
+) {
   const {
     DECORATOR_HEADER,
     DECORATOR_HEAD_ASSETS,
