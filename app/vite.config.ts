@@ -42,7 +42,11 @@ export default defineConfig({
   },
   server: {
     cors: {
-      origin: ["https://www.intern.dev.nav.no", "https://arbeidsgiver.ekstern.dev.nav.no", "http://localhost:9300"],
+      origin: [
+        "https://www.intern.dev.nav.no",
+        "https://arbeidsgiver.ekstern.dev.nav.no",
+        "http://localhost:9300",
+      ],
     },
     origin: "http://localhost:5173",
   },
