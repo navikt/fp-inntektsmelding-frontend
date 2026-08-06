@@ -23,7 +23,10 @@ type ExceptionItem = FaroItem & {
   payload: ExceptionPayload;
 };
 
-const FEIL_VI_VIL_LUKE_BORT = ["personbruker/decorator-next"];
+const FEIL_VI_VIL_LUKE_BORT = [
+  "personbruker/decorator-next",
+  "personbruker/nav-dekoratoren",
+];
 
 const DISTRIBUTOR_PATTERN = /Request timeout \S*Distributor\.\S+/;
 
