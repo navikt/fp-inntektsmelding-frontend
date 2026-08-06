@@ -100,23 +100,25 @@ const feilUtenOpprinnelseIVårKode = (item: ExceptionItem): boolean => {
 /**
  * Sjekker om stackframes mangler opprinnelse i vår kode.
  *
- * Logikk: Hvis en frame er fra et asset (`/assets/*.js`) og matcher
- * FEIL_VI_VIL_LUKE_BORT, er det en uønsket asset-frame → filtrer.
- * Hvis framen er fra våre egne assets → ikke filtrer.
- * Hvis framen ikke er et asset (ikke fra vår bundle) → filtrer.
+ * Logikk: Hvis en frame kommer fra dekoratøren (filnavnet inneholder noe fra
+ * FEIL_VI_VIL_LUKE_BORT, uavhengig av filtype/plassering) → filtrer. Dette
+ * fanger opp alt fra dekoratøren, ikke bare bundlede `/assets/*.js`-chunks
+ * (f.eks. rå kildefiler som `personbruker/nav-dekoratoren/src/helpers/auth.ts`).
+ * Hvis framen er fra vårt eget asset (`/assets/*.js`) → ikke filtrer.
+ * Hvis framen verken er fra dekoratøren eller vårt eget asset → filtrer.
  */
 const harUtenforstaendeKodeOpprinnelse = (frames: StackFrame[]): boolean => {
   return frames.some((frame) => {
+    const erDekoratørFrame = FEIL_VI_VIL_LUKE_BORT.some((feil) =>
+      frame.filename?.includes(feil),
+    );
+    if (erDekoratørFrame) {
+      return true;
+    }
+
     const assetFrame =
       frame.filename && /\/assets\/.*\.js$/.test(frame.filename);
-
-    if (assetFrame) {
-      const erUønsketAssetFrame = FEIL_VI_VIL_LUKE_BORT.some((feil) =>
-        frame.filename?.includes(feil),
-      );
-      return erUønsketAssetFrame;
-    }
-    return true;
+    return !assetFrame;
   });
 };
 
