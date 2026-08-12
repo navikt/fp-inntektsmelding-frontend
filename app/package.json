@@ -38,12 +38,12 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.18.1",
+    "@eslint-react/eslint-plugin": "5.18.2",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.62.1",
     "@tanstack/react-query-devtools": "5.101.4",
-    "@tanstack/react-router-devtools": "1.167.0",
-    "@tanstack/router-vite-plugin": "1.167.23",
+    "@tanstack/react-router-devtools": "1.167.1",
+    "@tanstack/router-vite-plugin": "1.167.24",
     "@types/lodash": "4.17.25",
     "@types/node": "24.13.3",
     "@types/react": "19.2.18",
