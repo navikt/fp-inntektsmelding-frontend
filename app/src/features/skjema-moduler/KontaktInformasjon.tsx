@@ -59,7 +59,7 @@ export const KontaktInformasjon = () => {
               // Sjekke 8 siffer, eller landskode og vilkårlig antall siffer
               validate: (data) =>
                 /^[0-9 +]{1,15}$/.test(data) ||
-                "Telefonnummer kan ikke være lenger enn 15 tegn inkludert landkode",
+                "Telefonnummer kan ikke være lenger enn 15 tegn inkludert landskode",
             })}
             autoComplete="tel"
             error={formState.errors.telefonnummer?.message}
