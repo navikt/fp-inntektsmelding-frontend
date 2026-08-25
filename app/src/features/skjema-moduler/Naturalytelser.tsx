@@ -122,16 +122,16 @@ function MisterNaturalytelser({ opplysninger }: NaturalytelserProps) {
 
             // Hvis nåværende naturalytelse løper evig, så kan det ikke eksistere et senere innslag. Da vil de overlappe.
             if (
-              naturalytelse.tom === undefined &&
-              nesteNaturalytelse !== undefined
+              nesteNaturalytelse !== undefined &&
+              naturalytelse.tom === undefined
             ) {
               return [type];
             }
 
             // Hvis neste periode sin fom er før nåværende har vi overlappende perioder.
             if (
-              nesteNaturalytelse?.fom &&
               naturalytelse.tom &&
+              nesteNaturalytelse?.fom &&
               nesteNaturalytelse.fom < naturalytelse.tom
             ) {
               return [type];

@@ -29,7 +29,7 @@ export const Route = createFileRoute("/$id")({
       // Reserverer samme undertittel-linje som den ferdiglastede visningen
       // (org.navn | org.nr) slik at headeren ikke vokser og dytter innholdet
       // nedover når dataene er hentet – unngår layout shift (CLS).
-      undertittel={"\u00A0"}
+      undertittel={"\u{A0}"}
     >
       <div className="my-6 flex flex-col items-center gap-4">
         <Loader className="mx-auto" size="2xlarge" />

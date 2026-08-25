@@ -7,8 +7,10 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
 
 const IGNORED_UNICORN_RULES = {
+  "unicorn/consistent-boolean-name": "off",
   "unicorn/filename-case": "off",
   "unicorn/no-null": "off",
+  "unicorn/name-replacements": "off",
   "unicorn/prevent-abbreviations": "off",
   "unicorn/no-nested-ternary": "off",
 };
@@ -51,6 +53,16 @@ export default tseslint.config(
       curly: ["error", "all"],
       "no-console": "error",
       ...IGNORED_UNICORN_RULES,
+    },
+  },
+  {
+    files: [
+      "src/features/arbeidsgiverinitiert/AgiSkjemaState.tsx",
+      "src/features/inntektsmelding/InntektsmeldingSkjemaState.tsx",
+      "src/types/api-models.ts",
+    ],
+    rules: {
+      "unicorn/max-nested-calls": "off",
     },
   },
 );

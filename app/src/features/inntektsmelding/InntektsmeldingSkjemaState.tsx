@@ -158,7 +158,9 @@ export const InntektsmeldingSkjemaStateProvider = ({
   );
 };
 
-/** Henter ut global skjematilstand, og lar deg manipulere den */
+/**
+Henter ut global skjematilstand, og lar deg manipulere den
+*/
 export const useInntektsmeldingSkjema = () => {
   const context = use(InntektsmeldingSkjemaStateContext);
   if (!context) {

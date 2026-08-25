@@ -114,7 +114,9 @@ export const AgiSkjemaStateProvider = ({
   );
 };
 
-/** Henter ut global skjematilstand, og lar deg manipulere den */
+/**
+Henter ut global skjematilstand, og lar deg manipulere den
+*/
 export const useAgiSkjema = () => {
   const context = use(AgiSkjemaStateContext);
   if (!context) {

@@ -37,7 +37,10 @@ export const Steg1DineOpplysninger = () => {
   const navigate = useNavigate();
 
   const onSubmit = methods.handleSubmit((kontaktperson) => {
-    setInntektsmeldingSkjemaState((prev) => ({ ...prev, kontaktperson }));
+    setInntektsmeldingSkjemaState((prev) => ({
+      ...prev,
+      kontaktperson,
+    }));
     navigate({
       from: "/$id/dine-opplysninger",
       to: "../inntekt-og-refusjon",

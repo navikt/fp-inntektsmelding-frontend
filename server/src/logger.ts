@@ -28,12 +28,15 @@ const colors = {
 
 winston.addColors(colors);
 
+const timestampFormat = timestamp();
+const jsonFormat = json();
+
 const stdoutLogger = winston.createLogger({
   level: level(),
   levels,
   transports: [
     new winston.transports.Console({
-      format: combine(timestamp(), json()),
+      format: combine(timestampFormat, jsonFormat),
     }),
   ],
 });

@@ -13,14 +13,15 @@ export const loggUmamiEvent = async ({
 }) => {
   if (!isDev) {
     try {
-      // eslint-disable-next-line unicorn/prefer-global-this -- klarer ikke få TS til å bli riktig for globalThis
-      window.dekoratorenAnalytics?.({
+      globalThis.window?.dekoratorenAnalytics?.({
         origin: "fp-inntektsmelding-frontend",
         eventName,
         eventData,
       });
     } catch {
-      /* Vi bryr oss ikke om logging feiler. Oftest hvis bruker rejecter cookies */
+      /*
+      Vi bryr oss ikke om logging feiler. Oftest hvis bruker rejecter cookies
+      */
     }
   }
 };

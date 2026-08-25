@@ -1,4 +1,5 @@
 import path from "node:path";
+import process from "node:process";
 
 import { DecoratorFetchProps } from "@navikt/nav-dekoratoren-moduler";
 import {
@@ -117,7 +118,7 @@ function replaceNaisMetaTags(html: string) {
     .map((tag) => `<meta name="${tag.name}" content="${tag.content}" />`)
     .join("\n        ");
 
-  return html.replaceAll("{{{NAIS_META_TAGS}}}", tags);
+  return html.replaceAll("{{{NAIS_META_TAGS}}}", () => tags);
 }
 
 async function injectViteModeHtml(
