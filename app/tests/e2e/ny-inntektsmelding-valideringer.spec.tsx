@@ -437,7 +437,9 @@ test("Lim inn inntekt skal også formattere input", async ({
   await page.getByRole("button", { name: "Neste steg" }).click();
 
   // copy text to clipboard
-  await page.evaluate(() => navigator.clipboard.writeText("30 000,0123456"));
+  await page.evaluate(() =>
+    globalThis.navigator.clipboard.writeText("30 000,0123456"),
+  );
   await page.getByLabel("Endret månedsinntekt").press("ControlOrMeta+v");
   await expect(page.getByLabel("30000,01", { exact: true })).toBeVisible();
 });

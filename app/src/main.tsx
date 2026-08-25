@@ -27,7 +27,7 @@ Sentry.init({
 
 initFaro();
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
 const router = createRouter({
   defaultNotFoundComponent: NotFoundComponent,

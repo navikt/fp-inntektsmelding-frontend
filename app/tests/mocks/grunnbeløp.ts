@@ -3,6 +3,6 @@ export const grunnbeløpResponse = {
   grunnbeløp: 124_028,
   grunnbeløpPerMåned: 10_336,
   gjennomsnittPerÅr: 122_225,
-  omregningsfaktor: 1.045_591,
+  omregningsfaktor: 1.045591,
   virkningstidspunktForMinsteinntekt: "2024-06-03",
 };

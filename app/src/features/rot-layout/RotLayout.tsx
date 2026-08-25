@@ -3,15 +3,25 @@ import { Box, BoxProps, Detail, Heading, HStack, Page } from "@navikt/ds-react";
 import illustrasjonUrl from "./illustrasjon.svg";
 
 type RotLayoutProps = {
-  /** Tittelen på viewet man er i, som "Ny inntektsmelding", eller "Endring, inntektsmelding" */
+  /**
+  Tittelen på viewet man er i, som "Ny inntektsmelding", eller "Endring, inntektsmelding"
+  */
   tittel: React.ReactNode;
-  /** Undertittel, typisk navn på arbeidssted og ansatt */
+  /**
+  Undertittel, typisk navn på arbeidssted og ansatt
+  */
   undertittel?: React.ReactNode;
-  /** Innholdet i viewet */
+  /**
+  Innholdet i viewet
+  */
   children: React.ReactNode;
-  /** Bakgrunnen til siden */
+  /**
+  Bakgrunnen til siden
+  */
   background?: BoxProps["background"];
-  /** Flagg som wrapper innholdet i en hvit boks */
+  /**
+  Flagg som wrapper innholdet i en hvit boks
+  */
   medHvitBoks?: boolean;
 };
 
