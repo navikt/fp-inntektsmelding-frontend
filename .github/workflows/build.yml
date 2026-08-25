@@ -63,8 +63,6 @@ jobs:
         working-directory: app
         run: pnpm run build
         env:
-          VITE_SENTRY_RELEASE: ${{ steps.generate-build-version.outputs.build-version }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           # Bakes inn i asset-referansene (renderBuiltUrl) slik at appen laster assets fra CDN.
           # Workflowen kjører kun på master-push eller workflow_dispatch, og i begge tilfeller
           # laster upload-to-CDN opp assets. Derfor kan URL-en settes ubetinget.

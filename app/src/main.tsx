@@ -8,7 +8,6 @@ import {
   Page,
   VStack,
 } from "@navikt/ds-react";
-import * as Sentry from "@sentry/browser";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
@@ -17,13 +16,6 @@ import { createRoot } from "react-dom/client";
 
 import { initFaro } from "./initFaro";
 import { routeTree } from "./routeTree.gen";
-
-Sentry.init({
-  dsn: "https://ceb211c2a629f838c75e002c6cd0a59d@sentry.gc.nav.no/186",
-  release: import.meta.env.VITE_SENTRY_RELEASE,
-  environment: globalThis.location.hostname,
-  integrations: [Sentry.breadcrumbsIntegration({ console: false })],
-});
 
 initFaro();
 

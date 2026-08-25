@@ -16,14 +16,5 @@ interface ViteTypeOptions {
   strictImportMetaEnv: unknown;
 }
 
-interface ImportMetaEnv {
-  readonly VITE_SENTRY_RELEASE: string;
-  // more env variables...
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
 // eslint-disable-next-line unicorn/require-module-specifiers
 export {};
