@@ -58,8 +58,8 @@ export const KontaktInformasjon = () => {
               required: "Telefonnummer er påkrevd",
               // Sjekke 8 siffer, eller landskode og vilkårlig antall siffer
               validate: (data) =>
-                /^(\d{8}|\+\d+)$/.test(data) ||
-                "Telefonnummer må være 8 siffer eller ha landskode",
+                /^[0-9 +]{1,15}$/.test(data) ||
+                "Telefonnummer kan ikke være lenger enn 15 tegn inkludert landskode",
             })}
             autoComplete="tel"
             error={formState.errors.telefonnummer?.message}
