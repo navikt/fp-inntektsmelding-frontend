@@ -77,10 +77,10 @@ export function formatKroner(kroner: number | string | undefined) {
 
   const kronerSomTall = formatStrengTilTall(kroner);
 
-  return Intl.NumberFormat("nb-no", {
+  return new Intl.NumberFormat("nb-no", {
     style: "currency",
     currency: "NOK",
-    minimumFractionDigits: kronerSomTall % 1 === 0 ? 0 : 2,
+    minimumFractionDigits: Number.isSafeInteger(kronerSomTall) ? 0 : 2,
     maximumFractionDigits: 2,
   }).format(kronerSomTall);
 }
@@ -128,9 +128,12 @@ export function formatFødselsnummer(fødselsnummer: string) {
   return `${fødselsnummer.slice(0, 6)} ${fødselsnummer.slice(6)}`;
 }
 
-export function formatYtelsesnavn(ytelsesnavn: string, storForbokstav = false) {
+export function formatYtelsesnavn(
+  ytelsesnavn: string,
+  shouldCapitalize = false,
+) {
   const formattert = ytelsesnavn.toLowerCase().replaceAll("_", " ");
-  if (storForbokstav) {
+  if (shouldCapitalize) {
     return capitalize(formattert);
   }
   return formattert;

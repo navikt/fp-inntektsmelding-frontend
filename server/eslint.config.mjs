@@ -5,7 +5,9 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
 
 const IGNORED_UNICORN_RULES = {
+  "unicorn/consistent-boolean-name": "off",
   "unicorn/filename-case": "off",
+  "unicorn/name-replacements": "off",
   "unicorn/no-null": "off",
   "unicorn/prevent-abbreviations": "off",
   "unicorn/no-nested-ternary": "off",
@@ -33,6 +35,12 @@ export default tseslint.config(
       eqeqeq: ["error", "always"],
       curly: ["error", "all"],
       ...IGNORED_UNICORN_RULES,
+    },
+  },
+  {
+    files: ["src/server.ts", "src/logger.ts"],
+    rules: {
+      "unicorn/no-top-level-side-effects": "off",
     },
   },
 );

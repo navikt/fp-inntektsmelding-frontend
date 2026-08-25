@@ -33,7 +33,7 @@ const DISTRIBUTOR_PATTERN = /Request timeout \S*Distributor\.\S+/;
 const DOM_OVERSETTELSE_FEIL =
   /(removeChild|insertBefore)[\s\S]*not a child of this node/i;
 
-const HAS_FOCUS_FEIL =
+const FOCUS_METHOD_ERROR_PATTERN =
   /\b(window|globalThis|self)\.hasFocus is not a function/i;
 
 export const initFaro = () => {
@@ -94,7 +94,7 @@ const feilVarSomFølgeAvEn401Handling = (item: ExceptionItem): boolean => {
  */
 const feilUtenOpprinnelseIVårKode = (item: ExceptionItem): boolean => {
   const frames = item.payload.stacktrace?.frames;
-  return frames ? harUtenforstaendeKodeOpprinnelse(frames) : false;
+  return frames ? harUtenforståendeKodeopprinnelse(frames) : false;
 };
 
 /**
@@ -107,7 +107,7 @@ const feilUtenOpprinnelseIVårKode = (item: ExceptionItem): boolean => {
  * Hvis framen er fra vårt eget asset (`/assets/*.js`) → ikke filtrer.
  * Hvis framen verken er fra dekoratøren eller vårt eget asset → filtrer.
  */
-const harUtenforstaendeKodeOpprinnelse = (frames: StackFrame[]): boolean => {
+const harUtenforståendeKodeopprinnelse = (frames: StackFrame[]): boolean => {
   return frames.some((frame) => {
     const erDekoratørFrame = FEIL_VI_VIL_LUKE_BORT.some((feil) =>
       frame.filename?.includes(feil),
@@ -152,7 +152,9 @@ const feilFraDomOversettelse = (item: ExceptionItem): boolean => {
 };
 
 const feilFraHasFocus = (item: ExceptionItem): boolean => {
-  return item.payload.value ? HAS_FOCUS_FEIL.test(item.payload.value) : false;
+  return item.payload.value
+    ? FOCUS_METHOD_ERROR_PATTERN.test(item.payload.value)
+    : false;
 };
 
 const erExceptionItem = (item: unknown): item is ExceptionItem => {

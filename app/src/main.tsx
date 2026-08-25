@@ -19,7 +19,7 @@ import { routeTree } from "./routeTree.gen";
 
 initFaro();
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
 const router = createRouter({
   defaultNotFoundComponent: NotFoundComponent,

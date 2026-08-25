@@ -10,7 +10,9 @@ type FormattertTallTextFieldProps = TextFieldProps & {
   required?: boolean;
 };
 
-/** Et tekstfelt som formaterer innholdet til et tall med tusenvise mellomrom. */
+/**
+Et tekstfelt som formaterer innholdet til et tall med tusenvise mellomrom.
+*/
 export const FormattertTallTextField = ({
   name,
   min,

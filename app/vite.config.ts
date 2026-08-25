@@ -13,13 +13,11 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  ...(cdnUrl
-    ? {
-        experimental: {
-          renderBuiltUrl: (filename: string) => `${cdnUrl}${filename}`,
-        },
-      }
-    : {}),
+  ...(cdnUrl && {
+    experimental: {
+      renderBuiltUrl: (filename: string) => `${cdnUrl}${filename}`,
+    },
+  }),
   plugins: [compression(), react(), tanstackRouter(), tailwindcss()],
   resolve: {
     alias: {
