@@ -40,7 +40,7 @@ export const Steg3Oppsummering = () => {
   } = useInntektsmeldingSkjema();
 
   if (!gyldigInntektsmeldingSkjemaState) {
-    // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg error til Sentry for innsikt.
+    // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg feilen for innsikt.
     // eslint-disable-next-line no-console
     console.error(
       "Ugyldig skjemaState på oppsummeringssiden",
