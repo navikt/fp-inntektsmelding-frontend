@@ -9,85 +9,40 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AgiRouteImport } from './routes/agi'
 import { Route as IdRouteImport } from './routes/$id'
-import { Route as AgiIndexRouteImport } from './routes/agi.index'
+import { Route as AgiRouteImport } from './routes/agi'
 import { Route as IdIndexRouteImport } from './routes/$id.index'
-import { Route as AgiVisRouteImport } from './routes/agi.vis'
-import { Route as AgiRefusjonRouteImport } from './routes/agi.refusjon'
-import { Route as AgiOppsummeringRouteImport } from './routes/agi.oppsummering'
-import { Route as AgiOpprettRouteImport } from './routes/agi.opprett'
-import { Route as AgiKvitteringRouteImport } from './routes/agi.kvittering'
-import { Route as AgiDineOpplysningerRouteImport } from './routes/agi.dine-opplysninger'
-import { Route as IdVisRouteImport } from './routes/$id.vis'
-import { Route as IdOppsummeringRouteImport } from './routes/$id.oppsummering'
-import { Route as IdKvitteringRouteImport } from './routes/$id.kvittering'
-import { Route as IdInntektOgRefusjonRouteImport } from './routes/$id.inntekt-og-refusjon'
 import { Route as IdDineOpplysningerRouteImport } from './routes/$id.dine-opplysninger'
+import { Route as IdInntektOgRefusjonRouteImport } from './routes/$id.inntekt-og-refusjon'
+import { Route as IdKvitteringRouteImport } from './routes/$id.kvittering'
+import { Route as IdOppsummeringRouteImport } from './routes/$id.oppsummering'
+import { Route as IdVisRouteImport } from './routes/$id.vis'
+import { Route as AgiIndexRouteImport } from './routes/agi.index'
+import { Route as AgiDineOpplysningerRouteImport } from './routes/agi.dine-opplysninger'
+import { Route as AgiKvitteringRouteImport } from './routes/agi.kvittering'
+import { Route as AgiOpprettRouteImport } from './routes/agi.opprett'
+import { Route as AgiOppsummeringRouteImport } from './routes/agi.oppsummering'
+import { Route as AgiRefusjonRouteImport } from './routes/agi.refusjon'
+import { Route as AgiVisRouteImport } from './routes/agi.vis'
 
-const AgiRoute = AgiRouteImport.update({
-  id: '/agi',
-  path: '/agi',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IdRoute = IdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AgiIndexRoute = AgiIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AgiRoute,
+const AgiRoute = AgiRouteImport.update({
+  id: '/agi',
+  path: '/agi',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const IdIndexRoute = IdIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => IdRoute,
 } as any)
-const AgiVisRoute = AgiVisRouteImport.update({
-  id: '/vis',
-  path: '/vis',
-  getParentRoute: () => AgiRoute,
-} as any)
-const AgiRefusjonRoute = AgiRefusjonRouteImport.update({
-  id: '/refusjon',
-  path: '/refusjon',
-  getParentRoute: () => AgiRoute,
-} as any)
-const AgiOppsummeringRoute = AgiOppsummeringRouteImport.update({
-  id: '/oppsummering',
-  path: '/oppsummering',
-  getParentRoute: () => AgiRoute,
-} as any)
-const AgiOpprettRoute = AgiOpprettRouteImport.update({
-  id: '/opprett',
-  path: '/opprett',
-  getParentRoute: () => AgiRoute,
-} as any)
-const AgiKvitteringRoute = AgiKvitteringRouteImport.update({
-  id: '/kvittering',
-  path: '/kvittering',
-  getParentRoute: () => AgiRoute,
-} as any)
-const AgiDineOpplysningerRoute = AgiDineOpplysningerRouteImport.update({
+const IdDineOpplysningerRoute = IdDineOpplysningerRouteImport.update({
   id: '/dine-opplysninger',
   path: '/dine-opplysninger',
-  getParentRoute: () => AgiRoute,
-} as any)
-const IdVisRoute = IdVisRouteImport.update({
-  id: '/vis',
-  path: '/vis',
-  getParentRoute: () => IdRoute,
-} as any)
-const IdOppsummeringRoute = IdOppsummeringRouteImport.update({
-  id: '/oppsummering',
-  path: '/oppsummering',
-  getParentRoute: () => IdRoute,
-} as any)
-const IdKvitteringRoute = IdKvitteringRouteImport.update({
-  id: '/kvittering',
-  path: '/kvittering',
   getParentRoute: () => IdRoute,
 } as any)
 const IdInntektOgRefusjonRoute = IdInntektOgRefusjonRouteImport.update({
@@ -95,10 +50,55 @@ const IdInntektOgRefusjonRoute = IdInntektOgRefusjonRouteImport.update({
   path: '/inntekt-og-refusjon',
   getParentRoute: () => IdRoute,
 } as any)
-const IdDineOpplysningerRoute = IdDineOpplysningerRouteImport.update({
+const IdKvitteringRoute = IdKvitteringRouteImport.update({
+  id: '/kvittering',
+  path: '/kvittering',
+  getParentRoute: () => IdRoute,
+} as any)
+const IdOppsummeringRoute = IdOppsummeringRouteImport.update({
+  id: '/oppsummering',
+  path: '/oppsummering',
+  getParentRoute: () => IdRoute,
+} as any)
+const IdVisRoute = IdVisRouteImport.update({
+  id: '/vis',
+  path: '/vis',
+  getParentRoute: () => IdRoute,
+} as any)
+const AgiIndexRoute = AgiIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiDineOpplysningerRoute = AgiDineOpplysningerRouteImport.update({
   id: '/dine-opplysninger',
   path: '/dine-opplysninger',
-  getParentRoute: () => IdRoute,
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiKvitteringRoute = AgiKvitteringRouteImport.update({
+  id: '/kvittering',
+  path: '/kvittering',
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiOpprettRoute = AgiOpprettRouteImport.update({
+  id: '/opprett',
+  path: '/opprett',
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiOppsummeringRoute = AgiOppsummeringRouteImport.update({
+  id: '/oppsummering',
+  path: '/oppsummering',
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiRefusjonRoute = AgiRefusjonRouteImport.update({
+  id: '/refusjon',
+  path: '/refusjon',
+  getParentRoute: () => AgiRoute,
+} as any)
+const AgiVisRoute = AgiVisRouteImport.update({
+  id: '/vis',
+  path: '/vis',
+  getParentRoute: () => AgiRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -210,13 +210,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/agi': {
-      id: '/agi'
-      path: '/agi'
-      fullPath: '/agi'
-      preLoaderRoute: typeof AgiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$id': {
       id: '/$id'
       path: '/$id'
@@ -224,12 +217,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agi/': {
-      id: '/agi/'
-      path: '/'
-      fullPath: '/agi/'
-      preLoaderRoute: typeof AgiIndexRouteImport
-      parentRoute: typeof AgiRoute
+    '/agi': {
+      id: '/agi'
+      path: '/agi'
+      fullPath: '/agi'
+      preLoaderRoute: typeof AgiRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$id/': {
       id: '/$id/'
@@ -238,67 +231,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdIndexRouteImport
       parentRoute: typeof IdRoute
     }
-    '/agi/vis': {
-      id: '/agi/vis'
-      path: '/vis'
-      fullPath: '/agi/vis'
-      preLoaderRoute: typeof AgiVisRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/agi/refusjon': {
-      id: '/agi/refusjon'
-      path: '/refusjon'
-      fullPath: '/agi/refusjon'
-      preLoaderRoute: typeof AgiRefusjonRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/agi/oppsummering': {
-      id: '/agi/oppsummering'
-      path: '/oppsummering'
-      fullPath: '/agi/oppsummering'
-      preLoaderRoute: typeof AgiOppsummeringRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/agi/opprett': {
-      id: '/agi/opprett'
-      path: '/opprett'
-      fullPath: '/agi/opprett'
-      preLoaderRoute: typeof AgiOpprettRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/agi/kvittering': {
-      id: '/agi/kvittering'
-      path: '/kvittering'
-      fullPath: '/agi/kvittering'
-      preLoaderRoute: typeof AgiKvitteringRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/agi/dine-opplysninger': {
-      id: '/agi/dine-opplysninger'
+    '/$id/dine-opplysninger': {
+      id: '/$id/dine-opplysninger'
       path: '/dine-opplysninger'
-      fullPath: '/agi/dine-opplysninger'
-      preLoaderRoute: typeof AgiDineOpplysningerRouteImport
-      parentRoute: typeof AgiRoute
-    }
-    '/$id/vis': {
-      id: '/$id/vis'
-      path: '/vis'
-      fullPath: '/$id/vis'
-      preLoaderRoute: typeof IdVisRouteImport
-      parentRoute: typeof IdRoute
-    }
-    '/$id/oppsummering': {
-      id: '/$id/oppsummering'
-      path: '/oppsummering'
-      fullPath: '/$id/oppsummering'
-      preLoaderRoute: typeof IdOppsummeringRouteImport
-      parentRoute: typeof IdRoute
-    }
-    '/$id/kvittering': {
-      id: '/$id/kvittering'
-      path: '/kvittering'
-      fullPath: '/$id/kvittering'
-      preLoaderRoute: typeof IdKvitteringRouteImport
+      fullPath: '/$id/dine-opplysninger'
+      preLoaderRoute: typeof IdDineOpplysningerRouteImport
       parentRoute: typeof IdRoute
     }
     '/$id/inntekt-og-refusjon': {
@@ -308,12 +245,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdInntektOgRefusjonRouteImport
       parentRoute: typeof IdRoute
     }
-    '/$id/dine-opplysninger': {
-      id: '/$id/dine-opplysninger'
-      path: '/dine-opplysninger'
-      fullPath: '/$id/dine-opplysninger'
-      preLoaderRoute: typeof IdDineOpplysningerRouteImport
+    '/$id/kvittering': {
+      id: '/$id/kvittering'
+      path: '/kvittering'
+      fullPath: '/$id/kvittering'
+      preLoaderRoute: typeof IdKvitteringRouteImport
       parentRoute: typeof IdRoute
+    }
+    '/$id/oppsummering': {
+      id: '/$id/oppsummering'
+      path: '/oppsummering'
+      fullPath: '/$id/oppsummering'
+      preLoaderRoute: typeof IdOppsummeringRouteImport
+      parentRoute: typeof IdRoute
+    }
+    '/$id/vis': {
+      id: '/$id/vis'
+      path: '/vis'
+      fullPath: '/$id/vis'
+      preLoaderRoute: typeof IdVisRouteImport
+      parentRoute: typeof IdRoute
+    }
+    '/agi/': {
+      id: '/agi/'
+      path: '/'
+      fullPath: '/agi/'
+      preLoaderRoute: typeof AgiIndexRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/dine-opplysninger': {
+      id: '/agi/dine-opplysninger'
+      path: '/dine-opplysninger'
+      fullPath: '/agi/dine-opplysninger'
+      preLoaderRoute: typeof AgiDineOpplysningerRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/kvittering': {
+      id: '/agi/kvittering'
+      path: '/kvittering'
+      fullPath: '/agi/kvittering'
+      preLoaderRoute: typeof AgiKvitteringRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/opprett': {
+      id: '/agi/opprett'
+      path: '/opprett'
+      fullPath: '/agi/opprett'
+      preLoaderRoute: typeof AgiOpprettRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/oppsummering': {
+      id: '/agi/oppsummering'
+      path: '/oppsummering'
+      fullPath: '/agi/oppsummering'
+      preLoaderRoute: typeof AgiOppsummeringRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/refusjon': {
+      id: '/agi/refusjon'
+      path: '/refusjon'
+      fullPath: '/agi/refusjon'
+      preLoaderRoute: typeof AgiRefusjonRouteImport
+      parentRoute: typeof AgiRoute
+    }
+    '/agi/vis': {
+      id: '/agi/vis'
+      path: '/vis'
+      fullPath: '/agi/vis'
+      preLoaderRoute: typeof AgiVisRouteImport
+      parentRoute: typeof AgiRoute
     }
   }
 }
