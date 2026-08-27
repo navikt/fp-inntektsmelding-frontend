@@ -9,6 +9,7 @@ import {
   enkeltOpplysningerResponse,
 } from "tests/mocks/opplysninger.ts";
 import {
+  expectError,
   finnInputFraLabel,
   mockGrunnbeløp,
   mockInntektsmeldinger,
@@ -239,6 +240,40 @@ test("sjekk at tilbakestill inntekt tilbakestiller til gjennomsnitt fra opplysni
 
   await expect(
     page.getByText("Beregnet månedslønn").locator("..").getByText("53 000 kr"),
+  ).toBeVisible();
+});
+
+test("tariffendring må starte før skjæringstidspunkt", async ({ page }) => {
+  const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
+  await mockOpplysninger({ page, uuid });
+  await mockGrunnbeløp({ page });
+  await mockInntektsmeldinger({
+    page,
+    json: mangeEksisterendeInntektsmeldingerResponse,
+    uuid,
+  });
+
+  await page.goto(`/fp-im-dialog/${uuid}`);
+  await page.getByRole("link", { name: "Endre inntekt" }).click();
+  await page
+    .getByLabel("Hva er årsaken til endringen?")
+    .first()
+    .selectOption("TARIFFENDRING");
+
+  await page.getByLabel("Fra og med").first().fill("30.05.2024");
+  await page.getByLabel("Ble kjent fra").fill("31.05.2024");
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  await expectError({
+    page,
+    label: "Fra og med",
+    error: "Fra og med dato for tariffendring må være før startdato",
+  });
+
+  await page.getByLabel("Fra og med").first().fill("29.05.2024");
+  await page.getByRole("button", { name: "Neste steg" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Oppsummering" }),
   ).toBeVisible();
 });
 
