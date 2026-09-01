@@ -96,6 +96,7 @@ jobs:
   deploy-dev:
     name: Deploy DEV
     permissions:
+      contents: read
       id-token: write
     needs: [build-app, upload-to-CDN]
     uses: navikt/fp-gha-workflows/.github/workflows/deploy.yml@main
@@ -110,6 +111,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     name: Deploy PROD
     permissions:
+      contents: read
       id-token: write
     needs: [build-app, deploy-dev]
     uses: navikt/fp-gha-workflows/.github/workflows/deploy.yml@main
