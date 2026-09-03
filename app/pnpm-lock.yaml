@@ -36,8 +36,8 @@ importers:
         specifier: 4.3.3
         version: 4.3.3(vite@8.2.2(@types/node@26.3.0)(jiti@2.7.0)(yaml@2.9.0))
       '@tanstack/react-query':
-        specifier: 5.102.4
-        version: 5.102.4(react@19.2.8)
+        specifier: 5.102.6
+        version: 5.102.6(react@19.2.8)
       '@tanstack/react-router':
         specifier: 1.170.32
         version: 1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -77,7 +77,7 @@ importers:
         version: 1.62.1
       '@tanstack/react-query-devtools':
         specifier: 5.102.4
-        version: 5.102.4(@tanstack/react-query@5.102.4(react@19.2.8))(react@19.2.8)
+        version: 5.102.4(@tanstack/react-query@5.102.6(react@19.2.8))(react@19.2.8)
       '@tanstack/react-router-devtools':
         specifier: 1.167.1
         version: 1.167.1(@tanstack/react-router@1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/router-core@1.171.27)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -330,8 +330,8 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@grafana/faro-core@2.10.0':
-    resolution: {integrity: sha512-OoK5Gd/1Uyg8KWQVw6tqPf638C65/G7wfPtzL+f37u4lRxOY/6bzVOnRigFodcEztZ0HaqlldMPhFLD05tSxYA==}
+  '@grafana/faro-core@2.11.0':
+    resolution: {integrity: sha512-vaqko2foixRC9uZyqc4KzCUYqd21t27LhVgQ6hI6cmS3vRSMBoIgEg1FIrOOkT9KNRTpbKASE7iYn3QtHtq7zQ==}
 
   '@grafana/faro-core@2.9.0':
     resolution: {integrity: sha512-v7vrNYuoW273hOQ3rQgo3wYYBD8kH5TTfFes0dbsx2/8L+BclIsrsRCUHdlCqme2ZP42iyLkyPgCSDav8S0Niw==}
@@ -351,14 +351,14 @@ packages:
       react-router-dom:
         optional: true
 
-  '@grafana/faro-web-sdk@2.10.0':
-    resolution: {integrity: sha512-keP7CCuZ/CNA3reTZTr/ImyoLXM2jNiVCIzLZumhJ0mvyW8MC3o0pflRprlngMOxX7BZcSsOfB3/HDSiDO+FPQ==}
+  '@grafana/faro-web-sdk@2.11.0':
+    resolution: {integrity: sha512-oGwdqlFJkIrK6V45wDlPaggNXOJCcXRFobho0PBQvohAB4Y4UTyMH18Sr1Tznp3z6POr/zh7RUtB0L/iN2X+HA==}
 
   '@grafana/faro-web-sdk@2.9.0':
     resolution: {integrity: sha512-CfeIoW8m/9Y4LEASQpflhRSg1hJRqJ0gUADdmSFVI6f134+DWoT9e9qsO3v64mSuUPsdD3qYi2EkO+16u7hhTQ==}
 
-  '@grafana/faro-web-tracing@2.10.0':
-    resolution: {integrity: sha512-vyQaJNEwr6VHF9Rr7fDtyL+u50jzo2VYAVAlElNK/GHF4ZH3iORLcLREe3JWKNsCNO3/Wnpyu8TTAZ9+peC5OA==}
+  '@grafana/faro-web-tracing@2.11.0':
+    resolution: {integrity: sha512-/n7Bf0rmBENQ3q3Mxe8siFPrfNF1nzlsMDVUUkKsnz9z9cdLD0b0z4jwCJ0OA9xIf1/XsMCBtINMAH4OPTtNlA==}
 
   '@grafana/faro-web-tracing@2.8.2':
     resolution: {integrity: sha512-3MTOVHaW138Te2k1RTlM8a0WngYHwAJoSMX2EcZNn9elq1/5eNADN+75k89jYcCtcdiQAIq/hmT2WfRtUTD+kQ==}
@@ -1076,8 +1076,8 @@ packages:
     resolution: {integrity: sha512-DR9t6lfLVdrjgCwpglrR9DR7Ok8/HlXjcOE+goWXF3zyuLUO/ug7vMbSFxTqrQTtbRghJfyhmIZ0S6LhPIy44w==}
     engines: {node: '>=20.19'}
 
-  '@tanstack/query-core@5.102.4':
-    resolution: {integrity: sha512-6eXkL+KFyVAZdpKoThCjPQQylZK8/ZOMYTJEVoPtHLkLs2PYks6vUiim9qzgvFXakSkRIAZwAZTeZLIJmpgRpQ==}
+  '@tanstack/query-core@5.102.6':
+    resolution: {integrity: sha512-jp+GucyQ+fel2ILb8ZLQeqMaAqZL/Bzaj+dKOQiPk4vPdf2rQPEV7heUyEVIhatpY42j4AFHav4DzBa1oTIp/A==}
 
   '@tanstack/query-devtools@5.102.4':
     resolution: {integrity: sha512-dEzr6CjGTnELaqo2iJ/emNWrbGv6pGyiLarcspnuOVYH4eOj2S7xmfolv76tRp012N+EIRorwzRNZe3aCeqFDw==}
@@ -1088,8 +1088,8 @@ packages:
       '@tanstack/react-query': ^5.102.4
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.102.4':
-    resolution: {integrity: sha512-Cn6X2eqFHjCtA/sfM/3eiT6/YmcPqo30twNHUlqkfz9LBqRzdt8GN/mFMWXn/qTacYUo3d4nycMzn3LWZmJ7MQ==}
+  '@tanstack/react-query@5.102.6':
+    resolution: {integrity: sha512-ANz4KZ8z80D85fiz5IAHjpb8XBPLrjOb/0natlD9Ascyy/3p96V86Zw8UbOfA0HDLcvK/A4gNd95r723y5UT2w==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -2392,8 +2392,8 @@ packages:
   web-vitals@5.3.0:
     resolution: {integrity: sha512-q6LWsLatGYZp5VGBIOvbTj6JBV2nOmC8KvWztXBmwJcfFAzhwKwbOxhUH306XY3CcaZDUlSmSuNPBsCn0bFu+g==}
 
-  web-vitals@6.2.0:
-    resolution: {integrity: sha512-i2jhLkq6eB38jgJX5OIjEkyzQKgsG7FR56v7GphJNjzKAySgbRbwAfsFC0dDfHROWmCycf912SJpU2QoYIcMVg==}
+  web-vitals@6.2.1:
+    resolution: {integrity: sha512-rLcLXA2sx6+9dE88NHFubwTtGxpK4yYBLj6qHPdFoCaLr0cXGb4efOqtKLlm4loGA4OEKHIQKMKzZkKyOh5ctw==}
 
   web-worker@1.5.0:
     resolution: {integrity: sha512-RiMReJrTAiA+mBjGONMnjVDP2u3p9R1vkcGz6gDIrOMT3oGuYwX2WRMYI9ipkphSuE5XKEhydbhNEJh4NY9mlw==}
@@ -2695,7 +2695,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@grafana/faro-core@2.10.0':
+  '@grafana/faro-core@2.11.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/otlp-transformer': 0.221.0(@opentelemetry/api@1.9.1)
@@ -2707,8 +2707,8 @@ snapshots:
 
   '@grafana/faro-react@2.8.2(react-dom@19.2.8(react@19.2.8))(react-router-dom@7.18.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-router@8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@grafana/faro-web-sdk': 2.10.0
-      '@grafana/faro-web-tracing': 2.10.0
+      '@grafana/faro-web-sdk': 2.11.0
+      '@grafana/faro-web-tracing': 2.11.0
       hoist-non-react-statics: 3.3.2
       react: 19.2.8
     optionalDependencies:
@@ -2718,11 +2718,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@grafana/faro-web-sdk@2.10.0':
+  '@grafana/faro-web-sdk@2.11.0':
     dependencies:
-      '@grafana/faro-core': 2.10.0
+      '@grafana/faro-core': 2.11.0
       ua-parser-js: 1.0.41
-      web-vitals: 6.2.0
+      web-vitals: 6.2.1
 
   '@grafana/faro-web-sdk@2.9.0':
     dependencies:
@@ -2730,9 +2730,9 @@ snapshots:
       ua-parser-js: 1.0.41
       web-vitals: 5.3.0
 
-  '@grafana/faro-web-tracing@2.10.0':
+  '@grafana/faro-web-tracing@2.11.0':
     dependencies:
-      '@grafana/faro-web-sdk': 2.10.0
+      '@grafana/faro-web-sdk': 2.11.0
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/core': 2.10.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/exporter-trace-otlp-http': 0.221.0(@opentelemetry/api@1.9.1)
@@ -3327,19 +3327,19 @@ snapshots:
 
   '@tanstack/history@1.162.1': {}
 
-  '@tanstack/query-core@5.102.4': {}
+  '@tanstack/query-core@5.102.6': {}
 
   '@tanstack/query-devtools@5.102.4': {}
 
-  '@tanstack/react-query-devtools@5.102.4(@tanstack/react-query@5.102.4(react@19.2.8))(react@19.2.8)':
+  '@tanstack/react-query-devtools@5.102.4(@tanstack/react-query@5.102.6(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@tanstack/query-devtools': 5.102.4
-      '@tanstack/react-query': 5.102.4(react@19.2.8)
+      '@tanstack/react-query': 5.102.6(react@19.2.8)
       react: 19.2.8
 
-  '@tanstack/react-query@5.102.4(react@19.2.8)':
+  '@tanstack/react-query@5.102.6(react@19.2.8)':
     dependencies:
-      '@tanstack/query-core': 5.102.4
+      '@tanstack/query-core': 5.102.6
       react: 19.2.8
 
   '@tanstack/react-router-devtools@1.167.1(@tanstack/react-router@1.170.32(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@tanstack/router-core@1.171.27)(csstype@3.2.3)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
@@ -4619,7 +4619,7 @@ snapshots:
 
   web-vitals@5.3.0: {}
 
-  web-vitals@6.2.0: {}
+  web-vitals@6.2.1: {}
 
   web-worker@1.5.0: {}
 
