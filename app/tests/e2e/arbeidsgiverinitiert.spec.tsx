@@ -357,7 +357,9 @@ test("Ny uregistrert inntektsmelding starter uten skjemadata fra forrige opprett
   await likRefusjon.check();
   await ingenNaturalytelser.check();
   await page.getByRole("button", { name: "Neste steg" }).click();
-  await page.getByRole("link", { name: "Forrige steg" }).click();
+  await expect(page).toHaveURL(/\/agi-uregistrert\/oppsummering$/);
+  await page.getByRole("button", { name: "Forrige steg" }).click();
+  await expect(page).toHaveURL(/\/agi-uregistrert\/inntekt-og-refusjon$/);
   await page.reload();
   await expect(likRefusjon).toBeChecked();
   await expect(ingenNaturalytelser).toBeChecked();
