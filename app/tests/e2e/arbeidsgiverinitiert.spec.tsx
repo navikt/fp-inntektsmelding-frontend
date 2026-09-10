@@ -14,6 +14,7 @@ import {
 import {
   expectError,
   finnInputFraLabel,
+  mockGrunnbeløp,
   mockHentPersonOgArbeidsforhold,
   mockHentPersonOgArbeidsforholdIngenSakFunnet,
   mockHentUregistrertPersonOgArbeidsforhold,
@@ -284,6 +285,100 @@ test("Valgt: Unntatt registrering i Aa-registeret full løype", async ({
   await expect(
     page.getByText("Vi har mottatt inntektsmeldingen"),
   ).toBeVisible();
+});
+
+test("Ny uregistrert inntektsmelding starter uten skjemadata fra forrige opprettelse", async ({
+  page,
+}) => {
+  await mockHentUregistrertPersonOgArbeidsforhold({ page });
+  await mockGrunnbeløp({ page });
+
+  const opprettInntektsmelding = async (
+    førsteUttaksdato: string,
+    gjennomsnittLønn: number,
+  ) => {
+    await page.route(
+      "**/*/arbeidsgiverinitiert/opplysningerUregistrert",
+      async (route) => {
+        await route.fulfill({
+          json: {
+            ...enkeltOpplysningerResponse,
+            førsteUttaksdato,
+            inntektsopplysninger: {
+              ...enkeltOpplysningerResponse.inntektsopplysninger,
+              gjennomsnittLønn,
+            },
+          },
+        });
+      },
+    );
+
+    await page.goto("/fp-im-dialog/agi?ytelseType=FORELDREPENGER");
+    await page
+      .getByRole("radio", { name: "Unntatt registrering i Aa-registeret" })
+      .check();
+    await page.getByLabel("Ansattes fødselsnummer").fill(FAKE_FNR);
+    await page.getByRole("button", { name: "Hent opplysninger" }).click();
+    await page.getByRole("combobox", { name: "Arbeidsgiver" }).click();
+    await page.getByRole("option", { name: /974652293/ }).click();
+    await page.getByRole("button", { name: "Opprett inntektsmelding" }).click();
+    await expect(page).toHaveURL(/\/agi-uregistrert\/dine-opplysninger$/);
+  };
+
+  const likRefusjon = page.getByRole("radio", {
+    name: "Ja, likt beløp i hele perioden",
+  });
+  const ingenNaturalytelser = page
+    .getByRole("radiogroup", {
+      name: "Har den ansatte naturalytelser som faller bort ved fraværet?",
+    })
+    .getByRole("radio", { name: "Nei", exact: true });
+
+  await opprettInntektsmelding("2024-05-31", 20_000);
+  await page.getByLabel("Telefon").fill("13371337");
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await likRefusjon.check();
+  await page.getByRole("button", { name: "Endre refusjonsbeløp" }).click();
+  await page.getByLabel("Refusjonsbeløp per måned").fill("10000");
+  await ingenNaturalytelser.check();
+  await page.getByRole("button", { name: "Neste steg" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Oppsummering", exact: true }),
+  ).toBeVisible();
+
+  const nyStartdato = "2024-06-10";
+  await opprettInntektsmelding(nyStartdato, 53_000);
+  await expect(page.getByLabel("Telefon")).toHaveValue("");
+  await page.getByLabel("Telefon").fill("12345678");
+  await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
+  await expect(likRefusjon).not.toBeChecked();
+  await expect(ingenNaturalytelser).not.toBeChecked();
+
+  await likRefusjon.check();
+  await ingenNaturalytelser.check();
+  await page.getByRole("button", { name: "Neste steg" }).click();
+  await page.getByRole("link", { name: "Forrige steg" }).click();
+  await page.reload();
+  await expect(likRefusjon).toBeChecked();
+  await expect(ingenNaturalytelser).toBeChecked();
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  await page.route("**/*/imdialog/send-inntektsmelding", async (route) => {
+    await route.fulfill({ json: enkelSendInntektsmeldingResponse });
+  });
+  const innsending = page.waitForRequest("**/*/imdialog/send-inntektsmelding");
+  await page.getByRole("button", { name: "Send inn" }).click();
+  const request = await innsending;
+
+  expect(request.postDataJSON()).toMatchObject({
+    arbeidsgiverinitiertÅrsak: "UREGISTRERT",
+    startdato: nyStartdato,
+    inntekt: 53_000,
+    kontaktperson: { telefonnummer: "12345678" },
+    refusjon: [{ fom: nyStartdato, beløp: 53_000 }],
+    endringAvInntektÅrsaker: [],
+    bortfaltNaturalytelsePerioder: [],
+  });
 });
 
 test("Valgt: Annen årsak", async ({ page }) => {

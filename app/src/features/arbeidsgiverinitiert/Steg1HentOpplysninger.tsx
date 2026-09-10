@@ -135,10 +135,7 @@ export const Steg1HentOpplysninger = () => {
     },
     onSuccess: (opplysninger) => {
       if (opplysninger.forespørselUuid === undefined) {
-        // 1. Finner på en ID
-        // 2. lagrer opplysningene i sessionStorage
-        // 3. redirecter til samme sti som før
-        // 4. komponenten leser ID og avgjør om den skal hente opplysninger fra Backend eller sessionstorage.
+        sessionStorage.removeItem(`skjemadata-${AGI_UREGISTRERT_RUTE_ID}`);
         sessionStorage.setItem(
           AGI_OPPLYSNINGER_UUID,
           JSON.stringify(opplysninger),
