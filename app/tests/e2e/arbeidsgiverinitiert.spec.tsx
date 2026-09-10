@@ -339,7 +339,7 @@ test("Ny uregistrert inntektsmelding starter uten skjemadata fra forrige opprett
   await page.getByRole("button", { name: "Bekreft og gå videre" }).click();
   await likRefusjon.check();
   await page.getByRole("button", { name: "Endre refusjonsbeløp" }).click();
-  await page.getByLabel("Refusjonsbeløp per måned").fill("10000");
+  await page.getByText("Refusjonsbeløp per måned").fill("10000");
   await ingenNaturalytelser.check();
   await page.getByRole("button", { name: "Neste steg" }).click();
   await expect(
