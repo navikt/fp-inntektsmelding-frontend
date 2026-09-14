@@ -16,7 +16,10 @@ enum FEILKODER {
 export const Route = createFileRoute("/$id")({
   component: InntektsmeldingRot,
   errorComponent: ({ error }) => {
-    if (error.message === FEILKODER.OPPGAVE_ER_UTGÅTT) {
+    if (
+      error instanceof Error &&
+      error.message === FEILKODER.OPPGAVE_ER_UTGÅTT
+    ) {
       return <OppgaveErUtgåttFeilside />;
     }
 
