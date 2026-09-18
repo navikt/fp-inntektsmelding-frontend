@@ -41,9 +41,9 @@
     "@playwright/test": "1.63.0",
     "@tanstack/react-query-devtools": "5.102.8",
     "@tanstack/react-router-devtools": "1.167.1",
-    "@tanstack/router-vite-plugin": "1.167.36",
+    "@tanstack/router-vite-plugin": "1.167.37",
     "@types/lodash": "4.17.25",
-    "@types/node": "26.5.0",
+    "@types/node": "26.5.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "@vitejs/plugin-react": "6.1.1",
@@ -53,11 +53,11 @@
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "eslint-plugin-unicorn": "74.0.0",
-    "knip": "6.35.0",
+    "knip": "6.35.1",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
     "typescript-eslint": "8.70.0",
-    "vite": "8.2.2",
+    "vite": "8.3.0",
     "vite-plugin-compression2": "2.5.3"
   }
 }
