@@ -80,7 +80,10 @@ export async function hentEksisterendeInntektsmeldinger(uuid: string) {
     throw new Error("Responsen fra serveren matchet ikke forventet format");
   }
 
-  return parsedJson.data;
+  // Avviste og utdaterte inntektsmeldinger er ikke gjeldende, og skal ikke vises eller brukes som utgangspunkt for endring.
+  return parsedJson.data.filter(
+    (im) => im.status !== "AVVIST" && im.status !== "UTDATERT",
+  );
 }
 
 function mapIMRefusjonTilState(lengde: number) {
@@ -123,6 +126,7 @@ export function mapInntektsmeldingResponseTilValidState(
       (inntektsmelding.bortfaltNaturalytelsePerioder?.length ?? 0) > 0,
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
     inntektsmeldingUuid: inntektsmelding.inntektsmeldingUuid,
+    status: inntektsmelding.status,
   } satisfies InntektsmeldingSkjemaStateValid;
 }
 
@@ -147,6 +151,7 @@ export function mapInntektsmeldingResponseTilValidAgiState(
     ),
     opprettetTidspunkt: inntektsmelding.opprettetTidspunkt,
     inntektsmeldingUuid: inntektsmelding.inntektsmeldingUuid,
+    status: inntektsmelding.status,
   } satisfies AgiSkjemaStateValid;
 }
 

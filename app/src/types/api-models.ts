@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 
 import { AgiÅrsakSchema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import { InntektsmeldingStatusSchema } from "~/types/schema-models.ts";
 import { formatNavn } from "~/utils.ts";
 
 export const YtelsetypeSchema = z.enum([
@@ -136,13 +137,6 @@ export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
   endringAvInntektÅrsaker: z.array(z.any()).length(0),
   bortfaltNaturalytelsePerioder: z.array(z.any()).length(0),
 });
-
-export const InntektsmeldingStatusSchema = z.enum([
-  "GODKJENT",
-  "VENTER_VURDERING",
-  "AVVIST",
-  "UTDATERT",
-]);
 
 export const InntektsmeldingResponseDtoSchema = z.object({
   foresporselUuid: z.string().optional(),

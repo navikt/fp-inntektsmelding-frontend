@@ -1,5 +1,6 @@
 import { expect, Page, test } from "@playwright/test";
 import {
+  avvistInntektsmeldingResponse,
   inntektAvvikerFraAInntektFeilResponse,
   sendInntektsmeldingVenterVurderingResponse,
 } from "tests/mocks/send-inntektsmelding";
@@ -43,11 +44,55 @@ test.describe("Kontroll av inntekt mot A-inntekt", () => {
     await page.getByRole("button", { name: "Send inn" }).click();
     await request;
 
-    // TODO: Avklar hvordan det skal vises at inntektsmeldingen venter på kontroll mot A-inntekt.
-    // I dag vises vanlig kvittering.
     await expect(
-      page.getByText("Vi har mottatt inntektsmeldingen"),
+      page.getByRole("heading", {
+        name: "Inntektsmelding for Underfundig Dyreflokk er mottatt",
+      }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Inntekten er ikke kontrollert ennå" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Saken til den ansatte ligger nå til behandling hos oss"),
+    ).not.toBeVisible();
+  });
+
+  test("Innsendt inntektsmelding som venter på kontroll viser informasjon om det", async ({
+    page,
+  }) => {
+    await mockOpplysninger({ page });
+    await mockGrunnbeløp({ page });
+    await mockInntektsmeldinger({
+      page,
+      json: [sendInntektsmeldingVenterVurderingResponse],
+    });
+
+    await page.goto("/fp-im-dialog/1");
+
+    await expect(
+      page.getByRole("heading", { name: "Innsendt inntektsmelding" }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(
+        "Inntekten i denne inntektsmeldingen er ikke kontrollert mot A-ordningen ennå",
+      ),
+    ).toBeVisible();
+  });
+
+  test("Avvist inntektsmelding regnes ikke som innsendt", async ({ page }) => {
+    await mockOpplysninger({ page });
+    await mockGrunnbeløp({ page });
+    await mockInntektsmeldinger({
+      page,
+      json: [avvistInntektsmeldingResponse],
+    });
+
+    await page.goto("/fp-im-dialog/1");
+
+    await expect(page).toHaveURL(/\/dine-opplysninger$/);
+    await expect(
+      page.getByRole("heading", { name: "Innsendt inntektsmelding" }),
+    ).not.toBeVisible();
   });
 
   test("Inntekt som avviker fra A-inntekt uten endringsårsak avvises", async ({

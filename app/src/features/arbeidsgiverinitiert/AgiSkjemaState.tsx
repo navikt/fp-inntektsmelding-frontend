@@ -4,7 +4,10 @@ import { z, ZodError } from "zod/v4";
 
 import { AGI_NYANSATT_SKJEMA_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { useSessionStorageState } from "~/features/usePersistedState.tsx";
-import { SkalRefunderesSchema } from "~/types/schema-models.ts";
+import {
+  InntektsmeldingStatusSchema,
+  SkalRefunderesSchema,
+} from "~/types/schema-models.ts";
 import { beløpSchema, logDev } from "~/utils.ts";
 
 export const AgiÅrsakSchema = z.enum([
@@ -35,6 +38,7 @@ const AgiSkjemaStateSchema = z.object({
   // Injectes når IM er blitt sendt inn og fått id
   opprettetTidspunkt: z.string().optional(),
   inntektsmeldingUuid: z.string().optional(),
+  status: InntektsmeldingStatusSchema.optional(),
 });
 
 /**
@@ -58,6 +62,7 @@ const AgiSkjemaStateSchemaValidated = z.object({
   // Injectes når IM er blitt sendt inn og fått id
   opprettetTidspunkt: z.string().optional(),
   inntektsmeldingUuid: z.string().optional(),
+  status: InntektsmeldingStatusSchema.optional(),
 });
 
 export type AgiSkjemaState = z.infer<typeof AgiSkjemaStateSchema>;

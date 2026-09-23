@@ -56,3 +56,9 @@ export const inntektAvvikerFraAInntektFeilResponse = {
   feilmelding:
     "Inntekt i inntektsmelding er ulik inntekt fra A-inntekt, og ingen endringsårsak er oppgitt. Gjennomsnittlig inntekt fra A-inntekt: 46000.00, oppgitt inntekt i inntektsmelding: 45000",
 } satisfies z.infer<typeof feilmeldingSchema> & { status: number };
+
+// Etterkontroll etter nedetid har avvist inntektsmeldingen (fp-inntektsmelding TFP-6988)
+export const avvistInntektsmeldingResponse = {
+  ...enkelSendInntektsmeldingResponse,
+  status: "AVVIST",
+} satisfies SendInntektsmeldingResponseDto;

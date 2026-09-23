@@ -20,6 +20,9 @@ export const Steg4Kvittering = () => {
       erRefusjon={erRefusjon}
       inntektsmeldingUuid={inntektsmeldingUuid}
       opplysninger={opplysninger}
+      venterVurdering={
+        gyldigInntektsmeldingSkjemaState?.status === "VENTER_VURDERING"
+      }
     />
   );
 };
