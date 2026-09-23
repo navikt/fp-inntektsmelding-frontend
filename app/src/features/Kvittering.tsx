@@ -59,7 +59,7 @@ export const Kvittering = ({
             <BodyLong>
               Hvis månedslønnen du har oppgitt ikke stemmer med det som er
               rapportert til A-ordningen, får du beskjed på Min side –
-              arbeidsgiver og i din Altinn-innboks, og må sende inn en ny
+              arbeidsgiver og i din Altinn innboks. Du må da sende en ny
               inntektsmelding.
             </BodyLong>
           </Alert>
