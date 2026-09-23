@@ -1,14 +1,27 @@
-import { ArrowLeftIcon, PaperplaneIcon } from "@navikt/aksel-icons";
+import {
+  ArrowLeftIcon,
+  ArrowsCirclepathIcon,
+  PaperplaneIcon,
+} from "@navikt/aksel-icons";
 import { Alert, BodyLong, Button, Heading, Stack } from "@navikt/ds-react";
 import { useMutation } from "@tanstack/react-query";
-import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
+import {
+  getRouteApi,
+  Link,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import isEqual from "lodash/isEqual";
 
-import { sendInntektsmelding } from "~/api/mutations.ts";
+import {
+  InntektAvvikerFraAInntektError,
+  sendInntektsmelding,
+} from "~/api/mutations.ts";
 import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
 import { AGI_UREGISTRERT_RUTE_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
 import {
+  defaultSkjemaState,
   InntektsmeldingSkjemaStateValid,
   useInntektsmeldingSkjema,
 } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
@@ -90,6 +103,7 @@ type SendInnInntektsmeldingProps = {
 };
 function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
   const navigate = useNavigate();
+  const router = useRouter();
   const { id } = route.useParams();
   const { eksisterendeInntektsmeldinger } = route.useLoaderData();
 
@@ -138,6 +152,33 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
 
   if (!gyldigInntektsmeldingSkjemaState) {
     return null;
+  }
+
+  if (error instanceof InntektAvvikerFraAInntektError) {
+    // Opplysningene fra A-ordningen kan være utdaterte, så brukeren må starte på nytt med nyhentede opplysninger.
+    const startPåNytt = async () => {
+      setInntektsmeldingSkjemaState(defaultSkjemaState);
+      await router.invalidate();
+      await navigate({ to: "/$id", params: { id } });
+    };
+
+    return (
+      <Alert variant="error">
+        <Stack gap="space-16">
+          <BodyLong>{error.message}</BodyLong>
+          <Button
+            className="w-fit"
+            data-color="neutral"
+            icon={<ArrowsCirclepathIcon aria-hidden />}
+            onClick={startPåNytt}
+            size="small"
+            variant="secondary"
+          >
+            Start på nytt
+          </Button>
+        </Stack>
+      </Alert>
+    );
   }
 
   return (

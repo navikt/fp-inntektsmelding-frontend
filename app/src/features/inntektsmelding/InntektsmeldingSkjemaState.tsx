@@ -119,7 +119,7 @@ type InntektsmeldingSkjemaStateProviderProps = {
   children: React.ReactNode;
 };
 
-const defaultSkjemaState = {
+export const defaultSkjemaState = {
   inntekt: 0,
   refusjon: [],
   bortfaltNaturalytelsePerioder: [],

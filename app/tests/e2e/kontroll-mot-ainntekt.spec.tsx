@@ -119,5 +119,14 @@ test.describe("Kontroll av inntekt mot A-inntekt", () => {
       ),
     ).toBeVisible();
     await expect(page.getByText("Noe gikk galt.")).not.toBeVisible();
+
+    // Brukeren skal ikke kunne sende inn på nytt eller gå tilbake, kun starte på nytt
+    await expect(page.getByRole("button", { name: "Send inn" })).toBeHidden();
+    await expect(page.getByRole("link", { name: "Forrige steg" })).toBeHidden();
+
+    await page.getByRole("button", { name: "Start på nytt" }).click();
+
+    await expect(page).toHaveURL(/\/dine-opplysninger$/);
+    await expect(page.getByLabel("Telefon")).toHaveValue("");
   });
 });
