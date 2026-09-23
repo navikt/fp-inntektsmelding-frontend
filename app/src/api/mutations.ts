@@ -3,6 +3,7 @@ import {
   mapInntektsmeldingResponseTilValidState,
 } from "~/api/queries.ts";
 import {
+  feilmeldingSchema,
   InntektsmeldingResponseDtoSchema,
   SendAgiInntektsmeldingRequestDto,
   SendInntektsmeldingRequestDto,
@@ -10,6 +11,28 @@ import {
 import { logDev } from "~/utils.ts";
 
 const SERVER_URL = `${import.meta.env.BASE_URL}/server/api`;
+
+const INNTEKT_AVVIKER_FRA_AINNTEKT_FEILMELDING =
+  "Månedslønnen du har oppgitt er ulik gjennomsnittet av inntekten som er rapportert til A-ordningen for de tre siste månedene. Hvis månedslønnen er riktig, må du oppgi hvorfor den er endret. Gå tilbake til «Inntekt og refusjon», og velg en endringsårsak under «Endre månedslønn».";
+
+async function kastFeilVedInnsending(response: Response): Promise<never> {
+  let json: unknown;
+  try {
+    json = await response.json();
+  } catch {
+    throw new Error("Noe gikk galt.");
+  }
+  const parsedFeil = feilmeldingSchema.safeParse(json);
+
+  if (
+    parsedFeil.success &&
+    parsedFeil.data.feilkode === "INNTEKT_AVVIKER_FRA_AINNTEKT"
+  ) {
+    throw new Error(INNTEKT_AVVIKER_FRA_AINNTEKT_FEILMELDING);
+  }
+
+  throw new Error("Noe gikk galt.");
+}
 
 export async function sendInntektsmelding(
   sendInntektsmeldingRequest: SendInntektsmeldingRequestDto,
@@ -23,7 +46,7 @@ export async function sendInntektsmelding(
   });
 
   if (!response.ok) {
-    throw new Error("Noe gikk galt.");
+    await kastFeilVedInnsending(response);
   }
 
   const json = await response.json();
@@ -50,7 +73,7 @@ export async function sendAgiInntektsmelding(
   });
 
   if (!response.ok) {
-    throw new Error("Noe gikk galt.");
+    await kastFeilVedInnsending(response);
   }
 
   const json = await response.json();

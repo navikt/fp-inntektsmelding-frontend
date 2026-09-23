@@ -137,6 +137,13 @@ export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
   bortfaltNaturalytelsePerioder: z.array(z.any()).length(0),
 });
 
+export const InntektsmeldingStatusSchema = z.enum([
+  "GODKJENT",
+  "VENTER_VURDERING",
+  "AVVIST",
+  "UTDATERT",
+]);
+
 export const InntektsmeldingResponseDtoSchema = z.object({
   foresporselUuid: z.string().optional(),
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
@@ -175,6 +182,7 @@ export const InntektsmeldingResponseDtoSchema = z.object({
   ),
   opprettetTidspunkt: z.string(),
   inntektsmeldingUuid: z.string(),
+  status: InntektsmeldingStatusSchema.optional(),
 });
 
 export type SendInntektsmeldingResponseDto = z.infer<
@@ -261,6 +269,7 @@ export const feilmeldingSchema = z.object({
       "IKKE_TILGANG",
       "IKKE_FUNNET",
       "VALIDERING",
+      "INNTEKT_AVVIKER_FRA_AINNTEKT",
     ])
     .optional(),
 });
