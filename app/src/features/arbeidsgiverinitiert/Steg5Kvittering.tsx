@@ -18,6 +18,7 @@ export const Steg5Kvittering = () => {
       erRefusjon={erRefusjon}
       inntektsmeldingUuid={inntektsmeldingsUuid}
       opplysninger={opplysninger}
+      venterVurdering={gyldigAgiSkjemaState?.status === "VENTER_VURDERING"}
     />
   );
 };

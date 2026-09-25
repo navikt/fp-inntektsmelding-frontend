@@ -6,3 +6,10 @@ export const SkalRefunderesSchema = z.enum([
   "NEI",
 ]);
 export type SkalRefunderesType = z.infer<typeof SkalRefunderesSchema>;
+
+export const InntektsmeldingStatusSchema = z.enum([
+  "GODKJENT",
+  "VENTER_VURDERING",
+  "AVVIST",
+  "UTDATERT",
+]);

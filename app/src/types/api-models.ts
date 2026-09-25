@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 
 import { AgiÅrsakSchema } from "~/features/arbeidsgiverinitiert/AgiSkjemaState.tsx";
+import { InntektsmeldingStatusSchema } from "~/types/schema-models.ts";
 import { formatNavn } from "~/utils.ts";
 
 export const YtelsetypeSchema = z.enum([
@@ -175,6 +176,7 @@ export const InntektsmeldingResponseDtoSchema = z.object({
   ),
   opprettetTidspunkt: z.string(),
   inntektsmeldingUuid: z.string(),
+  status: InntektsmeldingStatusSchema.optional(),
 });
 
 export type SendInntektsmeldingResponseDto = z.infer<
@@ -261,6 +263,7 @@ export const feilmeldingSchema = z.object({
       "IKKE_TILGANG",
       "IKKE_FUNNET",
       "VALIDERING",
+      "INNTEKT_AVVIKER_FRA_AINNTEKT",
     ])
     .optional(),
 });

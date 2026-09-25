@@ -25,30 +25,62 @@ type KvitteringProps = {
   erRefusjon: boolean;
   opplysninger: OpplysningerDto;
   inntektsmeldingUuid?: string;
+  venterVurdering?: boolean;
 };
 export const Kvittering = ({
   erRefusjon,
   opplysninger,
   inntektsmeldingUuid,
+  venterVurdering = false,
 }: KvitteringProps) => {
   const ofteStilteSpørsmål = erRefusjon
     ? ofteStilteSpørsmålRefusjon
     : ofteStilteSpørsmålIkkeRefusjon;
   return (
     <div className="mx-4 mt-12 ax-md:mx-0">
-      <div className="p-6 bg-ax-bg-success-soft rounded-full mx-auto w-fit">
-        <CheckmarkIcon aria-hidden fontSize="2.5em" />
-      </div>
-      <Heading className="mt-6 mb-12 text-center" level="2" size="medium">
-        Inntektsmelding for {lagFulltNavn(opplysninger.person)} er sendt
-      </Heading>
-      <Alert className="mb-12" variant="success">
-        <BodyLong>
-          Vi har mottatt inntektsmeldingen. Saken til den ansatte ligger nå til
-          behandling hos oss. Vi tar kontakt hvis vi trenger flere opplysninger
-          fra deg.
-        </BodyLong>
-      </Alert>
+      {venterVurdering ? (
+        <>
+          <div className="p-6 bg-ax-bg-info-soft rounded-full mx-auto w-fit">
+            <ClockIcon aria-hidden fontSize="2.5em" />
+          </div>
+          <Heading className="mt-6 mb-12 text-center" level="2" size="medium">
+            Inntektsmelding for {lagFulltNavn(opplysninger.person)} er mottatt
+          </Heading>
+          <Alert className="mb-12" variant="info">
+            <Heading level="3" size="xsmall" spacing>
+              Inntekten er ikke kontrollert ennå
+            </Heading>
+            <BodyLong spacing>
+              Vi har mottatt inntektsmeldingen, men på grunn av tekniske
+              problemer får vi ikke kontrollert inntekten mot A-ordningen
+              akkurat nå. Vi kontrollerer den automatisk så snart det er mulig.
+              Du trenger ikke gjøre noe.
+            </BodyLong>
+            <BodyLong>
+              Hvis månedslønnen du har oppgitt ikke stemmer med det som er
+              rapportert til A-ordningen, får du beskjed på Min side –
+              arbeidsgiver og i din Altinn innboks. Du må da sende en ny
+              inntektsmelding.
+            </BodyLong>
+          </Alert>
+        </>
+      ) : (
+        <>
+          <div className="p-6 bg-ax-bg-success-soft rounded-full mx-auto w-fit">
+            <CheckmarkIcon aria-hidden fontSize="2.5em" />
+          </div>
+          <Heading className="mt-6 mb-12 text-center" level="2" size="medium">
+            Inntektsmelding for {lagFulltNavn(opplysninger.person)} er sendt
+          </Heading>
+          <Alert className="mb-12" variant="success">
+            <BodyLong>
+              Vi har mottatt inntektsmeldingen. Saken til den ansatte ligger nå
+              til behandling hos oss. Vi tar kontakt hvis vi trenger flere
+              opplysninger fra deg.
+            </BodyLong>
+          </Alert>
+        </>
+      )}
 
       <VStack className="mb-12" gap="space-16">
         <Heading size="medium">Ofte stilte spørsmål</Heading>

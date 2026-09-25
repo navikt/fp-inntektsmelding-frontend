@@ -87,6 +87,15 @@ export const VisInntektsmelding = () => {
           </VStack>
           {endreKnapp}
         </HStack>
+        {sisteInntektsmelding.status === "VENTER_VURDERING" && (
+          <Alert variant="info">
+            <BodyShort>
+              Inntekten i denne inntektsmeldingen er ikke kontrollert mot
+              A-ordningen ennå på grunn av tekniske problemer. Vi kontrollerer
+              den automatisk så snart det er mulig.
+            </BodyShort>
+          </Alert>
+        )}
         {opplysninger.forespørselStatus === "UTGÅTT" && (
           <Alert className="my-4" variant="warning">
             <BodyShort>

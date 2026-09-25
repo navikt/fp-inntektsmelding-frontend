@@ -6,7 +6,10 @@ import {
   EndringAvInntektÅrsakerSchema,
   NaturalytelseTypeSchema,
 } from "~/types/api-models.ts";
-import { SkalRefunderesSchema } from "~/types/schema-models.ts";
+import {
+  InntektsmeldingStatusSchema,
+  SkalRefunderesSchema,
+} from "~/types/schema-models.ts";
 import { beløpSchema, logDev } from "~/utils.ts";
 
 import { useSessionStorageState } from "../usePersistedState.tsx";
@@ -89,6 +92,7 @@ const InntektsmeldingSkjemaStateSchemaValidated = z.object({
   ),
   opprettetTidspunkt: z.string().optional(),
   inntektsmeldingUuid: z.string().optional(),
+  status: InntektsmeldingStatusSchema.optional(),
 });
 
 export type InntektsmeldingSkjemaState = z.infer<
@@ -115,7 +119,7 @@ type InntektsmeldingSkjemaStateProviderProps = {
   children: React.ReactNode;
 };
 
-const defaultSkjemaState = {
+export const defaultSkjemaState = {
   inntekt: 0,
   refusjon: [],
   bortfaltNaturalytelsePerioder: [],
