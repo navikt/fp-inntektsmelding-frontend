@@ -4,7 +4,7 @@ import winston from "winston";
 import config from "./config.js";
 
 const { format } = winston;
-const { combine, json, timestamp } = format;
+const { combine, json, splat, timestamp } = format;
 
 const levels = {
   error: 0,
@@ -29,6 +29,7 @@ const colors = {
 winston.addColors(colors);
 
 const timestampFormat = timestamp();
+const splatFormat = splat();
 const jsonFormat = json();
 
 const stdoutLogger = winston.createLogger({
@@ -36,7 +37,8 @@ const stdoutLogger = winston.createLogger({
   levels,
   transports: [
     new winston.transports.Console({
-      format: combine(timestampFormat, jsonFormat),
+      // splat() is required for printf-style messages, e.g. from http-proxy-middleware
+      format: combine(timestampFormat, splatFormat, jsonFormat),
     }),
   ],
 });
@@ -53,12 +55,9 @@ const warn = (msg: string) => {
   stdoutLogger.warn(msg.replaceAll(/[\n\r]/g, ""));
 };
 
-const error = (msg: string, err: Error) => {
-  if (err) {
-    stdoutLogger.error(msg, { message: `: ${err.message}` });
-  } else {
-    stdoutLogger.error(msg, { message: `: ${err}` });
-  }
+const error = (msg: string, err?: unknown) => {
+  const detaljer = err instanceof Error ? err.message : String(err);
+  stdoutLogger.error(`${msg}: ${detaljer}`);
 };
 
 const stream = {

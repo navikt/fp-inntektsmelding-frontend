@@ -42,7 +42,7 @@ function addProxyHandler(
     createProxyMiddleware({
       target: outgoingUrl,
       changeOrigin: true,
-      logger: logger,
+      logger: logger.logger,
       on: {
         proxyReq: (proxyRequest, request) => {
           const obo = request.headers["obo-token"];
