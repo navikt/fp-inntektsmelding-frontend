@@ -12,15 +12,6 @@ import { logDev } from "~/utils.ts";
 
 const SERVER_URL = `${import.meta.env.BASE_URL}/server/api`;
 
-export class InntektAvvikerFraAInntektError extends Error {
-  constructor() {
-    super(
-      "Månedslønnen du har oppgitt er ulik gjennomsnittet av inntekten som er rapportert til A-ordningen for de tre siste månedene. Du må starte på nytt, slik at vi får hentet oppdaterte opplysninger fra A-ordningen. Hvis månedslønnen du oppgir fortsatt er ulik, må du oppgi hvorfor den er endret under «Endre månedslønn».",
-    );
-    this.name = "InntektAvvikerFraAInntektError";
-  }
-}
-
 async function kastFeilVedInnsending(response: Response): Promise<never> {
   let json: unknown;
   try {
@@ -34,7 +25,7 @@ async function kastFeilVedInnsending(response: Response): Promise<never> {
     parsedFeil.success &&
     parsedFeil.data.feilkode === "INNTEKT_AVVIKER_FRA_AINNTEKT"
   ) {
-    throw new InntektAvvikerFraAInntektError();
+    throw new Error("INNTEKT_AVVIKER_FRA_AINNTEKT");
   }
 
   throw new Error("Noe gikk galt.");

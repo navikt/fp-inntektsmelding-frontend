@@ -13,10 +13,7 @@ import {
 } from "@tanstack/react-router";
 import isEqual from "lodash/isEqual";
 
-import {
-  InntektAvvikerFraAInntektError,
-  sendInntektsmelding,
-} from "~/api/mutations.ts";
+import { sendInntektsmelding } from "~/api/mutations.ts";
 import { mapInntektsmeldingResponseTilValidState } from "~/api/queries.ts";
 import { AGI_UREGISTRERT_RUTE_ID } from "~/features/arbeidsgiverinitiert/AgiRot.tsx";
 import { Fremgangsindikator } from "~/features/inntektsmelding/Fremgangsindikator.tsx";
@@ -154,7 +151,7 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
     return null;
   }
 
-  if (error instanceof InntektAvvikerFraAInntektError) {
+  if (error?.message === "INNTEKT_AVVIKER_FRA_AINNTEKT") {
     // Opplysningene fra A-ordningen kan være utdaterte, så brukeren må starte på nytt med nyhentede opplysninger.
     const startPåNytt = async () => {
       setInntektsmeldingSkjemaState(defaultSkjemaState);
@@ -165,7 +162,13 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
     return (
       <Alert variant="error">
         <Stack gap="space-16">
-          <BodyLong>{error.message}</BodyLong>
+          <BodyLong>
+            Månedslønnen du har oppgitt er ulik gjennomsnittet av inntekten som
+            er rapportert til A-ordningen for de tre siste månedene. Du må
+            starte på nytt, slik at vi får hentet oppdaterte opplysninger fra
+            A-ordningen. Hvis månedslønnen du oppgir fortsatt er ulik, må du
+            oppgi hvorfor den er endret under «Endre månedslønn».
+          </BodyLong>
           <Button
             className="w-fit"
             data-color="neutral"
