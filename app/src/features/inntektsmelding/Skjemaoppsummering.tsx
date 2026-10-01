@@ -1,10 +1,20 @@
-import { Alert, BodyLong, Box, FormSummary, List, VStack } from "@navikt/ds-react";
+import {
+  Alert,
+  BodyLong,
+  Box,
+  FormSummary,
+  List,
+  VStack,
+} from "@navikt/ds-react";
 import { Link } from "@tanstack/react-router";
 
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { endringsårsak } from "~/features/skjema-moduler/Inntekt.tsx";
 import { REFUSJON_RADIO_VALG } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
-import  { OpplysningerDto, SendInntektsmeldingResponseDto } from "~/types/api-models.ts";
+import type {
+  OpplysningerDto,
+  SendInntektsmeldingResponseDto,
+} from "~/types/api-models.ts";
 import {
   capitalize,
   formatDatoKort,

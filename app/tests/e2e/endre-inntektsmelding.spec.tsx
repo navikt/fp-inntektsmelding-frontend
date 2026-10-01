@@ -35,9 +35,11 @@ test("viser informasjon når første uttaksdato er endret", async ({ page }) => 
 
   await page.goto(`/fp-im-dialog/${uuid}`);
 
-  await expect(page.getByRole("alert")).toContainText(
-    "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
-  );
+  await expect(
+    page.getByText(
+      "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
+    ),
+  ).toBeVisible();
 });
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
