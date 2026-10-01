@@ -285,8 +285,10 @@ const AlertOmRapportertLønn = ({
       >
         <BodyShort>
           Vi har problemer med å hente inntektsopplysninger fra A-ordningen. Du
-          kan legge inn beregnet månedsinntekt manuelt, eller prøve igjen
-          senere.
+          kan legge inn beregnet månedslønn manuelt, eller prøve igjen senere.
+          Beregnet månedslønn vil bli kontrollert mot rapportert inntekt når
+          a-ordningen er tilgjengelig. Inntektsmeldingen kan bli avvist hvis
+          avvik
         </BodyShort>
       </Alert>
     );

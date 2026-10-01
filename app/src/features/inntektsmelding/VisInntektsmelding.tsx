@@ -92,7 +92,8 @@ export const VisInntektsmelding = () => {
             <BodyShort>
               Inntekten i denne inntektsmeldingen er ikke kontrollert mot
               A-ordningen ennå på grunn av tekniske problemer. Vi kontrollerer
-              den automatisk så snart det er mulig.
+              den automatisk så snart det er mulig. Hvis vi trenger mer
+              informasjon, får dere nytt varsel.
             </BodyShort>
           </Alert>
         )}
