@@ -1,10 +1,20 @@
-import { Box, FormSummary, List, VStack } from "@navikt/ds-react";
+import {
+  Alert,
+  BodyLong,
+  Box,
+  FormSummary,
+  List,
+  VStack,
+} from "@navikt/ds-react";
 import { Link } from "@tanstack/react-router";
 
 import { InntektsmeldingSkjemaStateValid } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { endringsårsak } from "~/features/skjema-moduler/Inntekt.tsx";
 import { REFUSJON_RADIO_VALG } from "~/features/skjema-moduler/UtbetalingOgRefusjon.tsx";
-import type { OpplysningerDto } from "~/types/api-models.ts";
+import type {
+  OpplysningerDto,
+  SendInntektsmeldingResponseDto,
+} from "~/types/api-models.ts";
 import {
   capitalize,
   formatDatoKort,
@@ -17,14 +27,22 @@ import {
   lagFulltNavn,
 } from "~/utils";
 
-type SkjemaoppsummeringProps = {
+type InntektSummaryProps = {
   opplysninger: OpplysningerDto;
   skjemaState: InntektsmeldingSkjemaStateValid;
+};
+
+type SkjemaoppsummeringProps = InntektSummaryProps & {
+  sisteInntektsmelding?: SendInntektsmeldingResponseDto;
 };
 export const Skjemaoppsummering = ({
   opplysninger,
   skjemaState,
+  sisteInntektsmelding,
 }: SkjemaoppsummeringProps) => {
+  const erFørsteUttaksdatoEndret =
+    !!sisteInntektsmelding &&
+    sisteInntektsmelding.startdato !== opplysninger.førsteUttaksdato;
   const kanEndres = opplysninger.forespørselStatus !== "UTGÅTT";
   return (
     <VStack gap="space-16">
@@ -74,6 +92,15 @@ export const Skjemaoppsummering = ({
         </FormSummary.Header>
         <FormSummary.Answers>
           <FormSummary.Answer>
+            {erFørsteUttaksdatoEndret && (
+              <Alert className="mb-4" variant="info">
+                <BodyLong>
+                  Første uttaksdato har endret seg etter at du sendte inn
+                  forrige inntektsmelding. Hvis du skal endre inntektsmeldingen,
+                  vil den nye datoen bli brukt.
+                </BodyLong>
+              </Alert>
+            )}
             <FormSummary.Label>Fra og med</FormSummary.Label>
             <FormSummary.Value>
               {formatDatoLang(new Date(opplysninger.førsteUttaksdato))}
@@ -193,10 +220,7 @@ export const Skjemaoppsummering = ({
   );
 };
 
-function InntektSummary({
-  skjemaState,
-  opplysninger,
-}: SkjemaoppsummeringProps) {
+function InntektSummary({ skjemaState, opplysninger }: InntektSummaryProps) {
   // Hvis oppsummeringen vises etter utfylt skjema (url: .../oppsummering) så er "korrigertInntekt" populert og vi bruker den som lønn.
   // Hvis den brukes til å vise eksisterende IM (url: .../vis) så må vi bruke registrert inntekt,
   // og sammenligne med gj.snitt fra opplysninger for å bedømme om den har blitt endret eller ikke.

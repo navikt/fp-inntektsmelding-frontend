@@ -107,6 +107,7 @@ export const VisInntektsmelding = () => {
         )}
         <Skjemaoppsummering
           opplysninger={opplysninger}
+          sisteInntektsmelding={sisteInntektsmelding}
           skjemaState={mapInntektsmeldingResponseTilValidState(
             sisteInntektsmelding,
           )}

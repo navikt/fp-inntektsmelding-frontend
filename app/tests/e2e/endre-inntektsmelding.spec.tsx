@@ -16,6 +16,32 @@ import {
   mockOpplysninger,
 } from "tests/mocks/utils";
 
+test("viser informasjon når første uttaksdato er endret", async ({ page }) => {
+  const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
+  await mockOpplysninger({
+    page,
+    uuid,
+    json: {
+      ...enkeltOpplysningerResponse,
+      førsteUttaksdato: "2024-06-06",
+    },
+  });
+  await mockGrunnbeløp({ page });
+  await mockInntektsmeldinger({
+    page,
+    uuid,
+    json: inntektsmeldingUtenEndretInntekt,
+  });
+
+  await page.goto(`/fp-im-dialog/${uuid}`);
+
+  await expect(
+    page.getByText(
+      "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
+    ),
+  ).toBeVisible();
+});
+
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
   await mockOpplysninger({
     page,
