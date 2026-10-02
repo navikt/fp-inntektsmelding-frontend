@@ -27,9 +27,12 @@ import {
   lagFulltNavn,
 } from "~/utils";
 
-type SkjemaoppsummeringProps = {
+type InntektSummaryProps = {
   opplysninger: OpplysningerDto;
   skjemaState: InntektsmeldingSkjemaStateValid;
+};
+
+type SkjemaoppsummeringProps = InntektSummaryProps & {
   sisteInntektsmelding?: SendInntektsmeldingResponseDto;
 };
 export const Skjemaoppsummering = ({
@@ -217,10 +220,7 @@ export const Skjemaoppsummering = ({
   );
 };
 
-function InntektSummary({
-  skjemaState,
-  opplysninger,
-}: SkjemaoppsummeringProps) {
+function InntektSummary({ skjemaState, opplysninger }: InntektSummaryProps) {
   // Hvis oppsummeringen vises etter utfylt skjema (url: .../oppsummering) så er "korrigertInntekt" populert og vi bruker den som lønn.
   // Hvis den brukes til å vise eksisterende IM (url: .../vis) så må vi bruke registrert inntekt,
   // og sammenligne med gj.snitt fra opplysninger for å bedømme om den har blitt endret eller ikke.
