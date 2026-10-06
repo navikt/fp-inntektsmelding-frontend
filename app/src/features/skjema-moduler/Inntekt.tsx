@@ -288,7 +288,7 @@ const AlertOmRapportertLønn = ({
           kan legge inn beregnet månedslønn manuelt, eller prøve igjen senere.
           Beregnet månedslønn vil bli kontrollert mot rapportert inntekt når
           a-ordningen er tilgjengelig. Inntektsmeldingen kan bli avvist hvis
-          avvik
+          avvik.
         </BodyShort>
       </Alert>
     );
