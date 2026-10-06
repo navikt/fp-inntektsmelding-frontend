@@ -50,10 +50,15 @@ function lagRefusjonDefaultValues(
       { fom: undefined, beløp: 0 },
     ];
   }
+
+  const refusjonMedGjeldendeStartdato = refusjon.map((periode, index) =>
+    index === 0 ? { ...periode, fom: førsteUttaksdato } : periode,
+  );
+
   if (refusjon.length === 1) {
-    return [...refusjon, { fom: undefined, beløp: 0 }];
+    return [...refusjonMedGjeldendeStartdato, { fom: undefined, beløp: 0 }];
   }
-  return refusjon;
+  return refusjonMedGjeldendeStartdato;
 }
 
 type EndringsÅrsakerForm = {

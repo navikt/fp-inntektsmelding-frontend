@@ -16,7 +16,7 @@ import {
   mockOpplysninger,
 } from "tests/mocks/utils";
 
-test("viser informasjon når første uttaksdato er endret", async ({ page }) => {
+test("bruker ny første uttaksdato i refusjon", async ({ page }) => {
   const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
   await mockOpplysninger({
     page,
@@ -30,7 +30,15 @@ test("viser informasjon når første uttaksdato er endret", async ({ page }) => 
   await mockInntektsmeldinger({
     page,
     uuid,
-    json: inntektsmeldingUtenEndretInntekt,
+    json: [
+      {
+        ...inntektsmeldingUtenEndretInntekt[0],
+        refusjon: [
+          { fom: "2024-05-30", beløp: 500 },
+          { fom: "2024-10-25", beløp: 80 },
+        ],
+      },
+    ],
   });
 
   await page.goto(`/fp-im-dialog/${uuid}`);
@@ -40,6 +48,17 @@ test("viser informasjon når første uttaksdato er endret", async ({ page }) => 
       "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
     ),
   ).toBeVisible();
+
+  await page
+    .getByRole("link", { name: "Endre utbetaling og refusjon" })
+    .click();
+
+  await expect(
+    await finnInputFraLabel({
+      page: page.getByTestId("varierende-refusjon"),
+      labelText: "Fra og med",
+    }),
+  ).toHaveValue("06.06.2024");
 });
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
@@ -164,7 +183,7 @@ test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
       nth: 0,
       labelText: "Fra og med",
     }),
-  ).toHaveValue("30.05.2024");
+  ).toHaveValue("31.05.2024");
   await expect(
     await finnInputFraLabel({
       page: varierendeRefusjonBlokk,
@@ -307,6 +326,10 @@ test("skal ikke få lov til å sende inn uten endring", async ({ page }) => {
   await mockOpplysninger({
     page,
     uuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
+    json: {
+      ...enkeltOpplysningerResponse,
+      førsteUttaksdato: "2024-05-30",
+    },
   });
   await mockGrunnbeløp({ page });
   await mockInntektsmeldinger({
