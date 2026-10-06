@@ -49,7 +49,11 @@ export const Steg3Oppsummering = () => {
     inntektsmeldingSkjemaStateError,
   } = useInntektsmeldingSkjema();
 
-  if (!gyldigInntektsmeldingSkjemaState) {
+  if (
+    !gyldigInntektsmeldingSkjemaState ||
+    inntektsmeldingSkjemaState.refusjonOgNaturalytelserGjelderFørsteUttaksdato !==
+      opplysninger.førsteUttaksdato
+  ) {
     // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg feilen for innsikt.
     // eslint-disable-next-line no-console
     console.error(
@@ -127,7 +131,10 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
         const eksisterendeInntektsmelding = lagSendInntektsmeldingRequest(
           id,
           mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
-          opplysninger,
+          {
+            ...opplysninger,
+            førsteUttaksdato: sisteInntektsmelding.startdato,
+          },
         );
         if (isEqual(inntektsmeldingRequest, eksisterendeInntektsmelding)) {
           throw new Error(

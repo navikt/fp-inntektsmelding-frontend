@@ -51,14 +51,10 @@ function lagRefusjonDefaultValues(
     ];
   }
 
-  const refusjonMedGjeldendeStartdato = refusjon.map((periode, index) =>
-    index === 0 ? { ...periode, fom: førsteUttaksdato } : periode,
-  );
-
   if (refusjon.length === 1) {
-    return [...refusjonMedGjeldendeStartdato, { fom: undefined, beløp: 0 }];
+    return [...refusjon, { fom: undefined, beløp: 0 }];
   }
-  return refusjonMedGjeldendeStartdato;
+  return refusjon;
 }
 
 type EndringsÅrsakerForm = {
@@ -95,6 +91,9 @@ export function Steg2InntektOgRefusjon() {
   const defaultInntekt =
     inntektsmeldingSkjemaState.inntekt ||
     opplysninger.inntektsopplysninger.gjennomsnittLønn;
+  const avhengigeOpplysningerErGjeldende =
+    inntektsmeldingSkjemaState.refusjonOgNaturalytelserGjelderFørsteUttaksdato ===
+    opplysninger.førsteUttaksdato;
 
   const formMethods = useForm<InntektOgRefusjonForm>({
     defaultValues: {
@@ -108,11 +107,14 @@ export function Steg2InntektOgRefusjon() {
         inntektsmeldingSkjemaState.endringAvInntektÅrsaker.length === 0
           ? [ENDRINGSÅRSAK_TEMPLATE]
           : inntektsmeldingSkjemaState.endringAvInntektÅrsaker,
-      skalRefunderes: inntektsmeldingSkjemaState.skalRefunderes,
-      misterNaturalytelser: konverterTilRadioValg(
-        inntektsmeldingSkjemaState.misterNaturalytelser,
-      ),
+      skalRefunderes: avhengigeOpplysningerErGjeldende
+        ? inntektsmeldingSkjemaState.skalRefunderes
+        : undefined,
+      misterNaturalytelser: avhengigeOpplysningerErGjeldende
+        ? konverterTilRadioValg(inntektsmeldingSkjemaState.misterNaturalytelser)
+        : undefined,
       bortfaltNaturalytelsePerioder:
+        !avhengigeOpplysningerErGjeldende ||
         inntektsmeldingSkjemaState.bortfaltNaturalytelsePerioder.length === 0
           ? [NATURALYTELSE_SOM_MISTES_TEMPLATE]
           : inntektsmeldingSkjemaState.bortfaltNaturalytelsePerioder.map(
@@ -122,7 +124,9 @@ export function Steg2InntektOgRefusjon() {
               }),
             ),
       refusjon: lagRefusjonDefaultValues(
-        inntektsmeldingSkjemaState.refusjon,
+        avhengigeOpplysningerErGjeldende
+          ? inntektsmeldingSkjemaState.refusjon
+          : [],
         opplysninger.førsteUttaksdato,
         defaultInntekt,
       ),
@@ -155,6 +159,8 @@ export function Steg2InntektOgRefusjon() {
       skalRefunderes,
       misterNaturalytelser,
       bortfaltNaturalytelsePerioder,
+      refusjonOgNaturalytelserGjelderFørsteUttaksdato:
+        opplysninger.førsteUttaksdato,
     }));
     navigate({
       from: "/$id/inntekt-og-refusjon",

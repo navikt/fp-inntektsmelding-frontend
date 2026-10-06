@@ -52,6 +52,7 @@ const InntektsmeldingSkjemaStateSchema = z.object({
       inkluderTom: z.boolean(),
     }),
   ),
+  refusjonOgNaturalytelserGjelderFørsteUttaksdato: z.string().optional(),
 });
 
 /**
@@ -93,6 +94,7 @@ const InntektsmeldingSkjemaStateSchemaValidated = z.object({
   opprettetTidspunkt: z.string().optional(),
   inntektsmeldingUuid: z.string().optional(),
   status: InntektsmeldingStatusSchema.optional(),
+  refusjonOgNaturalytelserGjelderFørsteUttaksdato: z.string().optional(),
 });
 
 export type InntektsmeldingSkjemaState = z.infer<

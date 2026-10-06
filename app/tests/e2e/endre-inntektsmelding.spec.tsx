@@ -16,7 +16,9 @@ import {
   mockOpplysninger,
 } from "tests/mocks/utils";
 
-test("bruker ny første uttaksdato i refusjon", async ({ page }) => {
+test("krever nye opplysninger om refusjon og naturalytelser når første uttaksdato er endret", async ({
+  page,
+}) => {
   const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
   await mockOpplysninger({
     page,
@@ -30,15 +32,7 @@ test("bruker ny første uttaksdato i refusjon", async ({ page }) => {
   await mockInntektsmeldinger({
     page,
     uuid,
-    json: [
-      {
-        ...inntektsmeldingUtenEndretInntekt[0],
-        refusjon: [
-          { fom: "2024-05-30", beløp: 500 },
-          { fom: "2024-10-25", beløp: 80 },
-        ],
-      },
-    ],
+    json: mangeEksisterendeInntektsmeldingerResponse,
   });
 
   await page.goto(`/fp-im-dialog/${uuid}`);
@@ -49,16 +43,20 @@ test("bruker ny første uttaksdato i refusjon", async ({ page }) => {
     ),
   ).toBeVisible();
 
-  await page
-    .getByRole("link", { name: "Endre utbetaling og refusjon" })
-    .click();
+  await page.goto(`/fp-im-dialog/${uuid}/inntekt-og-refusjon`);
 
   await expect(
-    await finnInputFraLabel({
-      page: page.getByTestId("varierende-refusjon"),
-      labelText: "Fra og med",
-    }),
-  ).toHaveValue("06.06.2024");
+    page.locator('input[name="skalRefunderes"]:checked'),
+  ).toHaveCount(0);
+  await expect(
+    page.locator('input[name="misterNaturalytelser"]:checked'),
+  ).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Neste steg" }).click();
+
+  await expect(page.getByText("Du må svare på dette spørsmålet")).toHaveCount(
+    2,
+  );
 });
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {
@@ -326,10 +324,6 @@ test("skal ikke få lov til å sende inn uten endring", async ({ page }) => {
   await mockOpplysninger({
     page,
     uuid: "f29dcea7-febe-4a76-911c-ad8f6d3e8858",
-    json: {
-      ...enkeltOpplysningerResponse,
-      førsteUttaksdato: "2024-05-30",
-    },
   });
   await mockGrunnbeløp({ page });
   await mockInntektsmeldinger({

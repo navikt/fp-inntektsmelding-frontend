@@ -13,7 +13,7 @@ export const inntektsmeldingUtenEndretInntekt = [
       navn: "Berømt Flyttelass",
       telefonnummer: "12312312",
     },
-    startdato: "2024-05-30",
+    startdato: "2024-05-31",
     inntekt: 500,
     opprettetTidspunkt: "2024-10-08T13:34:23.086",
     bortfaltNaturalytelsePerioder: [],
@@ -33,12 +33,12 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
       navn: "Berømt Flyttelass",
       telefonnummer: "12312312",
     },
-    startdato: "2024-05-30",
+    startdato: "2024-05-31",
     inntekt: 500,
     opprettetTidspunkt: "2024-10-04T13:34:43.184",
     refusjon: [
       {
-        fom: "2024-05-30",
+        fom: "2024-05-31",
         beløp: 500,
       },
       {
@@ -75,7 +75,7 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
       navn: "Berømt Flyttelass",
       telefonnummer: "12312312",
     },
-    startdato: "2024-05-30",
+    startdato: "2024-05-31",
     inntekt: 500,
     opprettetTidspunkt: "2024-10-08T13:34:23.086",
     bortfaltNaturalytelsePerioder: [
@@ -88,7 +88,7 @@ export const mangeEksisterendeInntektsmeldingerResponse = [
     ],
     refusjon: [
       {
-        fom: "2024-05-30",
+        fom: "2024-05-31",
         beløp: 500,
       },
       {

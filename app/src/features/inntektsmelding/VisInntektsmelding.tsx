@@ -36,7 +36,11 @@ export const VisInntektsmelding = () => {
       return;
     }
 
-    const state = mapInntektsmeldingResponseTilValidState(sisteInntektsmelding);
+    const state = {
+      ...mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
+      refusjonOgNaturalytelserGjelderFørsteUttaksdato:
+        sisteInntektsmelding.startdato,
+    };
 
     const forrigeInntektsmeldingHarIkkeEndretInntekt =
       sisteInntektsmelding.endringAvInntektÅrsaker.length === 0;
