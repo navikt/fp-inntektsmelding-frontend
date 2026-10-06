@@ -54,7 +54,6 @@ export const Kvittering = ({
               Vi har mottatt inntektsmeldingen, men på grunn av tekniske
               problemer får vi ikke kontrollert inntekten mot A-ordningen
               akkurat nå. Vi kontrollerer den automatisk så snart det er mulig.
-              Hvis vi trenger mer informasjon, får dere nytt varsel.
             </BodyLong>
             <BodyLong>
               Hvis månedslønnen du har oppgitt ikke stemmer med det som er
