@@ -147,7 +147,7 @@ export function Steg2InntektOgRefusjon() {
       inntekt,
       korrigertInntekt,
       endringAvInntektÅrsaker,
-      refusjon: skalRefunderes === "NEI" ? [] : refusjon,
+      refusjon,
       skalRefunderes,
       misterNaturalytelser,
       bortfaltNaturalytelsePerioder,

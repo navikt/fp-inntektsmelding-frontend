@@ -129,6 +129,7 @@ function SendInnInntektsmelding({ opplysninger }: SendInnInntektsmeldingProps) {
           mapInntektsmeldingResponseTilValidState(sisteInntektsmelding),
           {
             ...opplysninger,
+            // Behold gammel startdato i sammenligningen, ellers kan en endret uttaksdato bli tolket som ingen endring.
             førsteUttaksdato: sisteInntektsmelding.startdato,
           },
         );

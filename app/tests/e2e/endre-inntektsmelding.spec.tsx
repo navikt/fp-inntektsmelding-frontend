@@ -108,7 +108,6 @@ for (const førsteUttaksdato of [
       )
       .toMatchObject({
         skalRefunderes: "NEI",
-        refusjon: [],
         misterNaturalytelser: false,
         bortfaltNaturalytelsePerioder: [],
       });
