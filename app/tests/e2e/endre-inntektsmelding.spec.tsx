@@ -16,47 +16,176 @@ import {
   mockOpplysninger,
 } from "tests/mocks/utils";
 
-test("krever nye opplysninger om refusjon og naturalytelser når første uttaksdato er endret", async ({
+for (const førsteUttaksdato of [
+  "2024-05-01",
+  "2024-06-06",
+  "2024-10-25",
+  "2024-11-01",
+]) {
+  test(`krever nye opplysninger om refusjon og naturalytelser når første uttaksdato er endret til ${førsteUttaksdato}`, async ({
+    page,
+  }) => {
+    const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
+    await mockOpplysninger({
+      page,
+      uuid,
+      json: {
+        ...enkeltOpplysningerResponse,
+        førsteUttaksdato,
+      },
+    });
+    await mockGrunnbeløp({ page });
+    await mockInntektsmeldinger({
+      page,
+      uuid,
+      json: mangeEksisterendeInntektsmeldingerResponse,
+    });
+
+    await page.goto(`/fp-im-dialog/${uuid}`);
+
+    await expect(
+      page.getByText(
+        "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
+      ),
+    ).toBeVisible();
+
+    await page
+      .getByRole("link", { name: "Endre utbetaling og refusjon" })
+      .click();
+
+    await expect(
+      page.locator('input[name="skalRefunderes"]:checked'),
+    ).toHaveCount(0);
+    await expect(
+      page.locator('input[name="misterNaturalytelser"]:checked'),
+    ).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Neste steg" }).click();
+
+    await expect(page.getByText("Du må svare på dette spørsmålet")).toHaveCount(
+      2,
+    );
+
+    const refusjon = page.getByRole("radiogroup", {
+      name: "Betaler dere lønn under fraværet og krever refusjon?",
+    });
+    const naturalytelser = page.getByRole("radiogroup", {
+      name: "Har den ansatte naturalytelser som faller bort ved fraværet?",
+    });
+    await refusjon
+      .getByRole("radio", {
+        name: "Ja, men kun deler av perioden eller varierende beløp",
+      })
+      .check();
+    await expect(
+      page.getByTestId("varierende-refusjon").getByLabel("Fra og med").nth(1),
+    ).toHaveValue("");
+    await naturalytelser
+      .getByRole("radio", { name: "Ja", exact: true })
+      .check();
+    await expect(page.getByLabel("Naturalytelse som faller bort")).toHaveValue(
+      "",
+    );
+
+    await refusjon.getByRole("radio", { name: "Nei", exact: true }).check();
+    await naturalytelser
+      .getByRole("radio", { name: "Nei", exact: true })
+      .check();
+    await page.getByRole("button", { name: "Neste steg" }).click();
+    await expect(
+      page.getByRole("heading", { name: "Oppsummering" }),
+    ).toBeVisible();
+
+    await expect
+      .poll(() =>
+        page.evaluate(
+          (id) =>
+            JSON.parse(
+              globalThis.sessionStorage.getItem(`skjemadata-${id}`) ?? "null",
+            ),
+          uuid,
+        ),
+      )
+      .toMatchObject({
+        skalRefunderes: "NEI",
+        refusjon: [],
+        misterNaturalytelser: false,
+        bortfaltNaturalytelsePerioder: [],
+      });
+
+    await page.getByRole("button", { name: "Forrige steg" }).click();
+    await expect(
+      refusjon.getByRole("radio", { name: "Nei", exact: true }),
+    ).toBeChecked();
+    await expect(
+      naturalytelser.getByRole("radio", { name: "Nei", exact: true }),
+    ).toBeChecked();
+    await page.getByRole("button", { name: "Neste steg" }).click();
+    await page.reload();
+    await expect(
+      page.getByRole("heading", { name: "Oppsummering" }),
+    ).toBeVisible();
+  });
+}
+
+test("kan sende inn endret uttaksdato uten refusjon eller naturalytelser", async ({
   page,
 }) => {
   const uuid = "f29dcea7-febe-4a76-911c-ad8f6d3e8858";
+  const førsteUttaksdato = "2024-06-06";
+  const inntektsmelding = {
+    ...inntektsmeldingUtenEndretInntekt[0],
+    inntekt: enkeltOpplysningerResponse.inntektsopplysninger.gjennomsnittLønn,
+  };
   await mockOpplysninger({
     page,
     uuid,
-    json: {
-      ...enkeltOpplysningerResponse,
-      førsteUttaksdato: "2024-06-06",
-    },
+    json: { ...enkeltOpplysningerResponse, førsteUttaksdato },
   });
   await mockGrunnbeløp({ page });
-  await mockInntektsmeldinger({
-    page,
-    uuid,
-    json: mangeEksisterendeInntektsmeldingerResponse,
+  await mockInntektsmeldinger({ page, uuid, json: [inntektsmelding] });
+  await page.route("**/*/imdialog/send-inntektsmelding", async (route) => {
+    await route.fulfill({
+      json: { ...inntektsmelding, startdato: førsteUttaksdato },
+    });
   });
 
   await page.goto(`/fp-im-dialog/${uuid}`);
-
-  await expect(
-    page.getByText(
-      "Første uttaksdato har endret seg etter at du sendte inn forrige inntektsmelding.",
-    ),
-  ).toBeVisible();
-
-  await page.goto(`/fp-im-dialog/${uuid}/inntekt-og-refusjon`);
-
+  await page
+    .getByRole("link", { name: "Endre utbetaling og refusjon" })
+    .click();
   await expect(
     page.locator('input[name="skalRefunderes"]:checked'),
   ).toHaveCount(0);
   await expect(
     page.locator('input[name="misterNaturalytelser"]:checked'),
   ).toHaveCount(0);
-
+  await page
+    .getByRole("radiogroup", {
+      name: "Betaler dere lønn under fraværet og krever refusjon?",
+    })
+    .getByRole("radio", { name: "Nei", exact: true })
+    .check();
+  await page
+    .getByRole("radiogroup", {
+      name: "Har den ansatte naturalytelser som faller bort ved fraværet?",
+    })
+    .getByRole("radio", { name: "Nei", exact: true })
+    .check();
   await page.getByRole("button", { name: "Neste steg" }).click();
 
-  await expect(page.getByText("Du må svare på dette spørsmålet")).toHaveCount(
-    2,
+  const requestPromise = page.waitForRequest(
+    "**/*/imdialog/send-inntektsmelding",
   );
+  await page.getByRole("button", { name: "Send inn" }).click();
+  const request = await requestPromise;
+  expect(request.postDataJSON()).toMatchObject({
+    startdato: førsteUttaksdato,
+    inntekt: inntektsmelding.inntekt,
+    refusjon: [],
+    bortfaltNaturalytelsePerioder: [],
+  });
+  await expect(page).toHaveURL(`/fp-im-dialog/${uuid}/kvittering`);
 });
 
 test('burde vise "vis IM"-siden for siste innsendte IM', async ({ page }) => {

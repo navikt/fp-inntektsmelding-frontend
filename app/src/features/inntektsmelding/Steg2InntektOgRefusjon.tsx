@@ -91,9 +91,6 @@ export function Steg2InntektOgRefusjon() {
   const defaultInntekt =
     inntektsmeldingSkjemaState.inntekt ||
     opplysninger.inntektsopplysninger.gjennomsnittLønn;
-  const avhengigeOpplysningerErGjeldende =
-    inntektsmeldingSkjemaState.refusjonOgNaturalytelserGjelderFørsteUttaksdato ===
-    opplysninger.førsteUttaksdato;
 
   const formMethods = useForm<InntektOgRefusjonForm>({
     defaultValues: {
@@ -107,14 +104,11 @@ export function Steg2InntektOgRefusjon() {
         inntektsmeldingSkjemaState.endringAvInntektÅrsaker.length === 0
           ? [ENDRINGSÅRSAK_TEMPLATE]
           : inntektsmeldingSkjemaState.endringAvInntektÅrsaker,
-      skalRefunderes: avhengigeOpplysningerErGjeldende
-        ? inntektsmeldingSkjemaState.skalRefunderes
-        : undefined,
-      misterNaturalytelser: avhengigeOpplysningerErGjeldende
-        ? konverterTilRadioValg(inntektsmeldingSkjemaState.misterNaturalytelser)
-        : undefined,
+      skalRefunderes: inntektsmeldingSkjemaState.skalRefunderes,
+      misterNaturalytelser: konverterTilRadioValg(
+        inntektsmeldingSkjemaState.misterNaturalytelser,
+      ),
       bortfaltNaturalytelsePerioder:
-        !avhengigeOpplysningerErGjeldende ||
         inntektsmeldingSkjemaState.bortfaltNaturalytelsePerioder.length === 0
           ? [NATURALYTELSE_SOM_MISTES_TEMPLATE]
           : inntektsmeldingSkjemaState.bortfaltNaturalytelsePerioder.map(
@@ -124,9 +118,7 @@ export function Steg2InntektOgRefusjon() {
               }),
             ),
       refusjon: lagRefusjonDefaultValues(
-        avhengigeOpplysningerErGjeldende
-          ? inntektsmeldingSkjemaState.refusjon
-          : [],
+        inntektsmeldingSkjemaState.refusjon,
         opplysninger.førsteUttaksdato,
         defaultInntekt,
       ),
@@ -155,12 +147,10 @@ export function Steg2InntektOgRefusjon() {
       inntekt,
       korrigertInntekt,
       endringAvInntektÅrsaker,
-      refusjon,
+      refusjon: skalRefunderes === "NEI" ? [] : refusjon,
       skalRefunderes,
       misterNaturalytelser,
       bortfaltNaturalytelsePerioder,
-      refusjonOgNaturalytelserGjelderFørsteUttaksdato:
-        opplysninger.førsteUttaksdato,
     }));
     navigate({
       from: "/$id/inntekt-og-refusjon",

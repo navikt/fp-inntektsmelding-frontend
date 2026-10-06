@@ -49,11 +49,7 @@ export const Steg3Oppsummering = () => {
     inntektsmeldingSkjemaStateError,
   } = useInntektsmeldingSkjema();
 
-  if (
-    !gyldigInntektsmeldingSkjemaState ||
-    inntektsmeldingSkjemaState.refusjonOgNaturalytelserGjelderFørsteUttaksdato !==
-      opplysninger.førsteUttaksdato
-  ) {
+  if (!gyldigInntektsmeldingSkjemaState) {
     // På dette punktet "skal" skjemaet være gyldig med mindre noe har gått galt. Logg feilen for innsikt.
     // eslint-disable-next-line no-console
     console.error(
