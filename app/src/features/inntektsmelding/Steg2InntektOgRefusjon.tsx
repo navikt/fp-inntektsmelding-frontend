@@ -50,6 +50,7 @@ function lagRefusjonDefaultValues(
       { fom: undefined, beløp: 0 },
     ];
   }
+
   if (refusjon.length === 1) {
     return [...refusjon, { fom: undefined, beløp: 0 }];
   }

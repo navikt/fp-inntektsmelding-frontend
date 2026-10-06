@@ -15,7 +15,10 @@ import {
   hentInntektsmeldingPdfUrl,
   mapInntektsmeldingResponseTilValidState,
 } from "~/api/queries";
-import { useInntektsmeldingSkjema } from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
+import {
+  InntektsmeldingSkjemaState,
+  useInntektsmeldingSkjema,
+} from "~/features/inntektsmelding/InntektsmeldingSkjemaState.tsx";
 import { finnSenesteInntektsmelding, formatDatoTidKort } from "~/utils.ts";
 
 import { Skjemaoppsummering } from "./Skjemaoppsummering";
@@ -36,7 +39,15 @@ export const VisInntektsmelding = () => {
       return;
     }
 
-    const state = mapInntektsmeldingResponseTilValidState(sisteInntektsmelding);
+    const state: InntektsmeldingSkjemaState =
+      mapInntektsmeldingResponseTilValidState(sisteInntektsmelding);
+
+    if (sisteInntektsmelding.startdato !== opplysninger.førsteUttaksdato) {
+      state.skalRefunderes = undefined;
+      state.refusjon = [];
+      state.misterNaturalytelser = undefined;
+      state.bortfaltNaturalytelsePerioder = [];
+    }
 
     const forrigeInntektsmeldingHarIkkeEndretInntekt =
       sisteInntektsmelding.endringAvInntektÅrsaker.length === 0;
@@ -48,6 +59,7 @@ export const VisInntektsmelding = () => {
 
     setInntektsmeldingSkjemaState(state);
   }, [
+    opplysninger.førsteUttaksdato,
     opplysninger.inntektsopplysninger.gjennomsnittLønn,
     setInntektsmeldingSkjemaState,
     sisteInntektsmelding,
