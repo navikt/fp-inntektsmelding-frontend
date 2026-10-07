@@ -7,7 +7,7 @@ import {
   opplysningerMedSisteMånedIkkeRapportertFørRapporteringsfrist,
   opplysningerMedSisteMånedRapportert0,
 } from "tests/mocks/opplysninger.ts";
-import { enkelSendInntektsmeldingResponse } from "tests/mocks/send-inntektsmelding.ts";
+import { sendInntektsmeldingVenterVurderingResponse } from "tests/mocks/send-inntektsmelding.ts";
 import {
   mockGrunnbeløp,
   mockInntektsmeldinger,
@@ -273,11 +273,11 @@ test("A-inntekt er nede", async ({ page }) => {
   ).toBeVisible();
 
   await page.route(`**/*/imdialog/send-inntektsmelding`, async (route) => {
-    await route.fulfill({ json: enkelSendInntektsmeldingResponse });
+    await route.fulfill({ json: sendInntektsmeldingVenterVurderingResponse });
   });
   await page.getByRole("button", { name: "Send inn" }).click();
 
   await expect(
-    page.getByText("Vi har mottatt inntektsmeldingen"),
+    page.getByRole("heading", { name: "Inntekten er ikke kontrollert ennå" }),
   ).toBeVisible();
 });
