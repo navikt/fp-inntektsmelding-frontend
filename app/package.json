@@ -36,12 +36,12 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.22.1",
+    "@eslint-react/eslint-plugin": "5.23.3",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.63.0",
     "@tanstack/react-query-devtools": "5.104.0",
     "@tanstack/react-router-devtools": "1.167.2",
-    "@tanstack/router-vite-plugin": "1.167.41",
+    "@tanstack/router-vite-plugin": "1.167.42",
     "@types/lodash": "4.17.25",
     "@types/node": "26.6.3",
     "@types/react": "19.3.0",
@@ -53,7 +53,7 @@
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "eslint-plugin-unicorn": "74.0.0",
-    "knip": "6.38.0",
+    "knip": "6.39.0",
     "prettier": "3.9.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.0",
