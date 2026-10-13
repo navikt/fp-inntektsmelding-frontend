@@ -16,10 +16,10 @@
   "author": "NAV",
   "license": "MIT",
   "dependencies": {
-    "@navikt/nav-dekoratoren-moduler": "4.5.0",
+    "@navikt/nav-dekoratoren-moduler": "4.5.1",
     "@navikt/oasis": "4.2.2",
     "@navikt/vite-mode": "1.0.1",
-    "express": "5.2.1",
+    "express": "5.3.0",
     "http-proxy-middleware": "4.2.0",
     "morgan": "1.12.1",
     "winston": "3.19.0"
@@ -33,7 +33,7 @@
     "eslint-plugin-prettier": "5.5.6",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "eslint-plugin-unicorn": "74.0.0",
-    "knip": "6.39.0",
+    "knip": "6.41.0",
     "prettier": "3.9.9",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1"
