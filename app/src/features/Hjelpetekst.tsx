@@ -81,7 +81,7 @@ export function HjelpetekstToggle() {
         onChange={(e) => {
           const bleSjekket = e.target.checked;
           setVisHjelpetekster({ vis: bleSjekket });
-          loggUmamiEvent({
+          void loggUmamiEvent({
             eventName: bleSjekket ? "switch åpnet" : "switch lukket",
             eventData: { tittel: "HjelpetekstToggle" },
           });
@@ -108,7 +108,7 @@ export function HjelpetekstReadMore({
       header={header}
       onOpenChange={(open) => {
         setÅpen(open);
-        loggUmamiEvent({
+        void loggUmamiEvent({
           eventName: open ? "readmore åpnet" : "readmore lukket",
           eventData: { tittel: header },
         });

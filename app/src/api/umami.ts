@@ -13,7 +13,7 @@ export const loggUmamiEvent = async ({
 }) => {
   if (!isDev) {
     try {
-      globalThis.window?.dekoratorenAnalytics?.({
+      await globalThis.window?.dekoratorenAnalytics?.({
         origin: "fp-inntektsmelding-frontend",
         eventName,
         eventData,
