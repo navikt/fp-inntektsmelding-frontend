@@ -36,12 +36,12 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.28.4",
+    "@eslint-react/eslint-plugin": "5.28.7",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@tanstack/react-query-devtools": "5.104.5",
     "@tanstack/react-router-devtools": "1.167.2",
-    "@tanstack/router-vite-plugin": "1.167.47",
+    "@tanstack/router-vite-plugin": "1.167.48",
     "@types/lodash": "4.17.27",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",
