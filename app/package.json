@@ -39,7 +39,7 @@
     "@eslint-react/eslint-plugin": "5.28.8",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
-    "@tanstack/react-query-devtools": "5.104.5",
+    "@tanstack/react-query-devtools": "5.105.0",
     "@tanstack/react-router-devtools": "1.167.2",
     "@tanstack/router-vite-plugin": "1.167.48",
     "@types/lodash": "4.17.27",
@@ -56,8 +56,8 @@
     "knip": "6.43.0",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.0",
+    "typescript-eslint": "8.72.1",
     "vite": "8.3.5",
-    "vite-plugin-compression2": "2.5.3"
+    "vite-plugin-compression2": "2.5.4"
   }
 }
