@@ -211,7 +211,7 @@ export async function hentPersonUregistrertArbeidFraFnr(
 
   const json = await response.json();
   if (!response.ok) {
-    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+    return parseFeilmelding(json);
   }
 
   const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
@@ -250,7 +250,7 @@ export async function hentPersonFraFnr(
   }
   const json = await response.json();
   if (!response.ok) {
-    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+    return parseFeilmelding(json);
   }
 
   const parsedJson = SlåOppArbeidstakerResponseDtoSchema.safeParse(json);
@@ -279,7 +279,7 @@ export async function hentOpplysninger(
   );
   const json = await response.json();
   if (!response.ok) {
-    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+    return parseFeilmelding(json);
   }
 
   const parsedJson = opplysningerSchema.safeParse(json);
@@ -309,7 +309,7 @@ export async function hentOpplysningerUregistrert(
 
   const json = await response.json();
   if (!response.ok) {
-    return parseFeilmelding(json, "Kunne ikke hente opplysninger");
+    return parseFeilmelding(json);
   }
 
   const parsedJson = opplysningerSchema.safeParse(json);
@@ -323,7 +323,8 @@ export async function hentOpplysningerUregistrert(
   return parsedJson.data;
 }
 
-const parseFeilmelding = (json: unknown, feilmelding: string) => {
+const parseFeilmelding = (json: unknown) => {
+  const feilmelding = "Kunne ikke hente opplysninger";
   const parsedFeil = feilmeldingSchema.safeParse(json);
   if (!parsedFeil.success) {
     logDev("error", parsedFeil.error);

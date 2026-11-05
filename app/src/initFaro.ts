@@ -47,23 +47,13 @@ export const initFaro = () => {
         return item;
       }
 
-      if (feilVarSomFølgeAvEn401Handling(item)) {
-        return null;
-      }
-
-      if (feilUtenOpprinnelseIVårKode(item)) {
-        return null;
-      }
-
-      if (feilFraBrowserExtensions(item)) {
-        return null;
-      }
-
-      if (feilFraDomOversettelse(item)) {
-        return null;
-      }
-
-      if (feilFraHasFocus(item)) {
+      if (
+        feilVarSomFølgeAvEn401Handling(item) ||
+        feilUtenOpprinnelseIVårKode(item) ||
+        feilFraBrowserExtensions(item) ||
+        feilFraDomOversettelse(item) ||
+        feilFraHasFocus(item)
+      ) {
         return null;
       }
 
@@ -73,40 +63,37 @@ export const initFaro = () => {
 };
 
 /**
- * 401 skaper mye støy da det er naturlig at folk sine sesjoner utløper.
- * De blir da automatisk redirected til login, og ser ikke feilen engang.
- *
- * @nais/apm eksponerer ikke breadcrumbs i beforeSend, så vi sjekker feilmeldingstype og -verdi direkte.
- */
+401 skaper mye støy da det er naturlig at folk sine sesjoner utløper.
+De blir da automatisk redirected til login, og ser ikke feilen engang.
+
+@nais/apm eksponerer ikke breadcrumbs i beforeSend, så vi sjekker feilmeldingstype og -verdi direkte.
+*/
 const feilVarSomFølgeAvEn401Handling = (item: ExceptionItem): boolean => {
-  const { type, value } = item.payload;
+  const { type = "", value = "" } = item.payload;
 
   const unauthorizedPattern = /\b401\b|unauthorized/i;
 
-  return (
-    (type ? unauthorizedPattern.test(type) : false) ||
-    (value ? unauthorizedPattern.test(value) : false)
-  );
+  return unauthorizedPattern.test(type) || unauthorizedPattern.test(value);
 };
 
 /**
- * Sjekker om exception har stacktrace uten opprinnelse i vår kode.
- */
+Sjekker om exception har stacktrace uten opprinnelse i vår kode.
+*/
 const feilUtenOpprinnelseIVårKode = (item: ExceptionItem): boolean => {
   const frames = item.payload.stacktrace?.frames;
-  return frames ? harUtenforståendeKodeopprinnelse(frames) : false;
+  return !!frames && harUtenforståendeKodeopprinnelse(frames);
 };
 
 /**
- * Sjekker om stackframes mangler opprinnelse i vår kode.
- *
- * Logikk: Hvis en frame kommer fra dekoratøren (filnavnet inneholder noe fra
- * FEIL_VI_VIL_LUKE_BORT, uavhengig av filtype/plassering) → filtrer. Dette
- * fanger opp alt fra dekoratøren, ikke bare bundlede `/assets/*.js`-chunks
- * (f.eks. rå kildefiler som `personbruker/nav-dekoratoren/src/helpers/auth.ts`).
- * Hvis framen er fra vårt eget asset (`/assets/*.js`) → ikke filtrer.
- * Hvis framen verken er fra dekoratøren eller vårt eget asset → filtrer.
- */
+Sjekker om stackframes mangler opprinnelse i vår kode.
+
+Logikk: Hvis en frame kommer fra dekoratøren (filnavnet inneholder noe fra
+FEIL_VI_VIL_LUKE_BORT, uavhengig av filtype/plassering) → filtrer. Dette
+fanger opp alt fra dekoratøren, ikke bare bundlede `/assets/*.js`-chunks
+(f.eks. rå kildefiler som `personbruker/nav-dekoratoren/src/helpers/auth.ts`).
+Hvis framen er fra vårt eget asset (`/assets/*.js`) → ikke filtrer.
+Hvis framen verken er fra dekoratøren eller vårt eget asset → filtrer.
+*/
 const harUtenforståendeKodeopprinnelse = (frames: StackFrame[]): boolean => {
   return frames.some((frame) => {
     const erDekoratørFrame = FEIL_VI_VIL_LUKE_BORT.some((feil) =>
@@ -123,38 +110,30 @@ const harUtenforståendeKodeopprinnelse = (frames: StackFrame[]): boolean => {
 };
 
 /**
- * Nettleserutvidelser som f.eks. taleassistenter (Speech Assist) genererer mange
- * "Request timeout ...Distributor.getValue"-feil. Disse er ikke våre feil.
- */
+Nettleserutvidelser som f.eks. taleassistenter (Speech Assist) genererer mange
+"Request timeout ...Distributor.getValue"-feil. Disse er ikke våre feil.
+*/
 const feilFraBrowserExtensions = (item: ExceptionItem): boolean => {
-  const { type, value, stacktrace } = item.payload;
+  const { type = "", value = "", stacktrace } = item.payload;
 
-  if (
-    (type && DISTRIBUTOR_PATTERN.test(type)) ||
-    (value && DISTRIBUTOR_PATTERN.test(value))
-  ) {
-    return true;
-  }
-
-  return stacktrace?.frames
-    ? stacktrace.frames.some(
-        (frame) =>
-          (frame.filename && DISTRIBUTOR_PATTERN.test(frame.filename)) ||
-          (frame.function && DISTRIBUTOR_PATTERN.test(frame.function)),
-      )
-    : false;
+  return (
+    DISTRIBUTOR_PATTERN.test(type) ||
+    DISTRIBUTOR_PATTERN.test(value) ||
+    (stacktrace?.frames?.some(
+      (frame) =>
+        DISTRIBUTOR_PATTERN.test(frame.filename ?? "") ||
+        DISTRIBUTOR_PATTERN.test(frame.function ?? ""),
+    ) ??
+      false)
+  );
 };
 
 const feilFraDomOversettelse = (item: ExceptionItem): boolean => {
-  return item.payload.value
-    ? DOM_OVERSETTELSE_FEIL.test(item.payload.value)
-    : false;
+  return DOM_OVERSETTELSE_FEIL.test(item.payload.value ?? "");
 };
 
 const feilFraHasFocus = (item: ExceptionItem): boolean => {
-  return item.payload.value
-    ? FOCUS_METHOD_ERROR_PATTERN.test(item.payload.value)
-    : false;
+  return FOCUS_METHOD_ERROR_PATTERN.test(item.payload.value ?? "");
 };
 
 const erExceptionItem = (item: unknown): item is ExceptionItem => {

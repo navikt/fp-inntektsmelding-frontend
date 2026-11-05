@@ -271,11 +271,11 @@ function InntektSummary({ skjemaState, opplysninger }: InntektSummaryProps) {
             <FormSummary.Value>
               <FormSummary.Answers>
                 {skjemaState.endringAvInntektÅrsaker.map(
-                  ({ årsak, fom, tom, bleKjentFom, ignorerTom }) => {
+                  ({ årsak, fom, tom, bleKjentFom = tom, ignorerTom }) => {
                     const erTariffendring = årsak === "TARIFFENDRING";
                     const periodeStreng = formaterPeriodeStreng({
                       fom,
-                      tom: ignorerTom ? undefined : bleKjentFom || tom,
+                      tom: ignorerTom ? undefined : bleKjentFom,
                       tomLabel: erTariffendring
                         ? "ble kjent fra"
                         : "til og med",
@@ -302,9 +302,9 @@ function InntektSummary({ skjemaState, opplysninger }: InntektSummaryProps) {
 }
 
 /**
- * Gir en streng på formatet "fra og med DATO, <tomLabel> DATO" hvis begge datoene er satt. Ellers kun den ene.
- * tomLabel er "til og med" som standard, men kan overstyres (f.eks. "ble kjent fra" for Tariffendring).
- */
+Gir en streng på formatet "fra og med DATO, <tomLabel> DATO" hvis begge datoene er satt. Ellers kun den ene.
+tomLabel er "til og med" som standard, men kan overstyres (f.eks. "ble kjent fra" for Tariffendring).
+*/
 function formaterPeriodeStreng({
   fom,
   tom,

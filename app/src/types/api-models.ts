@@ -71,8 +71,8 @@ export type SlåOppArbeidstakerResponseDto = z.infer<
 >;
 
 /**
- * Denne brukes for de aller fleste inntektsmeldinger.
- */
+Denne brukes for de aller fleste inntektsmeldinger.
+*/
 export const SendInntektsmeldingRequestDtoSchema = z.object({
   foresporselUuid: z.string().optional(),
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
@@ -112,8 +112,8 @@ export const SendInntektsmeldingRequestDtoSchema = z.object({
 });
 
 /**
- * Denne brukes for arbeidsgiverinitierte inntektsmeldinger. Den er tilnærmet lik den vanlige men med laxere typer
- */
+Denne brukes for arbeidsgiverinitierte inntektsmeldinger. Den er tilnærmet lik den vanlige men med laxere typer
+*/
 export const SendAgiInntektsmeldingRequestDtoSchema = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
   foresporselUuid: z.string().optional(),
@@ -197,10 +197,7 @@ export const opplysningerSchema = z.object({
     aktørId: z.string(),
     fødselsnummer: z.string(),
     fornavn: z.string().transform(formatNavn),
-    mellomnavn: z
-      .string()
-      .transform((mellomnavn) => formatNavn(mellomnavn || ""))
-      .optional(),
+    mellomnavn: z.string().transform(formatNavn).optional(),
     etternavn: z.string().transform(formatNavn),
   }),
   innsender: z.object({

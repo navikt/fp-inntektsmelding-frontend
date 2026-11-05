@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import type { output, ZodType } from "zod/v4";
 
 /** En useState versjon som lagrer innholdet til session storage.
- *
- * Session storage er en måte å lagre data på i nettleseren, som varer til
- * nettleservinduet lukkes. Dataen deles ikke på tvers av tabs eller vinduer.
- *
- * @param key - Nøkkelen som brukes for å lagre dataen i session storage.
- * @param defaultValue - Standardverdien som brukes om det ikke finnes noe lagret data.
- *
- * @example
- * ```tsx
- * const [count, setCount] = useSessionStorageState("count", 0);
- * ```
- */
+
+Session storage er en måte å lagre data på i nettleseren, som varer til
+nettleservinduet lukkes. Dataen deles ikke på tvers av tabs eller vinduer.
+
+@param key - Nøkkelen som brukes for å lagre dataen i session storage.
+@param defaultValue - Standardverdien som brukes om det ikke finnes noe lagret data.
+
+@example
+```tsx
+const [count, setCount] = useSessionStorageState("count", 0);
+```
+*/
 export function useSessionStorageState<Z extends ZodType>({
   key,
   schema,
@@ -57,8 +57,10 @@ export function parseStorageItem<Z extends ZodType>(
 ) {
   const item = storage.getItem(key);
 
-  if (item) {
-    const { success, data } = schema.safeParse(JSON.parse(item));
-    return success ? data : undefined;
+  if (!item) {
+    return;
   }
+
+  const { success, data } = schema.safeParse(JSON.parse(item));
+  return success ? data : undefined;
 }
