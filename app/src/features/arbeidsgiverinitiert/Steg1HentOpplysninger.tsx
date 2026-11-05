@@ -238,7 +238,11 @@ export const Steg1HentOpplysninger = () => {
               legend="Årsak til at du vil opprette inntektsmelding"
               name={name}
             >
-              <Radio value="NYANSATT" {...radioGroupProps}>
+              <Radio
+                value="NYANSATT"
+                description="(Dette gjelder også ansatte som har byttet virksomhet hos samme arbeidsgiver)"
+                {...radioGroupProps}
+              >
                 Ny ansatt som mottar ytelse fra Nav
               </Radio>
               <Radio
