@@ -21,13 +21,9 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     groups:
-      deps:
-        dependency-type: "production"
-        update-types:
-          - "minor"
-          - "patch"
-      devDeps:
-        dependency-type: "development"
+      app:
+        patterns:
+          - "*"
         update-types:
           - "minor"
           - "patch"
@@ -44,13 +40,9 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     groups:
-      deps:
-        dependency-type: "production"
-        update-types:
-          - "minor"
-          - "patch"
-      devDeps:
-        dependency-type: "development"
+      server:
+        patterns:
+          - "*"
         update-types:
           - "minor"
           - "patch"
