@@ -13,6 +13,7 @@ const IGNORED_UNICORN_RULES = {
   "unicorn/name-replacements": "off",
   "unicorn/prevent-abbreviations": "off",
   "unicorn/no-nested-ternary": "off",
+  "unicorn/prefer-ternary": "off",
 };
 
 export default tseslint.config(
@@ -45,7 +46,7 @@ export default tseslint.config(
       "simple-import-sort/exports": "error",
     },
   },
-  eslintPluginUnicorn.configs["flat/recommended"],
+  eslintPluginUnicorn.configs.recommended,
   eslintPluginPrettierRecommended,
   {
     rules: {

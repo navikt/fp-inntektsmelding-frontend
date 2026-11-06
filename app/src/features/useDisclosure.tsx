@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 
 /**
- * Hook for å styre om noe vises eller skjules – som en modal, endringspanel eller annet.
- *
- * ```tsx
- * const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
- * ```
- */
+Hook for å styre om noe vises eller skjules – som en modal, endringspanel eller annet.
+
+```tsx
+const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+```
+*/
 export function useDisclosure(isDefaultOpen = false) {
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
   const onOpen = useCallback(() => setIsOpen(true), []);

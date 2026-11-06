@@ -17,8 +17,8 @@ export const AgiÅrsakSchema = z.enum([
 ]);
 
 /**
- * Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
- */
+Minst streng skjema-state. Denne brukes underveis der mange av feltene er optional fordi de ikke er utfylt enda.
+*/
 const AgiSkjemaStateSchema = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema.optional(),
   førsteFraværsdag: z.string().optional(),
@@ -42,8 +42,8 @@ const AgiSkjemaStateSchema = z.object({
 });
 
 /**
- * En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
- */
+En strengere skjema state. Her er alle verdiene validert mot skjema-logikken.
+*/
 const AgiSkjemaStateSchemaValidated = z.object({
   arbeidsgiverinitiertÅrsak: AgiÅrsakSchema,
   førsteFraværsdag: z.string(),

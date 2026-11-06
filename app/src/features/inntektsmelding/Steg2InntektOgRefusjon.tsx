@@ -208,8 +208,7 @@ function konverterTilRadioValg(verdi: boolean | undefined) {
 }
 
 function Ytelsesperiode() {
-  const opplysninger = useOpplysninger();
-  const { person, ytelse, førsteUttaksdato } = opplysninger;
+  const { person, ytelse, førsteUttaksdato } = useOpplysninger();
 
   const førsteDag = capitalize(formatDatoLang(new Date(førsteUttaksdato)));
 

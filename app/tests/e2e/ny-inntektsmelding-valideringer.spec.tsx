@@ -153,8 +153,8 @@ test("Gå igjennom skjema og test alle valideringer", async ({ page }) => {
   await expect(page.getByText("Hva er årsaken til endringen?")).toHaveCount(1);
 
   /**
-   * Test Utbetaling og Refusjon
-   */
+  Test Utbetaling og Refusjon
+  */
   await expectError({
     page,
     label: "Betaler dere lønn under fraværet og krever refusjon?",
@@ -162,8 +162,8 @@ test("Gå igjennom skjema og test alle valideringer", async ({ page }) => {
   });
 
   /**
-   * Lik refusjon
-   */
+  Lik refusjon
+  */
   await page
     .locator('input[name="skalRefunderes"][value="JA_LIK_REFUSJON"]')
     .click();
@@ -191,8 +191,8 @@ test("Gå igjennom skjema og test alle valideringer", async ({ page }) => {
   await expect(refusjonsBlock.getByText("50 000 kr")).toBeVisible();
 
   /**
-   * Variabel refusjon
-   */
+  Variabel refusjon
+  */
   await page
     .locator('input[name="skalRefunderes"][value="JA_VARIERENDE_REFUSJON"]')
     .click();
