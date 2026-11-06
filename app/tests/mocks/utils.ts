@@ -137,7 +137,11 @@ export const expectError = async ({
   error: string;
 }) => {
   await expect(
-    page.getByText(label).nth(nth).locator("..").getByText(error),
+    page
+      .getByText(label, { exact: true })
+      .nth(nth)
+      .locator("..")
+      .getByText(error),
   ).toBeVisible();
 };
 
