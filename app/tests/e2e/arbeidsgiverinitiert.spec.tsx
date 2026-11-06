@@ -101,7 +101,7 @@ test("Valgt: Ny ansatt", async ({ page }) => {
   });
   await expectError({
     page,
-    label: "Første fraværsdag",
+    label: "Første fraværsdag med refusjon",
     error: "Må oppgis",
   });
 
